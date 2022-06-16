@@ -1,7 +1,12 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\ConsoleAppTest",
+    "\\LibraryWeb",
+    "\\LibraryWeb\\DataAccess",
+    "\\LibraryWeb\\Model",
+    "\\MyLibrary",
+    "\\MyWeb"
   ],
-  "SelectedNode": "\\C:\\Users\\Admin\\Source\\Repos\\department_web",
   "PreviewInSolutionExplorer": false
 }

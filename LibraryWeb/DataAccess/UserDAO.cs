@@ -12,8 +12,10 @@ namespace MyLibrary.DataAccess
     {
         private static UserDAO instance = null;
         private static readonly object instanceLock = new object();
-
-        private UserDAO() { }
+        private department_dbContext _dbContext;
+        private UserDAO() {
+            _dbContext = new department_dbContext();
+        }
 
         public static UserDAO Instance
         {
@@ -43,6 +45,22 @@ namespace MyLibrary.DataAccess
                 throw new Exception("Error at GetAllUsers: " + ex.Message);
             }
             return roles;
+        }
+        public IEnumerable<User> GetUsers() => _dbContext.Users.ToList();
+
+        public User GetUserById(Guid userId) => _dbContext.Users.FirstOrDefault(usr => usr.UserId.Equals(userId));
+
+        public void DeleteUserById(Guid userId)
+        {
+            User user = _dbContext.Users.FirstOrDefault(usr => usr.UserId.Equals(userId));
+            user.Status = 0;
+
+            _dbContext.SaveChanges();
+        }
+        public void CreateUser(User user)
+        {
+            _dbContext.Users.Add(user);
+            _dbContext.SaveChanges();
         }
     }
 }
