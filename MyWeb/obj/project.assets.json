@@ -2011,17 +2011,17 @@
           "lib/netstandard1.3/System.Xml.XmlSerializer.dll": {}
         }
       },
-      "MyLibrary/1.0.0": {
+      "LibraryWeb/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v5.0",
         "dependencies": {
           "Microsoft.EntityFrameworkCore.SqlServer": "5.0.17"
         },
         "compile": {
-          "bin/placeholder/MyLibrary.dll": {}
+          "bin/placeholder/LibraryWeb.dll": {}
         },
         "runtime": {
-          "bin/placeholder/MyLibrary.dll": {}
+          "bin/placeholder/LibraryWeb.dll": {}
         }
       }
     }
@@ -7152,19 +7152,19 @@
         "system.xml.xmlserializer.nuspec"
       ]
     },
-    "MyLibrary/1.0.0": {
+    "LibraryWeb/1.0.0": {
       "type": "project",
-      "path": "../MyLibrary/MyLibrary.csproj",
-      "msbuildProject": "../MyLibrary/MyLibrary.csproj"
+      "path": "../LibraryWeb/LibraryWeb.csproj",
+      "msbuildProject": "../LibraryWeb/LibraryWeb.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net5.0": [
+      "LibraryWeb >= 1.0.0",
       "Microsoft.EntityFrameworkCore.SqlServer >= 5.0.17",
       "Microsoft.EntityFrameworkCore.Tools >= 5.0.17",
       "Microsoft.Extensions.DependencyInjection >= 5.0.2",
-      "Microsoft.VisualStudio.Web.CodeGeneration.Design >= 5.0.2",
-      "MyLibrary >= 1.0.0"
+      "Microsoft.VisualStudio.Web.CodeGeneration.Design >= 5.0.2"
     ]
   },
   "packageFolders": {
@@ -7194,8 +7194,8 @@
         "net5.0": {
           "targetAlias": "net5.0",
           "projectReferences": {
-            "E:\\Chuyen_nganh_7\\PRN221\\group\\department_web\\MyLibrary\\MyLibrary.csproj": {
-              "projectPath": "E:\\Chuyen_nganh_7\\PRN221\\group\\department_web\\MyLibrary\\MyLibrary.csproj"
+            "E:\\Chuyen_nganh_7\\PRN221\\group\\department_web\\LibraryWeb\\LibraryWeb.csproj": {
+              "projectPath": "E:\\Chuyen_nganh_7\\PRN221\\group\\department_web\\LibraryWeb\\LibraryWeb.csproj"
             }
           }
         }

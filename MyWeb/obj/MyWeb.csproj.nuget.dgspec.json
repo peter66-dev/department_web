@@ -4,14 +4,14 @@
     "E:\\Chuyen_nganh_7\\PRN221\\group\\department_web\\MyWeb\\MyWeb.csproj": {}
   },
   "projects": {
-    "E:\\Chuyen_nganh_7\\PRN221\\group\\department_web\\MyLibrary\\MyLibrary.csproj": {
+    "E:\\Chuyen_nganh_7\\PRN221\\group\\department_web\\LibraryWeb\\LibraryWeb.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\Chuyen_nganh_7\\PRN221\\group\\department_web\\MyLibrary\\MyLibrary.csproj",
-        "projectName": "MyLibrary",
-        "projectPath": "E:\\Chuyen_nganh_7\\PRN221\\group\\department_web\\MyLibrary\\MyLibrary.csproj",
+        "projectUniqueName": "E:\\Chuyen_nganh_7\\PRN221\\group\\department_web\\LibraryWeb\\LibraryWeb.csproj",
+        "projectName": "LibraryWeb",
+        "projectPath": "E:\\Chuyen_nganh_7\\PRN221\\group\\department_web\\LibraryWeb\\LibraryWeb.csproj",
         "packagesPath": "C:\\Users\\vanph\\.nuget\\packages\\",
-        "outputPath": "E:\\Chuyen_nganh_7\\PRN221\\group\\department_web\\MyLibrary\\obj\\",
+        "outputPath": "E:\\Chuyen_nganh_7\\PRN221\\group\\department_web\\LibraryWeb\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\vanph\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -94,8 +94,8 @@
           "net5.0": {
             "targetAlias": "net5.0",
             "projectReferences": {
-              "E:\\Chuyen_nganh_7\\PRN221\\group\\department_web\\MyLibrary\\MyLibrary.csproj": {
-                "projectPath": "E:\\Chuyen_nganh_7\\PRN221\\group\\department_web\\MyLibrary\\MyLibrary.csproj"
+              "E:\\Chuyen_nganh_7\\PRN221\\group\\department_web\\LibraryWeb\\LibraryWeb.csproj": {
+                "projectPath": "E:\\Chuyen_nganh_7\\PRN221\\group\\department_web\\LibraryWeb\\LibraryWeb.csproj"
               }
             }
           }

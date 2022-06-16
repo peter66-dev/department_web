@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="BusinessObject\" />
     <Folder Include="Repository\" />
   </ItemGroup>
 
