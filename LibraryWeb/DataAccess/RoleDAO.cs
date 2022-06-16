@@ -10,8 +10,11 @@ namespace MyLibrary.DataAccess
     {
         private static RoleDAO instance = null;
         private static readonly object instanceLock = new object();
+        private department_dbContext _dbContext;
 
-        private RoleDAO() { }
+        private RoleDAO() {
+            _dbContext = new department_dbContext();
+        }
 
         public static RoleDAO Instance
         {
@@ -41,6 +44,22 @@ namespace MyLibrary.DataAccess
                 throw new Exception("Error at GetAllRoles: " + ex.Message);
             }
             return roles;
+        }
+        public IEnumerable<Role> GetRoles() => _dbContext.Roles.ToList();
+
+        public Role GetRoleById(Guid roleId) => _dbContext.Roles.FirstOrDefault(rle => rle.RoleId.Equals(roleId));
+
+        public void DeleteRoleById(Guid roleId)
+        {
+            Role role = _dbContext.Roles.FirstOrDefault(rle => rle.RoleId.Equals(roleId));
+            role.Status = 0;
+
+            _dbContext.SaveChanges();
+        }
+        public void CreateRole(Role role)
+        {
+            _dbContext.Roles.Add(role);
+            _dbContext.SaveChanges();
         }
     }
 }

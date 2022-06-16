@@ -7168,19 +7168,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\vanph\\.nuget\\packages\\": {}
+    "C:\\Users\\admin\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\Chuyen_nganh_7\\PRN221\\group\\department_web\\MyWeb\\MyWeb.csproj",
+      "projectUniqueName": "E:\\WorkingSet CODE\\VisualStudio\\Department Web\\MyWeb\\MyWeb.csproj",
       "projectName": "MyWeb",
-      "projectPath": "E:\\Chuyen_nganh_7\\PRN221\\group\\department_web\\MyWeb\\MyWeb.csproj",
-      "packagesPath": "C:\\Users\\vanph\\.nuget\\packages\\",
-      "outputPath": "E:\\Chuyen_nganh_7\\PRN221\\group\\department_web\\MyWeb\\obj\\",
+      "projectPath": "E:\\WorkingSet CODE\\VisualStudio\\Department Web\\MyWeb\\MyWeb.csproj",
+      "packagesPath": "C:\\Users\\admin\\.nuget\\packages\\",
+      "outputPath": "E:\\WorkingSet CODE\\VisualStudio\\Department Web\\MyWeb\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\vanph\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -7194,8 +7194,8 @@
         "net5.0": {
           "targetAlias": "net5.0",
           "projectReferences": {
-            "E:\\Chuyen_nganh_7\\PRN221\\group\\department_web\\LibraryWeb\\LibraryWeb.csproj": {
-              "projectPath": "E:\\Chuyen_nganh_7\\PRN221\\group\\department_web\\LibraryWeb\\LibraryWeb.csproj"
+            "E:\\WorkingSet CODE\\VisualStudio\\Department Web\\LibraryWeb\\LibraryWeb.csproj": {
+              "projectPath": "E:\\WorkingSet CODE\\VisualStudio\\Department Web\\LibraryWeb\\LibraryWeb.csproj"
             }
           }
         }
@@ -7247,7 +7247,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.300\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.408\\RuntimeIdentifierGraph.json"
       }
     }
   }

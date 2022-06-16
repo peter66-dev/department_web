@@ -1,4 +1,6 @@
-﻿using System;
+﻿using LibraryWeb.DataAccess;
+using LibraryWeb.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +10,30 @@ namespace MyLibrary.DataAccess
 {
     internal class CommentReplyDAO
     {
+        private department_dbContext _dbContext;
+
+        public CommentReplyDAO()
+        {
+            _dbContext = new department_dbContext();
+        }
+
+        public IEnumerable<CommentReply> GetCommentReplies() => _dbContext.CommentReplies.ToList();
+
+        public CommentReply GetCommentReplyById(Guid commentReplyId) => _dbContext.CommentReplies.FirstOrDefault(cmtrepl => cmtrepl.CommentReplyId.Equals(commentReplyId));
+
+        public void DeleteCommentReplyById(Guid commentReplyId)
+        {
+            CommentReply commentReply = _dbContext.CommentReplies.FirstOrDefault(cmtrepl => cmtrepl.CommentReplyId.Equals(commentReplyId));
+            commentReply.Status = 0;
+
+            _dbContext.SaveChanges();
+        }
+        public void CreateCommentReply(CommentReply commentReply)
+        {
+            _dbContext.CommentReplies.Add(commentReply);
+            _dbContext.SaveChanges();
+        }
+
+
     }
 }
