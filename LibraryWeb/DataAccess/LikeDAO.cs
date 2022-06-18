@@ -13,16 +13,21 @@ namespace MyLibrary.DataAccess
         department_dbContext _dbContext;
 
         public LikeDAO()
+        {}
+
+        public IEnumerable<Like> GetLikes()
         {
             _dbContext = new department_dbContext();
+            return _dbContext.Likes.ToList();
         }
-
-        public IEnumerable<Like> GetLikes() => _dbContext.Likes.ToList();
-
-        public Like GetLikeById(Guid likeId) => _dbContext.Likes.FirstOrDefault(lke => lke.LikeId.Equals(likeId));
-
+        public Like GetLikeById(Guid likeId)
+        {
+            _dbContext = new department_dbContext();
+            return _dbContext.Likes.FirstOrDefault(lke => lke.LikeId.Equals(likeId));
+        }
         public void DeleteLikeById(Guid likeId)
         {
+            _dbContext = new department_dbContext();
             Like like = _dbContext.Likes.FirstOrDefault(lke => lke.LikeId.Equals(likeId));
             like.Status = 0;
 
@@ -30,6 +35,7 @@ namespace MyLibrary.DataAccess
         }
         public void CreateLike(Like like)
         {
+            _dbContext = new department_dbContext();
             _dbContext.Likes.Add(like);
             _dbContext.SaveChanges();
         }

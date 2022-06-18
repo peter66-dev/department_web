@@ -13,14 +13,18 @@ namespace MyLibrary.DataAccess
         private department_dbContext _dbContext;
 
         public CommentReplyDAO()
+        {}
+
+        public IEnumerable<CommentReply> GetCommentReplies()
         {
             _dbContext = new department_dbContext();
+            return _dbContext.CommentReplies.ToList();
         }
-
-        public IEnumerable<CommentReply> GetCommentReplies() => _dbContext.CommentReplies.ToList();
-
-        public CommentReply GetCommentReplyById(Guid commentReplyId) => _dbContext.CommentReplies.FirstOrDefault(cmtrepl => cmtrepl.CommentReplyId.Equals(commentReplyId));
-
+        public CommentReply GetCommentReplyById(Guid commentReplyId)
+        {
+            _dbContext = new department_dbContext();
+            return _dbContext.CommentReplies.FirstOrDefault(cmtrepl => cmtrepl.CommentReplyId.Equals(commentReplyId));
+        }
         public void DeleteCommentReplyById(Guid commentReplyId)
         {
             CommentReply commentReply = _dbContext.CommentReplies.FirstOrDefault(cmtrepl => cmtrepl.CommentReplyId.Equals(commentReplyId));
@@ -30,6 +34,7 @@ namespace MyLibrary.DataAccess
         }
         public void CreateCommentReply(CommentReply commentReply)
         {
+            _dbContext = new department_dbContext();
             _dbContext.CommentReplies.Add(commentReply);
             _dbContext.SaveChanges();
         }

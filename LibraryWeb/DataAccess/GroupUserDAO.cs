@@ -13,16 +13,21 @@ namespace MyLibrary.DataAccess
         department_dbContext _dbContext;
 
         public GroupUserDAO()
+        {}
+
+        public IEnumerable<GroupUser> GetGroupUsers()
         {
             _dbContext = new department_dbContext();
+            return _dbContext.GroupUsers.ToList();
         }
-
-        public IEnumerable<GroupUser> GetGroupUsers() => _dbContext.GroupUsers.ToList();
-
-        public GroupUser GetGroupUserById(Guid groupUserId) => _dbContext.GroupUsers.FirstOrDefault(grpu => grpu.GroupUserId.Equals(groupUserId));
-
+        public GroupUser GetGroupUserById(Guid groupUserId)
+        {
+            _dbContext = new department_dbContext();
+            return _dbContext.GroupUsers.FirstOrDefault(grpu => grpu.GroupUserId.Equals(groupUserId));
+        }
         public void DeleteGroupUserById(Guid groupUserId)
         {
+            _dbContext = new department_dbContext();
             GroupUser groupUser = _dbContext.GroupUsers.FirstOrDefault(grpu => grpu.GroupUserId.Equals(groupUserId));
             groupUser.Status = 0;
 
@@ -30,6 +35,7 @@ namespace MyLibrary.DataAccess
         }
         public void CreateGroupUser(GroupUser groupUser)
         {
+            _dbContext = new department_dbContext();
             _dbContext.GroupUsers.Add(groupUser);
             _dbContext.SaveChanges();
         }

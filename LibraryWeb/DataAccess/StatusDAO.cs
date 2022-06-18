@@ -13,16 +13,21 @@ namespace MyLibrary.DataAccess
         department_dbContext _dbContext;
 
         public StatusDAO()
+        {}
+
+        public IEnumerable<Status> GetStatuses()
         {
             _dbContext = new department_dbContext();
+            return _dbContext.Statuses.ToList();
         }
-
-        public IEnumerable<Status> GetStatuses() => _dbContext.Statuses.ToList();
-
-        public Status GetStatusById(Guid statusId) => _dbContext.Statuses.FirstOrDefault(stt => stt.StatusId.Equals(statusId));
-
+        public Status GetStatusById(Guid statusId)
+        {
+            _dbContext = new department_dbContext();
+            return _dbContext.Statuses.FirstOrDefault(stt => stt.StatusId.Equals(statusId));
+        }
         public void DeleteStatusById(Guid statusId)
         {
+            _dbContext = new department_dbContext();
             Status status = _dbContext.Statuses.FirstOrDefault(stt => stt.StatusId.Equals(statusId));
             _dbContext.Statuses.Remove(status);
 
@@ -30,6 +35,7 @@ namespace MyLibrary.DataAccess
         }
         public void CreateStatus(Status status)
         {
+            _dbContext = new department_dbContext();
             _dbContext.Statuses.Add(status);
             _dbContext.SaveChanges();
         }
