@@ -9,6 +9,9 @@ namespace LibraryWeb.Repository
 {
     public interface IUserRepository
     {
+        void CreateUser(User user);
+        void DeleteUserById(Guid userId);
         public List<User> GetAllUsers();
+        User GetUserById(Guid userId);
     }
 }

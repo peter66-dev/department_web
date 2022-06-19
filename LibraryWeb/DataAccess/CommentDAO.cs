@@ -11,10 +11,24 @@ namespace MyLibrary.DataAccess
 {
     internal class CommentDAO
     {
-        department_dbContext _dbContext;
+        private static CommentDAO instance = null;
+        private static readonly object instanceLock = new object();
+        private department_dbContext _dbContext;
+        private CommentDAO() { }
 
-        public CommentDAO()
+        public static CommentDAO Instance
         {
+            get
+            {
+                lock (instanceLock)
+                {
+                    if (instance == null)
+                    {
+                        instance = new CommentDAO();
+                    }
+                }
+                return instance;
+            }
         }
 
         public IEnumerable<Comment> GetComments()

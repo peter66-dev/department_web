@@ -10,10 +10,25 @@ namespace MyLibrary.DataAccess
 {
     internal class PostTypeDAO
     {
-        department_dbContext _dbContext;
+        private static PostTypeDAO instance = null;
+        private static readonly object instanceLock = new object();
+        private department_dbContext _dbContext;
+        private PostTypeDAO() { }
 
-        public PostTypeDAO()
-        {}
+        public static PostTypeDAO Instance
+        {
+            get
+            {
+                lock (instanceLock)
+                {
+                    if (instance == null)
+                    {
+                        instance = new PostTypeDAO();
+                    }
+                }
+                return instance;
+            }
+        }
 
         public IEnumerable<PostType> GetPostTypes()
         {

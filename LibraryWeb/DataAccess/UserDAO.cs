@@ -13,9 +13,7 @@ namespace MyLibrary.DataAccess
         private static UserDAO instance = null;
         private static readonly object instanceLock = new object();
         private department_dbContext _dbContext;
-        private UserDAO() {
-            _dbContext = new department_dbContext();
-        }
+        private UserDAO() {}
 
         public static UserDAO Instance
         {

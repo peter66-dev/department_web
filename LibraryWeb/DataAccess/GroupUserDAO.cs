@@ -10,10 +10,25 @@ namespace MyLibrary.DataAccess
 {
     internal class GroupUserDAO
     {
-        department_dbContext _dbContext;
+        private static GroupUserDAO instance = null;
+        private static readonly object instanceLock = new object();
+        private department_dbContext _dbContext;
+        private GroupUserDAO() { }
 
-        public GroupUserDAO()
-        {}
+        public static GroupUserDAO Instance
+        {
+            get
+            {
+                lock (instanceLock)
+                {
+                    if (instance == null)
+                    {
+                        instance = new GroupUserDAO();
+                    }
+                }
+                return instance;
+            }
+        }
 
         public IEnumerable<GroupUser> GetGroupUsers()
         {

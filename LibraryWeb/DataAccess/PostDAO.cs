@@ -10,10 +10,25 @@ namespace MyLibrary.DataAccess
 {
     internal class PostDAO
     {
-        department_dbContext _dbContext;
+        private static PostDAO instance = null;
+        private static readonly object instanceLock = new object();
+        private department_dbContext _dbContext;
+        private PostDAO() { }
 
-        public PostDAO()
-        {}
+        public static PostDAO Instance
+        {
+            get
+            {
+                lock (instanceLock)
+                {
+                    if (instance == null)
+                    {
+                        instance = new PostDAO();
+                    }
+                }
+                return instance;
+            }
+        }
 
         public IEnumerable<Post> GetPosts()
         {

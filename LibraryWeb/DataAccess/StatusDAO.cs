@@ -10,10 +10,25 @@ namespace MyLibrary.DataAccess
 {
     internal class StatusDAO
     {
-        department_dbContext _dbContext;
+        private static StatusDAO instance = null;
+        private static readonly object instanceLock = new object();
+        private department_dbContext _dbContext;
+        private StatusDAO() { }
 
-        public StatusDAO()
-        {}
+        public static StatusDAO Instance
+        {
+            get
+            {
+                lock (instanceLock)
+                {
+                    if (instance == null)
+                    {
+                        instance = new StatusDAO();
+                    }
+                }
+                return instance;
+            }
+        }
 
         public IEnumerable<Status> GetStatuses()
         {

@@ -10,10 +10,25 @@ namespace MyLibrary.DataAccess
 {
     internal class LikeDAO
     {
-        department_dbContext _dbContext;
+        private static LikeDAO instance = null;
+        private static readonly object instanceLock = new object();
+        private department_dbContext _dbContext;
+        private LikeDAO() { }
 
-        public LikeDAO()
-        {}
+        public static LikeDAO Instance
+        {
+            get
+            {
+                lock (instanceLock)
+                {
+                    if (instance == null)
+                    {
+                        instance = new LikeDAO();
+                    }
+                }
+                return instance;
+            }
+        }
 
         public IEnumerable<Like> GetLikes()
         {
