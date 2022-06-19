@@ -10,19 +10,39 @@ namespace MyLibrary.DataAccess
 {
     internal class GroupUserDAO
     {
-        department_dbContext _dbContext;
+        private static GroupUserDAO instance = null;
+        private static readonly object instanceLock = new object();
+        private department_dbContext _dbContext;
+        private GroupUserDAO() { }
 
-        public GroupUserDAO()
+        public static GroupUserDAO Instance
         {
-            _dbContext = new department_dbContext();
+            get
+            {
+                lock (instanceLock)
+                {
+                    if (instance == null)
+                    {
+                        instance = new GroupUserDAO();
+                    }
+                }
+                return instance;
+            }
         }
 
-        public IEnumerable<GroupUser> GetGroupUsers() => _dbContext.GroupUsers.ToList();
-
-        public GroupUser GetGroupUserById(Guid groupUserId) => _dbContext.GroupUsers.FirstOrDefault(grpu => grpu.GroupUserId.Equals(groupUserId));
-
+        public IEnumerable<GroupUser> GetGroupUsers()
+        {
+            _dbContext = new department_dbContext();
+            return _dbContext.GroupUsers.ToList();
+        }
+        public GroupUser GetGroupUserById(Guid groupUserId)
+        {
+            _dbContext = new department_dbContext();
+            return _dbContext.GroupUsers.FirstOrDefault(grpu => grpu.GroupUserId.Equals(groupUserId));
+        }
         public void DeleteGroupUserById(Guid groupUserId)
         {
+            _dbContext = new department_dbContext();
             GroupUser groupUser = _dbContext.GroupUsers.FirstOrDefault(grpu => grpu.GroupUserId.Equals(groupUserId));
             groupUser.Status = 0;
 
@@ -30,6 +50,7 @@ namespace MyLibrary.DataAccess
         }
         public void CreateGroupUser(GroupUser groupUser)
         {
+            _dbContext = new department_dbContext();
             _dbContext.GroupUsers.Add(groupUser);
             _dbContext.SaveChanges();
         }

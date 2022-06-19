@@ -11,19 +11,39 @@ namespace MyLibrary.DataAccess
 {
     internal class CommentDAO
     {
-        department_dbContext _dbContext;
+        private static CommentDAO instance = null;
+        private static readonly object instanceLock = new object();
+        private department_dbContext _dbContext;
+        private CommentDAO() { }
 
-        public CommentDAO()
+        public static CommentDAO Instance
         {
-            _dbContext = new department_dbContext();
+            get
+            {
+                lock (instanceLock)
+                {
+                    if (instance == null)
+                    {
+                        instance = new CommentDAO();
+                    }
+                }
+                return instance;
+            }
         }
 
-        public IEnumerable<Comment> GetComments() => _dbContext.Comments.ToList();
-
-        public Comment GetCommentById(Guid commentId) => _dbContext.Comments.FirstOrDefault(cmt => cmt.CommentId.Equals(commentId));
-
+        public IEnumerable<Comment> GetComments()
+        {
+            _dbContext = new department_dbContext();
+            return _dbContext.Comments.ToList();
+        }
+        public Comment GetCommentById(Guid commentId)
+        {
+            _dbContext = new department_dbContext(); 
+            return _dbContext.Comments.FirstOrDefault(cmt => cmt.CommentId.Equals(commentId));
+        }
         public void DeleteCommentById(Guid commentId)
         {
+            _dbContext = new department_dbContext();
             Comment comment = _dbContext.Comments.FirstOrDefault(cmt => cmt.CommentId.Equals(commentId));
             comment.Status = 0;
 
@@ -31,6 +51,7 @@ namespace MyLibrary.DataAccess
         }
         public void CreateComment(Comment comment)
         {
+            _dbContext = new department_dbContext();
             _dbContext.Comments.Add(comment);
             _dbContext.SaveChanges();
         }

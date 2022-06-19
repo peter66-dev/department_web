@@ -10,17 +10,36 @@ namespace MyLibrary.DataAccess
 {
     internal class CommentReplyDAO
     {
+        private static CommentReplyDAO instance = null;
+        private static readonly object instanceLock = new object();
         private department_dbContext _dbContext;
+        private CommentReplyDAO() { }
 
-        public CommentReplyDAO()
+        public static CommentReplyDAO Instance
         {
-            _dbContext = new department_dbContext();
+            get
+            {
+                lock (instanceLock)
+                {
+                    if (instance == null)
+                    {
+                        instance = new CommentReplyDAO();
+                    }
+                }
+                return instance;
+            }
         }
 
-        public IEnumerable<CommentReply> GetCommentReplies() => _dbContext.CommentReplies.ToList();
-
-        public CommentReply GetCommentReplyById(Guid commentReplyId) => _dbContext.CommentReplies.FirstOrDefault(cmtrepl => cmtrepl.CommentReplyId.Equals(commentReplyId));
-
+        public IEnumerable<CommentReply> GetCommentReplies()
+        {
+            _dbContext = new department_dbContext();
+            return _dbContext.CommentReplies.ToList();
+        }
+        public CommentReply GetCommentReplyById(Guid commentReplyId)
+        {
+            _dbContext = new department_dbContext();
+            return _dbContext.CommentReplies.FirstOrDefault(cmtrepl => cmtrepl.CommentReplyId.Equals(commentReplyId));
+        }
         public void DeleteCommentReplyById(Guid commentReplyId)
         {
             CommentReply commentReply = _dbContext.CommentReplies.FirstOrDefault(cmtrepl => cmtrepl.CommentReplyId.Equals(commentReplyId));
@@ -30,6 +49,7 @@ namespace MyLibrary.DataAccess
         }
         public void CreateCommentReply(CommentReply commentReply)
         {
+            _dbContext = new department_dbContext();
             _dbContext.CommentReplies.Add(commentReply);
             _dbContext.SaveChanges();
         }

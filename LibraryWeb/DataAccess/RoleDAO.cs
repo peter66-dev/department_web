@@ -12,9 +12,7 @@ namespace MyLibrary.DataAccess
         private static readonly object instanceLock = new object();
         private department_dbContext _dbContext;
 
-        private RoleDAO() {
-            _dbContext = new department_dbContext();
-        }
+        private RoleDAO() {}
 
         public static RoleDAO Instance
         {
@@ -45,12 +43,19 @@ namespace MyLibrary.DataAccess
             }
             return roles;
         }
-        public IEnumerable<Role> GetRoles() => _dbContext.Roles.ToList();
-
-        public Role GetRoleById(Guid roleId) => _dbContext.Roles.FirstOrDefault(rle => rle.RoleId.Equals(roleId));
-
+        public IEnumerable<Role> GetRoles()
+        {
+            _dbContext = new department_dbContext();
+            return _dbContext.Roles.ToList();
+        }
+        public Role GetRoleById(Guid roleId)
+        {
+            _dbContext = new department_dbContext();
+            return _dbContext.Roles.FirstOrDefault(rle => rle.RoleId.Equals(roleId));
+        }
         public void DeleteRoleById(Guid roleId)
         {
+            _dbContext = new department_dbContext();
             Role role = _dbContext.Roles.FirstOrDefault(rle => rle.RoleId.Equals(roleId));
             role.Status = 0;
 
@@ -58,6 +63,7 @@ namespace MyLibrary.DataAccess
         }
         public void CreateRole(Role role)
         {
+            _dbContext = new department_dbContext();
             _dbContext.Roles.Add(role);
             _dbContext.SaveChanges();
         }

@@ -10,19 +10,39 @@ namespace MyLibrary.DataAccess
 {
     internal class PostTypeDAO
     {
-        department_dbContext _dbContext;
+        private static PostTypeDAO instance = null;
+        private static readonly object instanceLock = new object();
+        private department_dbContext _dbContext;
+        private PostTypeDAO() { }
 
-        public PostTypeDAO()
+        public static PostTypeDAO Instance
         {
-            _dbContext = new department_dbContext();
+            get
+            {
+                lock (instanceLock)
+                {
+                    if (instance == null)
+                    {
+                        instance = new PostTypeDAO();
+                    }
+                }
+                return instance;
+            }
         }
 
-        public IEnumerable<PostType> GetPostTypes() => _dbContext.PostTypes.ToList();
-
-        public PostType GetPostTypeById(Guid postTypeId) => _dbContext.PostTypes.FirstOrDefault(pstype => pstype.PostTypeId.Equals(postTypeId));
-
+        public IEnumerable<PostType> GetPostTypes()
+        {
+            _dbContext = new department_dbContext();
+            return _dbContext.PostTypes.ToList();
+        }
+        public PostType GetPostTypeById(Guid postTypeId)
+        {
+            _dbContext = new department_dbContext();
+            return _dbContext.PostTypes.FirstOrDefault(pstype => pstype.PostTypeId.Equals(postTypeId));
+        }
         public void DeletePostTypeById(Guid postTypeId)
         {
+            _dbContext = new department_dbContext();
             PostType postType = _dbContext.PostTypes.FirstOrDefault(pstype => pstype.PostTypeId.Equals(postTypeId));
             postType.Status = 0;
 
@@ -30,6 +50,7 @@ namespace MyLibrary.DataAccess
         }
         public void CreatePostType(PostType postType)
         {
+            _dbContext = new department_dbContext();
             _dbContext.PostTypes.Add(postType);
             _dbContext.SaveChanges();
         }

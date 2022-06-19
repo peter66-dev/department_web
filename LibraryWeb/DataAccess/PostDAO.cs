@@ -10,19 +10,39 @@ namespace MyLibrary.DataAccess
 {
     internal class PostDAO
     {
-        department_dbContext _dbContext;
+        private static PostDAO instance = null;
+        private static readonly object instanceLock = new object();
+        private department_dbContext _dbContext;
+        private PostDAO() { }
 
-        public PostDAO()
+        public static PostDAO Instance
         {
-            _dbContext = new department_dbContext();
+            get
+            {
+                lock (instanceLock)
+                {
+                    if (instance == null)
+                    {
+                        instance = new PostDAO();
+                    }
+                }
+                return instance;
+            }
         }
 
-        public IEnumerable<Post> GetPosts() => _dbContext.Posts.ToList();
-
-        public Post GetPostById(Guid postId) => _dbContext.Posts.FirstOrDefault(pst => pst.PostId.Equals(postId));
-
+        public IEnumerable<Post> GetPosts()
+        {
+            _dbContext = new department_dbContext();
+            return _dbContext.Posts.ToList();
+        }
+        public Post GetPostById(Guid postId)
+        {
+            _dbContext = new department_dbContext();
+            return _dbContext.Posts.FirstOrDefault(pst => pst.PostId.Equals(postId));
+        }
         public void DeletePostById(Guid postId)
         {
+            _dbContext = new department_dbContext();
             Post post = _dbContext.Posts.FirstOrDefault(pst => pst.PostId.Equals(postId));
             post.Status = 0;
 
@@ -30,6 +50,7 @@ namespace MyLibrary.DataAccess
         }
         public void CreatePost(Post post)
         {
+            _dbContext = new department_dbContext();
             _dbContext.Posts.Add(post);
             _dbContext.SaveChanges();
         }
