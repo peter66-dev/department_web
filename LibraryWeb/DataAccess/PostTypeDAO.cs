@@ -3,35 +3,85 @@ using LibraryWeb.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MyLibrary.DataAccess
 {
     internal class PostTypeDAO
     {
-        department_dbContext _dbContext;
+        private static PostTypeDAO instance = null;
+        private static readonly object instanceLock = new object();
 
-        public PostTypeDAO()
+        private PostTypeDAO() { }
+
+        public static PostTypeDAO Instance
         {
-            _dbContext = new department_dbContext();
+            get
+            {
+                lock (instanceLock)
+                {
+                    if (instance == null)
+                    {
+                        instance = new PostTypeDAO();
+                    }
+                }
+                return instance;
+            }
         }
 
-        public IEnumerable<PostType> GetPostTypes() => _dbContext.PostTypes.ToList();
-
-        public PostType GetPostTypeById(Guid postTypeId) => _dbContext.PostTypes.FirstOrDefault(pstype => pstype.PostTypeId.Equals(postTypeId));
-
+        public IEnumerable<PostType> GetPostTypes()
+        {
+            List<PostType> list = new List<PostType>();
+            try
+            {
+                var context = new department_dbContext();
+                context.PostTypes.ToList();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error at GetPostTypes: " + ex.Message);
+            }
+            return list;
+        }
+        public PostType GetPostTypeById(Guid postTypeId)
+        {
+            PostType pt = new PostType();
+            try
+            {
+                var context = new department_dbContext();
+                pt = context.PostTypes.FirstOrDefault(p => p.PostTypeId.Equals(postTypeId));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error at GetPostTypeById: " + ex.Message);
+            }
+            return pt;
+        }
         public void DeletePostTypeById(Guid postTypeId)
         {
-            PostType postType = _dbContext.PostTypes.FirstOrDefault(pstype => pstype.PostTypeId.Equals(postTypeId));
-            postType.Status = 0;
-
-            _dbContext.SaveChanges();
+            try
+            {
+                var context = new department_dbContext();
+                PostType pt = context.PostTypes.FirstOrDefault(p => p.PostTypeId.Equals(postTypeId));
+                pt.Status = 6;
+                context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error at DeletePostTypeById: " + ex.Message);
+            }
         }
         public void CreatePostType(PostType postType)
         {
-            _dbContext.PostTypes.Add(postType);
-            _dbContext.SaveChanges();
+            try
+            {
+                var context = new department_dbContext();
+                context.PostTypes.Add(postType);
+                context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error at CreatePostType: " + ex.Message);
+            }
         }
     }
 }

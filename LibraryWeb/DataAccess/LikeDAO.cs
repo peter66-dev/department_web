@@ -3,35 +3,85 @@ using LibraryWeb.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MyLibrary.DataAccess
 {
     internal class LikeDAO
     {
-        department_dbContext _dbContext;
+        private static LikeDAO instance = null;
+        private static readonly object instanceLock = new object();
 
-        public LikeDAO()
+        private LikeDAO() { }
+
+        public static LikeDAO Instance
         {
-            _dbContext = new department_dbContext();
+            get
+            {
+                lock (instanceLock)
+                {
+                    if (instance == null)
+                    {
+                        instance = new LikeDAO();
+                    }
+                }
+                return instance;
+            }
         }
 
-        public IEnumerable<Like> GetLikes() => _dbContext.Likes.ToList();
-
-        public Like GetLikeById(Guid likeId) => _dbContext.Likes.FirstOrDefault(lke => lke.LikeId.Equals(likeId));
-
+        public IEnumerable<Like> GetLikes()
+        {
+            List<Like> list = new List<Like>();
+            try
+            {
+                var context = new department_dbContext();
+                context.Likes.ToList();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error at GetLikes: " + ex.Message);
+            }
+            return list;
+        }
+        public Like GetLikeById(Guid likeId)
+        {
+            Like like = new Like();
+            try
+            {
+                var context = new department_dbContext();
+                like = context.Likes.FirstOrDefault(g => g.LikeId.Equals(likeId));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error at GetLikeById: " + ex.Message);
+            }
+            return like;
+        }
         public void DeleteLikeById(Guid likeId)
         {
-            Like like = _dbContext.Likes.FirstOrDefault(lke => lke.LikeId.Equals(likeId));
-            like.Status = 0;
-
-            _dbContext.SaveChanges();
+            try
+            {
+                var context = new department_dbContext();
+                Like like = context.Likes.FirstOrDefault(l => l.LikeId.Equals(likeId));
+                like.Status = 6;
+                context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error at DeleteLikeById: " + ex.Message);
+            }
         }
         public void CreateLike(Like like)
         {
-            _dbContext.Likes.Add(like);
-            _dbContext.SaveChanges();
+            try
+            {
+                var context = new department_dbContext();
+                context.Likes.Add(like);
+                context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error at CreateLike: " + ex.Message);
+            }
         }
     }
 }

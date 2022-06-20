@@ -3,35 +3,86 @@ using LibraryWeb.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MyLibrary.DataAccess
 {
     internal class CommentReplyDAO
     {
-        private department_dbContext _dbContext;
+        private static CommentReplyDAO instance = null;
+        private static readonly object instanceLock = new object();
+        private CommentReplyDAO() { }
 
-        public CommentReplyDAO()
+        public static CommentReplyDAO Instance
         {
-            _dbContext = new department_dbContext();
+            get
+            {
+                lock (instanceLock)
+                {
+                    if (instance == null)
+                    {
+                        instance = new CommentReplyDAO();
+                    }
+                }
+                return instance;
+            }
         }
 
-        public IEnumerable<CommentReply> GetCommentReplies() => _dbContext.CommentReplies.ToList();
+        public IEnumerable<CommentReply> GetCommentReplies()
+        {
+            List<CommentReply> list = new List<CommentReply>();
+            try
+            {
+                var context = new department_dbContext();
+                context.CommentReplies.ToList();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error at GetCommentReplies: " + ex.Message);
+            }
+            return list;
+        }
 
-        public CommentReply GetCommentReplyById(Guid commentReplyId) => _dbContext.CommentReplies.FirstOrDefault(cmtrepl => cmtrepl.CommentReplyId.Equals(commentReplyId));
-
+        public CommentReply GetCommentReplyById(Guid commentReplyId)
+        {
+            CommentReply comment = new CommentReply();
+            try
+            {
+                var context = new department_dbContext();
+                comment = context.CommentReplies.FirstOrDefault(cmtrepl => cmtrepl.CommentReplyId.Equals(commentReplyId));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error at GetCommentReplyById: " + ex.Message);
+            }
+            return comment;
+        }
         public void DeleteCommentReplyById(Guid commentReplyId)
         {
-            CommentReply commentReply = _dbContext.CommentReplies.FirstOrDefault(cmtrepl => cmtrepl.CommentReplyId.Equals(commentReplyId));
-            commentReply.Status = 0;
+            try
+            {
+                var context = new department_dbContext();
+                CommentReply comment = context.CommentReplies.FirstOrDefault(cmt => cmt.CommentReplyId.Equals(commentReplyId));
+                comment.Status = 6;
 
-            _dbContext.SaveChanges();
+                context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error at DeleteCommentReplyById: " + ex.Message);
+            }
         }
         public void CreateCommentReply(CommentReply commentReply)
         {
-            _dbContext.CommentReplies.Add(commentReply);
-            _dbContext.SaveChanges();
+            try
+            {
+                var context = new department_dbContext();
+                context.CommentReplies.Add(commentReply);
+                context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error at CreateCommentReply: " + ex.Message);
+            }
         }
 
 

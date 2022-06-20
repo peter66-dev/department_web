@@ -1,38 +1,87 @@
 ﻿using LibraryWeb.DataAccess;
 using LibraryWeb.Model;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MyLibrary.DataAccess
 {
     internal class CommentDAO
     {
-        department_dbContext _dbContext;
+        private static CommentDAO instance = null;
+        private static readonly object instanceLock = new object();
+        private CommentDAO() { }
 
-        public CommentDAO()
+        public static CommentDAO Instance
         {
-            _dbContext = new department_dbContext();
+            get
+            {
+                lock (instanceLock)
+                {
+                    if (instance == null)
+                    {
+                        instance = new CommentDAO();
+                    }
+                }
+                return instance;
+            }
         }
 
-        public IEnumerable<Comment> GetComments() => _dbContext.Comments.ToList();
-
-        public Comment GetCommentById(Guid commentId) => _dbContext.Comments.FirstOrDefault(cmt => cmt.CommentId.Equals(commentId));
-
+        public IEnumerable<Comment> GetComments()
+        {
+            List<Comment> list = new List<Comment>();
+            try
+            {
+                var context = new department_dbContext();
+                context.Comments.ToList();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error at GetComments: " + ex.Message);
+            }
+            return list;
+        }
+        public Comment GetCommentById(Guid commentId)
+        {
+            Comment comment = new Comment();
+            try
+            {
+                var context = new department_dbContext();
+                comment = context.Comments.FirstOrDefault(c => c.CommentId.Equals(commentId));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error at GetCommentById: " + ex.Message);
+            }
+            return comment;
+        }
         public void DeleteCommentById(Guid commentId)
         {
-            Comment comment = _dbContext.Comments.FirstOrDefault(cmt => cmt.CommentId.Equals(commentId));
-            comment.Status = 0;
+            try
+            {
+                var context = new department_dbContext();
+                Comment comment = context.Comments.FirstOrDefault(cmt => cmt.CommentId.Equals(commentId));
+                comment.Status = 6;
 
-            _dbContext.SaveChanges();
+                context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error at DeleteCommentById: " + ex.Message);
+            }
         }
         public void CreateComment(Comment comment)
         {
-            _dbContext.Comments.Add(comment);
-            _dbContext.SaveChanges();
+            try
+            {
+                var context = new department_dbContext();
+                context.Comments.Add(comment);
+                context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error at CreateComment: " + ex.Message);
+            }
         }
 
 

@@ -8,28 +8,81 @@ namespace MyLibrary.DataAccess
 {
     internal class GroupDAO
     {
-        private department_dbContext _dbContext;
+        private static GroupDAO instance = null;
+        private static readonly object instanceLock = new object();
 
-        public GroupDAO()
+        private GroupDAO() { }
+
+        public static GroupDAO Instance
         {
-            _dbContext = new department_dbContext();
+            get
+            {
+                lock (instanceLock)
+                {
+                    if (instance == null)
+                    {
+                        instance = new GroupDAO();
+                    }
+                }
+                return instance;
+            }
         }
 
-        public IEnumerable<Group> GetGroups() => _dbContext.Groups.ToList();
-
-        public Group GetGroupById(Guid groupId) => _dbContext.Groups.FirstOrDefault(grp => grp.GroupId.Equals(groupId));
-
+        public IEnumerable<Group> GetGroups()
+        {
+            List<Group> list = new List<Group>();
+            try
+            {
+                var context = new department_dbContext();
+                context.Groups.ToList();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error at GetGroups: " + ex.Message);
+            }
+            return list;
+        }
+        public Group GetGroupById(Guid groupId)
+        {
+            Group gr = new Group();
+            try
+            {
+                var context = new department_dbContext();
+                gr = context.Groups.FirstOrDefault(g => g.GroupId.Equals(groupId));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error at GetGroupById: " + ex.Message);
+            }
+            return gr;
+        }
         public void DeleteGroupById(Guid groupId)
         {
-            Group group = _dbContext.Groups.FirstOrDefault(cmt => cmt.GroupId.Equals(groupId));
-            group.Status = 0;
+            try
+            {
+                var context = new department_dbContext();
+                Group gr = context.Groups.FirstOrDefault(g => g.GroupId.Equals(groupId));
+                gr.Status = 2;
 
-            _dbContext.SaveChanges();
+                context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error at DeleteGroupById: " + ex.Message);
+            }
         }
         public void CreateGroup(Group group)
         {
-            _dbContext.Groups.Add(group);
-            _dbContext.SaveChanges();
+            try
+            {
+                var context = new department_dbContext();
+                context.Groups.Add(group);
+                context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error at CreateGroup: " + ex.Message);
+            }
         }
     }
 }

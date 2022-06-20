@@ -13,9 +13,7 @@ namespace MyLibrary.DataAccess
         private static UserDAO instance = null;
         private static readonly object instanceLock = new object();
         private department_dbContext _dbContext;
-        private UserDAO() {
-            _dbContext = new department_dbContext();
-        }
+        private UserDAO() {}
 
         public static UserDAO Instance
         {
@@ -46,12 +44,19 @@ namespace MyLibrary.DataAccess
             }
             return roles;
         }
-        public IEnumerable<User> GetUsers() => _dbContext.Users.ToList();
-
-        public User GetUserById(Guid userId) => _dbContext.Users.FirstOrDefault(usr => usr.UserId.Equals(userId));
-
+        public IEnumerable<User> GetUsers()
+        {
+            _dbContext = new department_dbContext();
+            return _dbContext.Users.ToList();
+        }
+        public User GetUserById(Guid userId)
+        {
+            _dbContext = new department_dbContext();
+            return _dbContext.Users.FirstOrDefault(usr => usr.UserId.Equals(userId));
+        }
         public void DeleteUserById(Guid userId)
         {
+            _dbContext = new department_dbContext();
             User user = _dbContext.Users.FirstOrDefault(usr => usr.UserId.Equals(userId));
             user.Status = 0;
 
@@ -59,6 +64,7 @@ namespace MyLibrary.DataAccess
         }
         public void CreateUser(User user)
         {
+            _dbContext = new department_dbContext();
             _dbContext.Users.Add(user);
             _dbContext.SaveChanges();
         }

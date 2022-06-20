@@ -1,7 +1,5 @@
-﻿using System;
-using LibraryWeb.Model;
+﻿using LibraryWeb.Model;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
 
 #nullable disable
 

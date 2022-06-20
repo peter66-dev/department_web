@@ -12,7 +12,7 @@ namespace LibraryWeb.Model
         public Guid CommentId { get; set; }
         public string CommentReplyContent { get; set; }
         public DateTime CreatedDate { get; set; }
-        public int Status { get; set; }
+        public int Status { get; set; } // status 5 || 6
 
         public virtual Comment Comment { get; set; }
         public virtual Status StatusNavigation { get; set; }

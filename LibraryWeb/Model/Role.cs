@@ -14,7 +14,7 @@ namespace LibraryWeb.Model
 
         public Guid RoleId { get; set; }
         public string RoleName { get; set; }
-        public int Status { get; set; }
+        public int Status { get; set; } // Status: 5 || 6
 
         public virtual Status StatusNavigation { get; set; }
         public virtual ICollection<User> Users { get; set; }

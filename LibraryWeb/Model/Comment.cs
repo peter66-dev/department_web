@@ -17,7 +17,7 @@ namespace LibraryWeb.Model
         public Guid PostId { get; set; }
         public string CommentContent { get; set; }
         public DateTime CreatedDate { get; set; }
-        public int Status { get; set; }
+        public int Status { get; set; } // status 5 || 6
 
         public virtual Post Post { get; set; }
         public virtual Status StatusNavigation { get; set; }

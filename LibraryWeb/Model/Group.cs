@@ -18,7 +18,7 @@ namespace LibraryWeb.Model
         public string GroupDescription { get; set; }
         public DateTime CreatedDate { get; set; }
         public bool PublicStatus { get; set; }
-        public int Status { get; set; }
+        public int Status { get; set; } // Status: 1 || 2
 
         public virtual Status StatusNavigation { get; set; }
         public virtual User User { get; set; }

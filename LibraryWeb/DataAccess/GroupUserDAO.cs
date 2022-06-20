@@ -3,35 +3,86 @@ using LibraryWeb.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MyLibrary.DataAccess
 {
     internal class GroupUserDAO
     {
-        department_dbContext _dbContext;
+        private static GroupUserDAO instance = null;
+        private static readonly object instanceLock = new object();
 
-        public GroupUserDAO()
+        private GroupUserDAO() { }
+
+        public static GroupUserDAO Instance
         {
-            _dbContext = new department_dbContext();
+            get
+            {
+                lock (instanceLock)
+                {
+                    if (instance == null)
+                    {
+                        instance = new GroupUserDAO();
+                    }
+                }
+                return instance;
+            }
         }
 
-        public IEnumerable<GroupUser> GetGroupUsers() => _dbContext.GroupUsers.ToList();
-
-        public GroupUser GetGroupUserById(Guid groupUserId) => _dbContext.GroupUsers.FirstOrDefault(grpu => grpu.GroupUserId.Equals(groupUserId));
-
+        public IEnumerable<GroupUser> GetGroupUsers()
+        {
+            List<GroupUser> list = new List<GroupUser>();
+            try
+            {
+                var context = new department_dbContext();
+                context.GroupUsers.ToList();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error at GetGroupUsers: " + ex.Message);
+            }
+            return list;
+        }
+        public GroupUser GetGroupUserById(Guid groupUserId)
+        {
+            GroupUser gu = new GroupUser();
+            try
+            {
+                var context = new department_dbContext();
+                gu = context.GroupUsers.FirstOrDefault(g => g.GroupUserId.Equals(groupUserId));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error at GetGroupUserById: " + ex.Message);
+            }
+            return gu;
+        }
         public void DeleteGroupUserById(Guid groupUserId)
         {
-            GroupUser groupUser = _dbContext.GroupUsers.FirstOrDefault(grpu => grpu.GroupUserId.Equals(groupUserId));
-            groupUser.Status = 0;
 
-            _dbContext.SaveChanges();
+            try
+            {
+                var context = new department_dbContext();
+                GroupUser groupUser = context.GroupUsers.FirstOrDefault(grpu => grpu.GroupUserId.Equals(groupUserId));
+                groupUser.Status = 3;
+                context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error at DeleteGroupUserById: " + ex.Message);
+            }
         }
         public void CreateGroupUser(GroupUser groupUser)
         {
-            _dbContext.GroupUsers.Add(groupUser);
-            _dbContext.SaveChanges();
+            try
+            {
+                var context = new department_dbContext();
+                context.GroupUsers.Add(groupUser);
+                context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error at CreateGroupUser: " + ex.Message);
+            }
         }
     }
 }
