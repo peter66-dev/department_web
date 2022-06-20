@@ -1,0 +1,221 @@
+﻿html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+    display: block;
+}
+
+body {
+    background-color: var(--backgroundColor);
+    line-height: 1;
+}
+
+ol, ul {
+    list-style: none;
+}
+
+blockquote, q {
+    quotes: none;
+}
+
+    blockquote:before, blockquote:after,
+    q:before, q:after {
+        content: '';
+        content: none;
+    }
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+
+/*my style*/
+
+
+/*  **************************** Home page navigation ***************************  */
+
+
+/*  **************************** Home page body ***************************  */
+.my-index {
+    gap: 15px;
+    display: flex;
+}
+
+/* =============== left content ================== */
+.left-content {
+    width: 20%;
+}
+
+.home-icon {
+    width: 20px;
+    height: 20px;
+    background-image: url('../img/house.png');
+    background-position: center;
+    background-size: cover;
+}
+
+.left-content a {
+    color: #000;
+}
+
+.left-content ul li {
+    padding: 10px;
+    cursor: pointer;
+}
+
+    .left-content ul li:hover {
+        border-radius: 10px;
+        background-color: #a2aaff57;
+    }
+
+        .left-content ul li:hover > a {
+            color: blue !important;
+        }
+
+
+.left-content .icon {
+    margin-right: 10px;
+}
+/* =============== mid content ================== */
+.mid-content {
+    width: 55%;
+}
+
+.news {
+    background-color: #fff;
+    box-shadow: 0 0 0 1px rgba(23, 23, 23, 0.1);
+    border-radius: 5px;
+    margin-bottom: 10px;
+    padding: 25px;
+}
+
+.news-body {
+    margin-left: 45px;
+    margin-top: 10px;
+}
+
+    .news-body .title {
+        font-size: 30px;
+        font-weight: 700;
+        cursor: pointer;
+    }
+
+        .news-body .title:hover {
+            color: #150ec9;
+        }
+
+    .news-body .tags {
+        margin-top: 15px;
+        display: flex;
+        gap: 10px;
+        cursor: pointer;
+        padding: 2px;
+    }
+
+        .news-body .tags .tag {
+            padding: 5px;
+            border: 1px solid #fff;
+        }
+
+            .news-body .tags .tag:hover {
+                border-radius: 5px;
+                background-color: #e4e3e3;
+                border: 1px solid #999;
+            }
+
+    .news-body .react {
+        margin-top: 15px;
+        display: flex;
+        gap: 20px;
+    }
+
+        .news-body .react .likes,
+        .news-body .react .comments {
+            display: flex;
+            gap: 5px;
+            cursor: pointer;
+            padding: 10px;
+        }
+
+            .news-body .react .likes:hover,
+            .news-body .react .comments:hover {
+                background-color: #e9e8e8;
+                border-radius: 5px;
+            }
+
+
+.news .owner {
+    display: flex;
+    gap: 10px;
+}
+
+    .news .owner .name {
+        font-weight: 600;
+        margin-bottom: 5px;
+        cursor: pointer;
+    }
+
+    .news .owner .date {
+        font-size: 13px;
+        cursor: pointer;
+    }
+
+.news img {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+/* =============== right content ================== */
+.right-content {
+    width: 25%;
+    
+}
+
+.list-body {
+    background-color: #fff;
+    box-shadow: 0 0 0 1px rgba(23, 23, 23, 0.1);
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.hownews-top a{
+    text-decoration: none;
+}
+
+.list-body .hotn {
+    padding: 12px 10px;
+    cursor: pointer;
+}
+
+    .list-body .title {
+        font-weight: 600;
+        cursor: pointer;
+        margin-bottom: 5px;
+    }
+        .list-body .title:hover {
+            color: #150ec9;
+        }
+
+/*  **************************** Home page footer ***************************  */

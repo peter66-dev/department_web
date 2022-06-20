@@ -1,0 +1,15 @@
+﻿*{
+    margin: 0;
+    padding: 0;
+}
+
+.my-login-container {
+    border-radius: 5px;
+    padding: 40px;
+    box-shadow: 0 0 0 1px rgba(23, 23, 23, 0.1);
+    background-color: white;
+}
+
+body {
+    background-color: var(--backgroundColor);
+}
