@@ -11,6 +11,7 @@ namespace LibraryWeb.Repository
         public User GetUserById(Guid userId) => UserDAO.Instance.GetUserById(userId);
         public void DeleteUserById(Guid userId) => UserDAO.Instance.DeleteUserById(userId);
         public void CreateUser(User user) => UserDAO.Instance.CreateUser(user);
-        
+        public User CheckLogin(string email, string password) => UserDAO.Instance.CheckLogin(email, password);
+        public string CheckRole(User user) => UserDAO.Instance.CheckRole(user);
     }
 }

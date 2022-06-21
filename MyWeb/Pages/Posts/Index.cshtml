@@ -24,6 +24,10 @@
     </div>
     <div class="mid-content">
         <p class="font-weight-bold mb-2">Latest</p>
+        @if (@Model.Posts.Count == 0)
+        {
+            <p class="text-center text-danger">Sorry, we can not find out any post you want!</p>
+        }
         @foreach (Post p in @Model.Posts)
         {
 
@@ -32,7 +36,7 @@
                     <img src="~/img/user.png" />
                     <div class="infos">
                         <p class="name">@p.UserPost.FirstName @p.UserPost.LastName</p>
-                        <p class="date">@p.CreatedDate</p>
+                        <p class="date">@p.CreatedDate.ToString("MM/dd/yyyy h:mm tt")</p>
                     </div>
                 </div>
                 <div class="news-body">
@@ -40,10 +44,10 @@
                         <h1>@p.Title</h1>
                     </div>
                     <div class="tags">
-                    @foreach (string tmp in p.GetTagsList(p.Tags))
-                    {
-                        <p class="tag">#@tmp</p>
-                    }
+                        @foreach (string tmp in p.GetTagsList(p.Tags))
+                        {
+                            <a class="tag text-dark text-decoration-none" asp-route-searchTag="@tmp">#@tmp</a>
+                        }
                     </div>
                     <div class="react">
                         <div class="likes">
@@ -63,33 +67,19 @@
     <div class="right-content">
         <div class="hownews-top d-flex justify-content-between">
             <p class="font-weight-bold mb-2">Hot News</p>
-            <a class="text-primary" href="/all">See all</a>
         </div>
         <div class="list-body">
-            <div class="hotn hotn1">
+            @foreach (Post post in @Model.HotNews)
+            {
+               <div class="hotn hotn1">
                 <h1 class="title">
-                    Thông báo cúp điện nguyên ngày!
+                    @post.Title
                 </h1>
-                <p class="time">Jun 27</p>
-            </div>
-            <div class="hotn hotn2">
-                <h1 class="title">
-                    Sửa chửa hệ thống nước ngầm ở khu A
-                </h1>
-                <p class="time">Oct 2</p>
-            </div>
-            <div class="hotn hotn3">
-                <h1 class="title">
-                    Cập nhật giá xăng cộ
-                </h1>
-                <p class="time">Jun 27</p>
-            </div>
-            <div class="hotn hotn4">
-                <h1 class="title">
-                    Thông báo tìm trẻ lạc...
-                </h1>
-                <p class="time">May 15</p>
-            </div>
+                <p class="time">@post.CreatedDate.ToString("dd/MM/yyyy h:mm tt")</p>
+            </div> 
+            }
+            
+            
         </div>
     </div>
 

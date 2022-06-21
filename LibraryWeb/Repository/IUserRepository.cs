@@ -10,5 +10,7 @@ namespace LibraryWeb.Repository
         void DeleteUserById(Guid userId);
         public List<User> GetAllUsers();
         User GetUserById(Guid userId);
+        public User CheckLogin(string email, string password);
+        public string CheckRole(User user);
     }
 }

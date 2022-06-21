@@ -10,7 +10,6 @@ namespace MyLibrary.DataAccess
     {
         private static RoleDAO instance = null;
         private static readonly object instanceLock = new object();
-        private department_dbContext _dbContext;
 
         private RoleDAO() {}
 

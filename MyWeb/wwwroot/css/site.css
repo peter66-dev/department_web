@@ -87,6 +87,11 @@ body {
     padding: 8px;
 }
 
+    .my-search-input button {
+        border: none;
+        background-color: transparent;
+    }
+
     .my-search-input input {
         width: 300px;
         border: none;

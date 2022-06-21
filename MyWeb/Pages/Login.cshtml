@@ -8,15 +8,21 @@
 <div class="container-fluid w-50 my-login-container">
     <h2 class="text-center font-weight-bold">Welcome to FDepartment</h2>
     <p class="text-center">A trustworthy place to manage <span class="text-primary">News</span> and <span class="text-primary">Posts</span></p>
-    <form>
+
+    @if (ViewData["LoginMessage"] != null)
+    {
+        <p class="text-danger text-center">@ViewData["LoginMessage"]</p>
+    }
+
+    <form asp-page="/Login" method="post">
         <div class="form-group">
             <label for="exampleInputEmail1">Email</label>
-            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" >
+            <input type="email" class="form-control" id="exampleInputEmail1" asp-for="@Model.UserLogin.Email" aria-describedby="emailHelp">
         </div>
         <div class="form-group">
             <label for="exampleInputPassword1">Password</label>
-            <input type="password" class="form-control" id="exampleInputPassword1" >
+            <input type="password" class="form-control" id="exampleInputPassword1" asp-for="@Model.UserLogin.Password">
         </div>
-        <button type="submit" class="btn btn-primary w-100 p-2">Continue</button>
+        <button type="submit" class="btn btn-primary w-100 p-2">Login</button>
     </form>
 </div>

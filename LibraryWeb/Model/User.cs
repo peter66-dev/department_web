@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 #nullable disable
 
@@ -21,9 +22,14 @@ namespace LibraryWeb.Model
         public Guid RoleId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+
+        [Required(ErrorMessage = "Password is required field!")]
         public string Password { get; set; }
         public string PhoneNumber { get; set; }
         public string Address { get; set; }
+
+        [Required(ErrorMessage = "Email is required field!")]
+        [EmailAddress]
         public string Email { get; set; }
         public bool Gender { get; set; }
         public string Username { get; set; }

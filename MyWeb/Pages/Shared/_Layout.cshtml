@@ -19,21 +19,27 @@
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
+
+                @* search form *@
                 <div class="navbar-collapse collapse d-md-inline-flex justify-content-between">
                     <div class="navbar-nav my-search-input">
-                        <input type="text" placeholder="Search..."/>
-                        <ion-icon name="search-outline" class="search-icon"/>
+                        <form asp-area="Posts" asp-page="Index" method="get" class="d-flex">
+                            <input type="text" name="SearchString" placeholder="Search..." />
+                            <button>
+                                <ion-icon name="search-outline" class="search-icon" />
+                            </button>
+                        </form>
                     </div>
-                    
-                    <ul class="navbar-nav float-right">
-                        <li class="nav-item mr-2">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Login">Log in</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="btn btn-outline-primary text-primary" asp-area="" asp-page="/Privacy">Create account</a>
-                        </li>
-                    </ul>
                 </div>
+
+                <ul class="navbar-nav float-right">
+                    <li class="nav-item mr-2">
+                        <a class="btn btn-outline-info nav-link text-dark" asp-area="" asp-page="/Login">Log in</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn btn-outline-primary text-primary" asp-area="" asp-page="/Privacy">Create account</a>
+                    </li>
+                </ul>
             </div>
         </nav>
     </header>
