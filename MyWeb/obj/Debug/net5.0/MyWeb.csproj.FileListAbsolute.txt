@@ -128,8 +128,6 @@ E:\Chuyen_nganh_7\PRN221\group\department_web\MyWeb\obj\Debug\net5.0\MyWeb.TagHe
 E:\Chuyen_nganh_7\PRN221\group\department_web\MyWeb\obj\Debug\net5.0\MyWeb.TagHelpers.output.cache
 E:\Chuyen_nganh_7\PRN221\group\department_web\MyWeb\obj\Debug\net5.0\MyWeb.RazorCoreGenerate.cache
 E:\Chuyen_nganh_7\PRN221\group\department_web\MyWeb\obj\Debug\net5.0\Razor\Pages\Error.cshtml.g.cs
-E:\Chuyen_nganh_7\PRN221\group\department_web\MyWeb\obj\Debug\net5.0\Razor\Pages\Index.cshtml.g.cs
-E:\Chuyen_nganh_7\PRN221\group\department_web\MyWeb\obj\Debug\net5.0\Razor\Pages\Privacy.cshtml.g.cs
 E:\Chuyen_nganh_7\PRN221\group\department_web\MyWeb\obj\Debug\net5.0\Razor\Pages\Shared\_Layout.cshtml.g.cs
 E:\Chuyen_nganh_7\PRN221\group\department_web\MyWeb\obj\Debug\net5.0\Razor\Pages\Shared\_ValidationScriptsPartial.cshtml.g.cs
 E:\Chuyen_nganh_7\PRN221\group\department_web\MyWeb\obj\Debug\net5.0\Razor\Pages\_ViewImports.cshtml.g.cs
@@ -298,3 +296,14 @@ E:\WorkingSet CODE\VisualStudio\Department Web\MyWeb\obj\Debug\net5.0\MyWeb.dll
 E:\WorkingSet CODE\VisualStudio\Department Web\MyWeb\obj\Debug\net5.0\ref\MyWeb.dll
 E:\WorkingSet CODE\VisualStudio\Department Web\MyWeb\obj\Debug\net5.0\MyWeb.pdb
 E:\WorkingSet CODE\VisualStudio\Department Web\MyWeb\obj\Debug\net5.0\MyWeb.genruntimeconfig.cache
+E:\Chuyen_nganh_7\PRN221\group\department_web\MyWeb\bin\Debug\net5.0\MyWeb.StaticWebAssets.xml
+E:\Chuyen_nganh_7\PRN221\group\department_web\MyWeb\obj\Debug\net5.0\Razor\Pages\Roles\Create.cshtml.g.cs
+E:\Chuyen_nganh_7\PRN221\group\department_web\MyWeb\obj\Debug\net5.0\Razor\Pages\Roles\Delete.cshtml.g.cs
+E:\Chuyen_nganh_7\PRN221\group\department_web\MyWeb\obj\Debug\net5.0\Razor\Pages\Roles\Details.cshtml.g.cs
+E:\Chuyen_nganh_7\PRN221\group\department_web\MyWeb\obj\Debug\net5.0\Razor\Pages\Roles\Edit.cshtml.g.cs
+E:\Chuyen_nganh_7\PRN221\group\department_web\MyWeb\obj\Debug\net5.0\Razor\Pages\Roles\Index.cshtml.g.cs
+E:\Chuyen_nganh_7\PRN221\group\department_web\MyWeb\obj\Debug\net5.0\Razor\Pages\Posts\Create.cshtml.g.cs
+E:\Chuyen_nganh_7\PRN221\group\department_web\MyWeb\obj\Debug\net5.0\Razor\Pages\Posts\Delete.cshtml.g.cs
+E:\Chuyen_nganh_7\PRN221\group\department_web\MyWeb\obj\Debug\net5.0\Razor\Pages\Posts\Details.cshtml.g.cs
+E:\Chuyen_nganh_7\PRN221\group\department_web\MyWeb\obj\Debug\net5.0\Razor\Pages\Posts\Edit.cshtml.g.cs
+E:\Chuyen_nganh_7\PRN221\group\department_web\MyWeb\obj\Debug\net5.0\Razor\Pages\Posts\Index.cshtml.g.cs

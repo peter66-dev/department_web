@@ -33,6 +33,10 @@ namespace MyWeb
             services.AddDbContext<department_dbContext>(
                 options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddMvc();
+            services.AddMvc().AddRazorPagesOptions(options =>
+            {
+                options.Conventions.AddPageRoute("/Posts/Index", "");
+            });
             services.Configure<RouteOptions>(r =>
             {
                 r.LowercaseUrls = true;

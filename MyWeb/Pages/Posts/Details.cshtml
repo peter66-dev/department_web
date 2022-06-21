@@ -1,0 +1,67 @@
+﻿@page
+@model MyWeb.Pages.Posts.DetailsModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Post</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Post.Title)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Post.Title)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Post.PostContent)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Post.PostContent)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Post.CreatedDate)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Post.CreatedDate)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Post.LastModified)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Post.LastModified)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Post.GroupPost)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Post.GroupPost.GroupDescription)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Post.PostType)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Post.PostType.PostTypeName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Post.StatusNavigation)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Post.StatusNavigation.StatusName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Post.UserPost)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Post.UserPost.Address)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-page="./Edit" asp-route-id="@Model.Post.PostId">Edit</a> |
+    <a asp-page="./Index">Back to List</a>
+</div>

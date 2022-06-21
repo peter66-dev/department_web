@@ -21,7 +21,8 @@ namespace LibraryWeb.Model
         public string PostContent { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime LastModified { get; set; }
-        public int Status { get; set; }
+        // Còn 1 field PublicStatus nữa!
+        public int Status { get; set; } // Status: 5 || 6
 
         public virtual Group GroupPost { get; set; }
         public virtual PostType PostType { get; set; }

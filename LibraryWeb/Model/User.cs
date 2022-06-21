@@ -28,7 +28,6 @@ namespace LibraryWeb.Model
         public bool Gender { get; set; }
         public string Username { get; set; }
         public string Avatar { get; set; }
-        public bool ActiveStatus { get; set; }
         public int Status { get; set; } // Status: 1 || 2 || 3 | 4
 
         public virtual Role Role { get; set; }

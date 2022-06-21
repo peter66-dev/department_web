@@ -1,0 +1,112 @@
+﻿@page
+@using LibraryWeb.DataAccess
+@using LibraryWeb.Model
+@using Microsoft.EntityFrameworkCore
+@model MyWeb.Pages.Posts.IndexModel
+
+@{
+    ViewData["Title"] = "Home page";
+}
+<link rel="stylesheet" href="~/css/Index.css" />
+
+<div class="my-index container-fluid">
+
+    <div class="left-content">
+        <p class="font-weight-bold mb-2">Menu</p>
+        <ul>
+            <a href="#">
+            <li class="d-flex align-items-center">
+                <div class="home-icon icon"></div>
+                Home
+            </li>
+            </a>
+            <a href="#">
+            <li class="d-flex align-items-center">
+                <div class="home-icon icon"></div>
+                Home
+            </li>
+            </a>
+            <a href="#">
+            <li class="d-flex align-items-center">
+                <div class="home-icon icon"></div>
+                Home
+            </li>
+            </a>
+
+
+
+        </ul>
+    </div>
+    <div class="mid-content">
+        <p class="font-weight-bold mb-2">Latest</p>
+        @foreach (Post p in @Model.Posts)
+        {
+
+            <div class="news news1">
+                <div class="owner">
+                    <img src="~/img/user.png" />
+                    <div class="infos">
+                        <p class="name">@p.UserPost.FirstName @p.UserPost.LastName</p>
+                        <p class="date">@p.CreatedDate</p>
+                    </div>
+                </div>
+                <div class="news-body">
+                    <div class="title">
+                        <h1>@p.Title</h1>
+                    </div>
+                    <div class="tags">
+                        <p class="tag">#chungcu</p>
+                        <p class="tag">#longdat</p>
+                        <p class="tag">#canho</p>
+                    </div>
+                    <div class="react">
+                        <div class="likes">
+                            <ion-icon name="thumbs-up-outline"></ion-icon>
+                            <p>@Model.PostLikes[p.PostId]</p>
+                        </div>
+                        <div class="comments">
+                            <ion-icon name="chatbox-ellipses-outline"></ion-icon>
+                            <p>@Model.PostComments[p.PostId]</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+
+    </div>
+    <div class="right-content">
+        <div class="hownews-top d-flex justify-content-between">
+            <p class="font-weight-bold mb-2">Hot News</p>
+            <a class="text-primary" href="/all">See all</a>
+        </div>
+        <div class="list-body">
+            <div class="hotn hotn1">
+                <h1 class="title">
+                    Thông báo cúp điện nguyên ngày!
+                </h1>
+                <p class="time">Jun 27</p>
+            </div>
+            <div class="hotn hotn2">
+                <h1 class="title">
+                    Sửa chửa hệ thống nước ngầm ở khu A
+                </h1>
+                <p class="time">Oct 2</p>
+            </div>
+            <div class="hotn hotn3">
+                <h1 class="title">
+                    Cập nhật giá xăng cộ
+                </h1>
+                <p class="time">Jun 27</p>
+            </div>
+            <div class="hotn hotn4">
+                <h1 class="title">
+                    Thông báo tìm trẻ lạc...
+                </h1>
+                <p class="time">May 15</p>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+@*<a asp-page="./Details" asp-route-id="@item.PostId">Details</a> |*@
