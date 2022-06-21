@@ -14,27 +14,12 @@
     <div class="left-content">
         <p class="font-weight-bold mb-2">Menu</p>
         <ul>
-            <a href="#">
+            <a asp-page="Index">
             <li class="d-flex align-items-center">
                 <div class="home-icon icon"></div>
                 Home
             </li>
             </a>
-            <a href="#">
-            <li class="d-flex align-items-center">
-                <div class="home-icon icon"></div>
-                Home
-            </li>
-            </a>
-            <a href="#">
-            <li class="d-flex align-items-center">
-                <div class="home-icon icon"></div>
-                Home
-            </li>
-            </a>
-
-
-
         </ul>
     </div>
     <div class="mid-content">
@@ -55,9 +40,10 @@
                         <h1>@p.Title</h1>
                     </div>
                     <div class="tags">
-                        <p class="tag">#chungcu</p>
-                        <p class="tag">#longdat</p>
-                        <p class="tag">#canho</p>
+                    @foreach (string tmp in p.GetTagsList(p.Tags))
+                    {
+                        <p class="tag">#@tmp</p>
+                    }
                     </div>
                     <div class="react">
                         <div class="likes">

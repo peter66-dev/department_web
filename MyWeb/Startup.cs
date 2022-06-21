@@ -1,4 +1,5 @@
 using LibraryWeb.DataAccess;
+using LibraryWeb.Repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -43,6 +44,18 @@ namespace MyWeb
             });
             services.AddSession();
             services.AddHttpContextAccessor();
+
+            services.AddTransient<ICommentRepository, CommentRepository>();
+            services.AddTransient<ICommentRepository, CommentRepository>();
+            services.AddTransient<IGroupRepository, GroupRepository>();
+            services.AddTransient<IGroupUserRepository, GroupUserRepository>();
+            services.AddTransient<ILikeRepository, LikeRepository>();
+            services.AddTransient<IPostRepository, PostRepository>();
+            services.AddTransient<IPostTypeRepository, PostTypeRepository>();
+            services.AddTransient<IRoleRepository, RoleRepository>();
+            services.AddTransient<IStatusRepository, StatusRepository>();
+            services.AddTransient<IUserRepository, UserRepository>();
+
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         }
 

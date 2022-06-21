@@ -9,6 +9,7 @@ namespace LibraryWeb.Model
     {
         public Group()
         {
+            GroupUsers = new HashSet<GroupUser>();
             Posts = new HashSet<Post>();
         }
 
@@ -22,6 +23,7 @@ namespace LibraryWeb.Model
 
         public virtual Status StatusNavigation { get; set; }
         public virtual User User { get; set; }
+        public virtual ICollection<GroupUser> GroupUsers { get; set; }
         public virtual ICollection<Post> Posts { get; set; }
     }
 }

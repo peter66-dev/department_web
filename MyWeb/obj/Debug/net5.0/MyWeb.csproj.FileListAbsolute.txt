@@ -307,3 +307,4 @@ E:\Chuyen_nganh_7\PRN221\group\department_web\MyWeb\obj\Debug\net5.0\Razor\Pages
 E:\Chuyen_nganh_7\PRN221\group\department_web\MyWeb\obj\Debug\net5.0\Razor\Pages\Posts\Details.cshtml.g.cs
 E:\Chuyen_nganh_7\PRN221\group\department_web\MyWeb\obj\Debug\net5.0\Razor\Pages\Posts\Edit.cshtml.g.cs
 E:\Chuyen_nganh_7\PRN221\group\department_web\MyWeb\obj\Debug\net5.0\Razor\Pages\Posts\Index.cshtml.g.cs
+E:\Chuyen_nganh_7\PRN221\group\department_web\MyWeb\obj\Debug\net5.0\Razor\Pages\Login.cshtml.g.cs

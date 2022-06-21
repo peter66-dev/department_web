@@ -58,7 +58,7 @@ namespace LibraryWeb.DataAccess
                     .WithMany(p => p.Comments)
                     .HasForeignKey(d => d.PostId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_tblComment_tblPost");
+                    .HasConstraintName("FK_Comments_Posts");
 
                 entity.HasOne(d => d.StatusNavigation)
                     .WithMany(p => p.Comments)
@@ -90,7 +90,7 @@ namespace LibraryWeb.DataAccess
                     .WithMany(p => p.CommentReplies)
                     .HasForeignKey(d => d.CommentId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_tblCommentReply_tblComment");
+                    .HasConstraintName("FK_CommentReplies_Comments");
 
                 entity.HasOne(d => d.StatusNavigation)
                     .WithMany(p => p.CommentReplies)
@@ -112,9 +112,7 @@ namespace LibraryWeb.DataAccess
 
                 entity.Property(e => e.CreatedDate).HasColumnType("datetime");
 
-                entity.Property(e => e.GroupDescription)
-                    .IsRequired()
-                    .HasMaxLength(100);
+                entity.Property(e => e.GroupDescription).IsRequired();
 
                 entity.Property(e => e.GroupName)
                     .IsRequired()
@@ -144,6 +142,12 @@ namespace LibraryWeb.DataAccess
 
                 entity.Property(e => e.UserId).HasColumnName("UserID");
 
+                entity.HasOne(d => d.Group)
+                    .WithMany(p => p.GroupUsers)
+                    .HasForeignKey(d => d.GroupId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_GroupUsers_Groups");
+
                 entity.HasOne(d => d.StatusNavigation)
                     .WithMany(p => p.GroupUsers)
                     .HasForeignKey(d => d.Status)
@@ -170,7 +174,7 @@ namespace LibraryWeb.DataAccess
                     .WithMany(p => p.Likes)
                     .HasForeignKey(d => d.PostId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_tblLike_tblPost");
+                    .HasConstraintName("FK_Likes_Posts");
 
                 entity.HasOne(d => d.StatusNavigation)
                     .WithMany(p => p.Likes)
@@ -200,6 +204,10 @@ namespace LibraryWeb.DataAccess
 
                 entity.Property(e => e.PostTypeId).HasColumnName("PostTypeID");
 
+                entity.Property(e => e.Tags)
+                    .IsRequired()
+                    .HasMaxLength(100);
+
                 entity.Property(e => e.Title)
                     .IsRequired()
                     .HasMaxLength(200);
@@ -218,8 +226,14 @@ namespace LibraryWeb.DataAccess
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_tblPost_tblPostType");
 
+                entity.HasOne(d => d.PublicStatusNavigation)
+                    .WithMany(p => p.PostPublicStatusNavigations)
+                    .HasForeignKey(d => d.PublicStatus)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Posts_Status");
+
                 entity.HasOne(d => d.StatusNavigation)
-                    .WithMany(p => p.Posts)
+                    .WithMany(p => p.PostStatusNavigations)
                     .HasForeignKey(d => d.Status)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_tblPost_tblStatus");

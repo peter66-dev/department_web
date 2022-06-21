@@ -14,7 +14,7 @@
     <header>
         <nav class="navbar navbar-expand-md navbar-toggleable-md navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid my-container">
-                <a class="navbar-brand font-weight-bold" asp-area="" asp-page="/Index">FDpartment</a>
+                <a class="navbar-brand font-weight-bold" asp-area="Posts" asp-page="/Index">FDpartment</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -22,7 +22,7 @@
                 <div class="navbar-collapse collapse d-md-inline-flex justify-content-between">
                     <div class="navbar-nav my-search-input">
                         <input type="text" placeholder="Search..."/>
-                        <ion-icon name="search-outline" class="search-icon"></ion-icon>
+                        <ion-icon name="search-outline" class="search-icon"/>
                     </div>
                     
                     <ul class="navbar-nav float-right">
@@ -42,12 +42,6 @@
             @RenderBody()
         </main>
     </div>
-
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2022 - F.Department - <a asp-area="" asp-page="/Privacy">Privacy</a>
-        </div>
-    </footer>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

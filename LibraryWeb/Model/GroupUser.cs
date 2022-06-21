@@ -11,6 +11,7 @@ namespace LibraryWeb.Model
         public Guid GroupId { get; set; }
         public int Status { get; set; } // Status: 1 || 2 || 3 || 4
 
+        public virtual Group Group { get; set; }
         public virtual Status StatusNavigation { get; set; }
         public virtual User User { get; set; }
     }

@@ -26,7 +26,8 @@ namespace MyWeb.Pages.Posts
 
         public async Task OnGetAsync()
         {
-            Posts = await context.Posts.OrderBy(p => p.CreatedDate).Reverse()
+            Posts = await context.Posts.Where(p => p.PublicStatus == 5)
+                                    .OrderBy(p => p.CreatedDate).Reverse()
                                     .Include(p => p.GroupPost)
                                     .Include(p => p.PostType)
                                     .Include(p => p.StatusNavigation)
