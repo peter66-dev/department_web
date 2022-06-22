@@ -6,13 +6,16 @@
     <title>@ViewData["Title"] - F.Department</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/PostDetail.css" />
+    <link rel="stylesheet" href="~/css/Index.css" />
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Style+Script&family=Work+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-md navbar-toggleable-md navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-md navbar-toggleable-md navbar-light bg-white border-bottom box-shadow mb-3 fixed-top">
             <div class="container-fluid my-container">
                 <a class="navbar-brand font-weight-bold" asp-area="" asp-page="/Index">FDpartment</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -21,16 +24,20 @@
                 </button>
                 <div class="navbar-collapse collapse d-md-inline-flex justify-content-between">
                     <div class="navbar-nav my-search-input">
-                        <input type="text" placeholder="Search..."/>
-                        <ion-icon name="search-outline" class="search-icon"></ion-icon>
+                        <form class="d-flex">
+                            <input type="text" placeholder="Search..." />
+                            <button >
+                                <ion-icon name="search-outline" class="search-icon"></ion-icon>
+                            </button>
+                        </form>
                     </div>
-                    
+
                     <ul class="navbar-nav float-right">
-                        <li class="nav-item mr-2">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Login">Log in</a>
+                        <li class="nav-item mr-2 btn-login">
+                            <a class="nav-link " asp-area="" asp-page="/Login">Log in</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="btn btn-outline-primary text-primary" asp-area="" asp-page="/Privacy">Create account</a>
+                        <li class="nav-item btn-register">
+                            <a class="nav-link " asp-area="" asp-page="/Privacy">Create account</a>
                         </li>
                     </ul>
                 </div>
@@ -38,7 +45,7 @@
         </nav>
     </header>
     <div class="my-container container-fluid mb-5">
-        <main role="main" class="pb-3">
+        <main role="main" class="pb-3 my-body">
             @RenderBody()
         </main>
     </div>

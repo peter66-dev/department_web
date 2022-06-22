@@ -3,6 +3,10 @@
     padding: 0;
 }
 
+    *:focus {
+        outline: 0 !important;
+    }
+
 .my-login-container {
     border-radius: 5px;
     padding: 40px;

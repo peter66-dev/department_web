@@ -51,7 +51,9 @@ table {
 
 /*my style*/
 
-
+*:focus {
+    outline: 0 !important;
+}
 /*  **************************** Home page navigation ***************************  */
 
 
@@ -70,6 +72,38 @@ table {
     width: 20px;
     height: 20px;
     background-image: url('../img/house.png');
+    background-position: center;
+    background-size: cover;
+}
+
+.group-icon {
+    width: 20px;
+    height: 20px;
+    background-image: url('../img/people.png');
+    background-position: center;
+    background-size: cover;
+}
+
+.anounce-manage-icon {
+    width: 20px;
+    height: 20px;
+    background-image: url('../img/anouncement.png');
+    background-position: center;
+    background-size: cover;
+}
+
+.user-manage-icon {
+    width: 20px;
+    height: 20px;
+    background-image: url('../img/team.png');
+    background-position: center;
+    background-size: cover;
+}
+
+.post-manage-icon {
+    width: 20px;
+    height: 20px;
+    background-image: url('../img/post.png');
     background-position: center;
     background-size: cover;
 }
@@ -118,15 +152,21 @@ table {
         font-size: 30px;
         font-weight: 700;
         cursor: pointer;
+        
     }
+        .news-body .title a {
+            color: #000;
+            text-decoration: none;
+        }
 
-        .news-body .title:hover {
+        .news-body .title a:hover {
             color: #150ec9;
         }
 
     .news-body .tags {
         margin-top: 15px;
         display: flex;
+        flex-wrap: wrap;
         gap: 10px;
         cursor: pointer;
         padding: 2px;
@@ -150,12 +190,20 @@ table {
     }
 
         .news-body .react .likes,
-        .news-body .react .comments {
+        .news-body .react .comments,
+        .news-body .react .views {
             display: flex;
             gap: 5px;
             cursor: pointer;
             padding: 10px;
         }
+
+            .news-body .react .likes button,
+            .news-body .react .comments button,
+            .news-body .react .views button {
+                border: none;
+                background-color: transparent;
+            }
 
             .news-body .react .likes:hover,
             .news-body .react .comments:hover {
@@ -187,11 +235,26 @@ table {
     cursor: pointer;
 }
 
-/* =============== right content ================== */
-.right-content {
-    width: 25%;
-    
+.news .infos .flex-text {
+    display: flex;
+    gap: 5px;
 }
+
+.news .infos .flex-textt {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+}
+
+    .news .infos .flex-textt img{
+        width: 18px;
+        height: 18px;
+        cursor: unset;
+    }
+    /* =============== right content ================== */
+    .right-content {
+        width: 25%;
+    }
 
 .list-body {
     background-color: #fff;

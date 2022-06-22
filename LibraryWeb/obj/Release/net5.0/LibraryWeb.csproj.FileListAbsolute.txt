@@ -1,0 +1,14 @@
+D:\department_web\LibraryWeb\bin\Release\net5.0\LibraryWeb.deps.json
+D:\department_web\LibraryWeb\bin\Release\net5.0\LibraryWeb.runtimeconfig.json
+D:\department_web\LibraryWeb\bin\Release\net5.0\LibraryWeb.runtimeconfig.dev.json
+D:\department_web\LibraryWeb\bin\Release\net5.0\LibraryWeb.dll
+D:\department_web\LibraryWeb\bin\Release\net5.0\ref\LibraryWeb.dll
+D:\department_web\LibraryWeb\bin\Release\net5.0\LibraryWeb.pdb
+D:\department_web\LibraryWeb\obj\Release\net5.0\LibraryWeb.GeneratedMSBuildEditorConfig.editorconfig
+D:\department_web\LibraryWeb\obj\Release\net5.0\LibraryWeb.AssemblyInfoInputs.cache
+D:\department_web\LibraryWeb\obj\Release\net5.0\LibraryWeb.AssemblyInfo.cs
+D:\department_web\LibraryWeb\obj\Release\net5.0\LibraryWeb.csproj.CoreCompileInputs.cache
+D:\department_web\LibraryWeb\obj\Release\net5.0\LibraryWeb.dll
+D:\department_web\LibraryWeb\obj\Release\net5.0\ref\LibraryWeb.dll
+D:\department_web\LibraryWeb\obj\Release\net5.0\LibraryWeb.pdb
+D:\department_web\LibraryWeb\obj\Release\net5.0\LibraryWeb.genruntimeconfig.cache

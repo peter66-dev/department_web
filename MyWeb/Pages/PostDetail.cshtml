@@ -1,0 +1,211 @@
+﻿@page
+@model MyWeb.Pages.PostDetailModel
+@{
+    ViewData["Title"] = "Detail";
+}
+
+<link rel="stylesheet" href="~/css/PostDetail.css" />
+@*<script src="https://cdn.tiny.cloud/1/pyapdqq1dyb1bd234vpnlt6ssc4x4i0ii786ea6y1tz9wypw/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+    <script>tinymce.init({ selector: 'textarea' });</script>*@
+
+<div class="container-fluid my-detail-container">
+    <div class="react-container ">
+        <div class="react-item">
+            <button class="like-btn" onclick="toggleClass()">
+                <ion-icon class="icon like-icon" name="heart-outline"></ion-icon>
+                <img class="heart-icon" src="~/img/heart.png"/>
+            </button>
+            <p class="like-amount">20</p>
+        </div>
+        <div class="react-item">
+            <ion-icon class="icon mb-3" name="eye-outline"></ion-icon>
+            <p class="view-amount">20</p>
+
+        </div>
+    </div>
+    <div class="main-detail-container">
+        <div class="owner">
+            <img src="~/img/user.png" />
+            <div class="infos">
+                <a href="/" class="name text-decoration-none">Phan Minh Nhut</a>
+                <p class="date">Jun 20 6:43 PM</p>
+            </div>
+        </div>
+        <div class="posts-body">
+            <div class="title">
+                <h1>Bản tin thông báo cho khu B nhà dưới lòng đất.</h1>
+            </div>
+            <div class="tags">
+                <p class="tag">#chungcu</p>
+                <p class="tag">#longdat</p>
+                <p class="tag">#canho</p>
+                <p class="tag">#canho</p>
+                <p class="tag">#canho</p>
+            </div>
+            <div class="post-content">
+                <p>I grew up listening to this music and although I am only 15 years old I must say that I love this music as you cannot imagine, I really love it, when I have children I will show them how fabulous these songs are! Greetings from Venezuela!! thanks for the beautiful songsI grew up listening to this music and although I am only 15 years old I must say that I love this music as you cannot imagine, I really love it, when I have children I will show them how fabulous these songs are! Greetings from Venezuela!! thanks for the beautiful songsI grew up listening to this music and although I am only 15 years old I must say that I love this music as you cannot imagine, I really love it, when I have children I will show them how fabulous these songs are! Greetings from Venezuela!! thanks for the beautiful songsI grew up listening to this music and although I am only 15 years old I must say that I love this music as you cannot imagine, I really love it, when I have children I will show them how fabulous these songs are! Greetings from Venezuela!! thanks for the beautiful songsI grew up listening to this music and although I am only 15 years old I must say that I love this music as you cannot imagine, I really love it, when I have children I will show them how fabulous these songs are! Greetings from Venezuela!! thanks for the beautiful songsI grew up listening to this music and although I am only 15 years old I must say that I love this music as you cannot imagine, I really love it, when I have children I will show them how fabulous these songs are! Greetings from Venezuela!! thanks for the beautiful songsI grew up listening to this music and although I am only 15 years old I must say that I love this music as you cannot imagine, I really love it, when I have children I will show them how fabulous these songs are! Greetings from Venezuela!! thanks for the beautiful songsI grew up listening to this music and although I am only 15 years old I must say that I love this music as you cannot imagine, I really love it, when I have children I will show them how fabulous these songs are! Greetings from Venezuela!! thanks for the beautiful songsI grew up listening to this music and although I am only 15 years old I must say that I love this music as you cannot imagine, I really love it, when I have children I will show them how fabulous these songs are! Greetings from Venezuela!! thanks for the beautiful songsI grew up listening to this music and although I am only 15 years old I must say that I love this music as you cannot imagine, I really love it, when I have children I will show them how fabulous these songs are! Greetings from Venezuela!! thanks for the beautiful songsI grew up listening to this music and although I am only 15 years old I must say that I love this music as you cannot imagine, I really love it, when I have children I will show them how fabulous these songs are! Greetings from Venezuela!! thanks for the beautiful songsI grew up listening to this music and although I am only 15 years old I must say that I love this music as you cannot imagine, I really love it, when I have children I will show them how fabulous these songs are! Greetings from Venezuela!! thanks for the beautiful songs.</p>
+            </div>
+        </div>
+        <hr />
+        <div class="discussion">
+            <div class="discussion-top">
+                <p>Bình luận <span class="discuss-amount">(50)</span></p>
+            </div>
+            <div class="discussion-bottom">
+                <img src="~/img/user.png" />
+                <form>
+                    <textarea placeholder="Add comment..."
+                              class="comment-textarea"
+                              onfocus="handleFocus()"
+                              oninput="handleInput()"></textarea>
+                    <div class="comment-btn-group">
+                        <button class="submit-btn" disabled>
+                            Submit
+                        </button>
+                    </div>
+                </form>
+
+
+            </div>
+            @* comments   *@
+            <div class="comments">
+                <div class="comment-root">
+                    <div class="content">
+                        <img src="~/img/user.png" />
+                        <div>
+                            <div class="comment">
+                                <div class="d-flex align-items-center">
+                                    <div class="user">
+                                        <a href="/" class="cmt-user text-decoration-none">Phan Minh Nhut</a>
+                                    </div>
+                                    <p class="cmt-time ml-2 ">Jun 27</p>
+                                </div>
+
+                                <div>
+                                    The real-time web is a network web using technologies and practices that enable users to receive information as soon as it is published by its authors, rather than requiring that they or their software check a source periodically for updates.
+                                </div>
+                            </div>
+                            <div class="rep-btn">
+                                <button class="repBtn" onclick="handleRep()">
+                                    <ion-icon name="chatbubbles-outline"></ion-icon>
+                                    Reply
+                                </button>
+                                <form id="rep-form">
+                                    <textarea placeholder="Reply..."
+                                              class="rep-comment-textarea"
+                                              oninput="handleInput()"></textarea>
+                                    <div class="rep-comment-btn-group">
+                                        <button class="submit-rep-btn" disabled>
+                                            Submit
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+
+
+                            <div class="comment-rep">
+                                <div class="content">
+                                    <img src="~/img/user.png" />
+                                    <div>
+                                        <div class="comment">
+                                            <div class="d-flex align-items-center">
+                                                <div class="user">
+                                                    <a href="/" class="cmt-user text-decoration-none">Phan Minh Nhut</a>
+                                                </div>
+                                                <p class="cmt-time ml-2 ">Jun 27</p>
+                                            </div>
+
+                                            <div>
+                                                The real-time web receive information as hancheck a source periodically for updates.
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    <div class="owner-info-container">
+        <div class="owner">
+            <img src="~/img/user.png" />
+            <div class="infos">
+                <a href="/" class="name text-decoration-none">Phan Minh Nhut</a>
+            </div>
+        </div>
+        <div class="info">
+            <p class="info-title text-uppercase">location</p>
+            <p>Tòa nhà B, Block 17</p>
+        </div>
+        <div class="info">
+            <p class="info-title text-uppercase">role</p>
+            <p>Chủ hộ</p>
+        </div>
+        <div class="info">
+            <p class="info-title text-uppercase">joined</p>
+            <p>2018</p>
+        </div>
+    </div>
+</div>
+
+<script>
+    const likeBtn = document.querySelector('.like-btn');
+    const likeImg = document.querySelector('.heart-icon');
+    const likeIcon = document.querySelector('.like-icon');
+
+    const commentGroup = document.querySelector('.comment-btn-group');
+    const commentTextArea = document.querySelector('.comment-textarea');
+    const commentSubmitBtn = document.querySelector('.submit-btn');
+    const repForm = document.querySelector('#rep-form');
+    const repTextArea = document.querySelector('.rep-comment-textarea');
+    const repBtn = document.querySelector('.submit-rep-btn');
+    const repBtnn = document.querySelector('.repBtn');
+
+    function toggleClass() {
+        if (likeBtn.classList.contains('liked')) {
+            likeBtn.classList.remove('liked');
+            likeImg.style.display = 'none';
+            likeIcon.style.display = 'block';
+        } else {
+            likeBtn.classList.add('liked');
+            likeImg.style.display = 'block';
+            likeIcon.style.display = 'none';
+        }
+    }
+
+    function handleFocus() {
+        commentGroup.style.display = 'block';
+        commentTextArea.style.height = '128px';
+        commentTextArea.style.border = '2px solid #150ec9';
+    }
+
+    function handleInput() {
+        if (commentTextArea.value.toString().trim() == "") {
+            commentSubmitBtn.setAttribute('disabled', '')
+            commentSubmitBtn.classList.remove('allowed')
+        } else {
+            commentSubmitBtn.classList.add('allowed')
+            commentSubmitBtn.removeAttribute('disabled')
+        }
+
+        if (repTextArea.value.toString().trim() == "") {
+            repBtn.setAttribute('disabled', '')
+            repBtn.classList.remove('allowed')
+        } else {
+            repBtn.classList.add('allowed')
+            repBtn.removeAttribute('disabled')
+        }
+    }
+
+    function handleRep() {
+        repForm.style.display = 'block';
+        repBtnn.style.display = 'none';
+    }
+</script>

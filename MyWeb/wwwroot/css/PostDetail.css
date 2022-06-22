@@ -1,0 +1,349 @@
+﻿* {
+    margin: 0;
+    padding: 0;
+}
+
+    *:focus {
+        outline: 0 !important;
+    }
+
+.my-detail-container {
+    gap: 15px;
+    display: flex;
+}
+
+/* ============== left ===============*/
+
+.react-container {
+    width: 5%;
+    margin-top: 5%;
+    position: sticky;
+    top: 20%;
+    align-self: start;
+}
+
+.react-item {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+    .react-item .icon {
+        font-size: 25px;
+        margin-bottom: 3px;
+    }
+
+.like-btn, .more-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: none;
+    outline: none;
+    margin-bottom: 5px;
+}
+
+.liked {
+    background-color: #fddede;
+    border: 3px solid red !important;
+    color: red;
+}
+
+.like-btn:hover {
+    background-color: #fddede;
+}
+
+    .like-btn:hover .icon {
+        color: #dc2626;
+    }
+
+.more-btn:hover {
+    background-color: #e0dede;
+}
+
+.heart-icon{
+    display: none;
+    width: 20px;
+}
+/* ============== mid ===============*/
+.main-detail-container {
+    width: 70%;
+    background-color: #fff;
+    box-shadow: 0 0 0 1px rgba(23, 23, 23, 0.1);
+    border-radius: 5px;
+    padding: 25px 60px;
+    margin-bottom: 20px;
+}
+
+    .main-detail-container img {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        cursor: pointer;
+    }
+
+    .main-detail-container .owner {
+        display: flex;
+        gap: 15px;
+    }
+
+        .main-detail-container .owner .infos .name {
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: black;
+        }
+
+            .main-detail-container .owner .infos .name:hover {
+                color: #150ec9;
+            }
+
+        .main-detail-container .owner .infos .date {
+            font-size: 14px;
+            color: #888;
+        }
+
+    .main-detail-container .posts-body .title {
+        font-size: 40px;
+        font-weight: 900;
+        margin-top: 20px;
+        margin-bottom: 10px;
+        line-height: 1.2;
+    }
+
+    .main-detail-container .tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        cursor: pointer;
+        padding: 2px;
+    }
+
+        .main-detail-container .tags .tag {
+            padding: 5px;
+            border: 1px solid #fff;
+        }
+
+            .main-detail-container .tags .tag:hover {
+                border-radius: 5px;
+                background-color: #e4e3e3;
+                border: 1px solid #999;
+            }
+
+    .main-detail-container .post-content {
+        margin-top: 20px;
+        font-size: 20px;
+        line-height: 1.4;
+    }
+
+    .main-detail-container .discussion {
+        margin-top: 50px;
+    }
+
+        .main-detail-container .discussion .discussion-top {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .main-detail-container .discussion .discussion-bottom {
+            display: flex;
+            gap: 10px;
+        }
+
+            .main-detail-container .discussion .discussion-bottom form {
+                width: 100%;
+            }
+
+            .main-detail-container .discussion .discussion-bottom .comment-textarea {
+                height: 60px;
+                width: 100%;
+                border-radius: 5px;
+                border: 1px solid #e3e3e3;
+                padding: 10px;
+                transition: 0.2s;
+            }
+
+            /*.main-detail-container .discussion .discussion-bottom .comment-textarea:focus {
+                    height: 128px;
+                    border: 2px solid #150ec9;
+                }*/
+
+            .main-detail-container .discussion .discussion-bottom .comment-btn-group {
+                margin-top: 10px;
+                display: none;
+            }
+
+                .main-detail-container .discussion .discussion-bottom .comment-btn-group button {
+                    border: none;
+                    padding: 10px;
+                    background-color: #8992ec;
+                    border-radius: 5px;
+                    cursor: not-allowed;
+                    color: aliceblue;
+                    font-weight: 600;
+                }
+
+                .main-detail-container .discussion .discussion-bottom .comment-btn-group .allowed {
+                    background-color: #4753d7 !important;
+                    cursor: pointer !important;
+                }
+
+                    .main-detail-container .discussion .discussion-bottom .comment-btn-group .allowed:hover {
+                        background-color: #2f3ab2 !important;
+                        cursor: pointer !important;
+                    }
+
+        /* comments*/
+        .main-detail-container .discussion .comments {
+            margin-top: 20px;
+        }
+
+            .main-detail-container .discussion .comments .comment-root .content {
+                display: flex;
+                gap: 10px;
+            }
+
+        .main-detail-container .discussion .comment {
+            padding: 13px;
+            border-radius: 5px;
+            background-color: #fff;
+            border: 1px solid #e3e3e3;
+            line-height: 1.2;
+            font-size: 18px;
+        }
+
+            .main-detail-container .discussion .comment .cmt-time {
+                font-size: 14px;
+                color: #545454;
+                font-weight: 600;
+            }
+
+        .main-detail-container .discussion .comments .comment .user {
+            padding: 5px 4px;
+            background-color: transparent;
+            width: fit-content;
+            border-radius: 5px;
+        }
+
+            .main-detail-container .discussion .comments .comment .user:hover {
+                background-color: #ebeaea;
+            }
+
+        .main-detail-container .discussion .comments .comment .cmt-user {
+            color: #000;
+            font-weight: 600;
+        }
+
+        .main-detail-container .discussion .comments .rep-btn {
+            margin-top: 5px;
+        }
+
+            .main-detail-container .discussion .comments .rep-btn .repBtn {
+                border: none;
+                padding: 5px 3px;
+                border-radius: 5px;
+                font-size: 15px;
+                background-color: transparent;
+            }
+
+            .main-detail-container .discussion .comments .rep-btn .repBtn:hover {
+                background-color: #ebeaea;
+            }
+
+
+        .main-detail-container .discussion .comment-rep  {
+            margin-top: 15px;
+        }
+
+        .main-detail-container .discussion .comment-rep .content {
+            display: flex;
+            gap: 10px;
+        }
+
+        /* rep form */
+        .main-detail-container .discussion .comments #rep-form{
+            display: none;
+            width: 100%;
+        }
+
+            .main-detail-container .discussion .comments #rep-form textarea {
+                width: 100%;
+                height: 128px;
+                width: 100%;
+                border-radius: 5px;
+                border: 2px solid #150ec9;
+                padding: 10px;
+                transition: 0.2s;
+            }
+
+        .main-detail-container .discussion .comments .rep-comment-btn-group {
+            margin-top: 10px;
+        }
+
+        .main-detail-container .discussion .comments .rep-comment-btn-group button {
+            border: none;
+            padding: 10px;
+            background-color: #8992ec;
+            border-radius: 5px;
+            cursor: not-allowed;
+            color: aliceblue;
+            font-weight: 600;
+        }
+
+            .main-detail-container .discussion .comments .rep-comment-btn-group .allowed {
+                background-color: #4753d7 !important;
+                cursor: pointer !important;
+            }
+
+        .main-detail-container .discussion .comments .rep-comment-btn-group .allowed:hover {
+            background-color: #2f3ab2 !important;
+            cursor: pointer !important;
+        }
+        /* ============== right ===============*/
+        .owner-info-container {
+            width: 25%;
+            background-color: #fff;
+            box-shadow: 0 0 0 1px rgba(23, 23, 23, 0.1);
+            border-radius: 5px;
+            padding: 20px;
+            position: sticky;
+            top: 10.3%;
+            align-self: start;
+        }
+
+    .owner-info-container .owner img {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        cursor: pointer;
+    }
+
+    .owner-info-container .owner {
+        display: flex;
+        gap: 15px;
+    }
+
+        .owner-info-container .owner .infos .name {
+            font-size: 18px;
+            font-weight: 600;
+            color: black;
+        }
+
+            .owner-info-container .owner .infos .name:hover {
+                color: #150ec9;
+            }
+
+    .owner-info-container .info {
+        margin-top: 20px;
+    }
+
+        .owner-info-container .info .info-title {
+            font-weight: 600;
+            font-size: 13px;
+            margin-bottom: 5px;
+        }

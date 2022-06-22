@@ -299,3 +299,4 @@ D:\department_web\MyWeb\obj\Debug\net5.0\ref\MyWeb.dll
 D:\department_web\MyWeb\obj\Debug\net5.0\MyWeb.pdb
 D:\department_web\MyWeb\obj\Debug\net5.0\MyWeb.genruntimeconfig.cache
 D:\department_web\MyWeb\obj\Debug\net5.0\Razor\Pages\Login.cshtml.g.cs
+D:\department_web\MyWeb\obj\Debug\net5.0\Razor\Pages\PostDetail.cshtml.g.cs
