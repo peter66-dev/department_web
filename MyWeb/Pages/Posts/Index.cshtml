@@ -2,6 +2,8 @@
 @using LibraryWeb.DataAccess
 @using LibraryWeb.Model
 @using Microsoft.EntityFrameworkCore
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor Accessor
 @model MyWeb.Pages.Posts.IndexModel
 
 @{
@@ -13,14 +15,79 @@
 
     <div class="left-content">
         <p class="font-weight-bold mb-2">Menu</p>
-        <ul>
+        <ul class="mb-3">
             <a asp-page="Index">
             <li class="d-flex align-items-center">
                 <div class="home-icon icon"></div>
                 Home
             </li>
             </a>
+
+            @if (Accessor.HttpContext.Session.GetString("ROLE") != null && Accessor.HttpContext.Session.GetString("ROLE").Equals("ADMIN"))
+            {
+                <a asp-page="Index">
+                <li class="d-flex align-items-center">
+                    <div class="anounce-manage-icon icon"></div>
+                    Create Anouncement
+                </li>
+                </a>
+                <a asp-page="Index">
+                <li class="d-flex align-items-center">
+                    <div class="user-manage-icon icon"></div>
+                    User Managament
+                </li>
+                </a>
+            }
+
+            @if (Accessor.HttpContext.Session.GetString("ROLE") != null && Accessor.HttpContext.Session.GetString("ROLE").Equals("MANAGER"))
+            {
+                <a asp-page="Index">
+                <li class="d-flex align-items-center">
+                    <div class="post-manage-icon icon"></div>
+                    Create Post
+                </li>
+                </a>
+            }
         </ul>
+
+        @if (Accessor.HttpContext.Session.GetString("ROLE") != null && Accessor.HttpContext.Session.GetString("ROLE").Equals("MANAGER"))
+        {
+            <p class="font-weight-bold mb-2 mt-2">Groups</p>
+            @if (@Model.Groups.Count > 0)
+            {
+                @foreach (Group group in @Model.Groups)
+                {
+                    <ul class="mb-3">
+                        <a asp-page="Index">
+                        <li class="d-flex align-items-center">
+                            <div class="group-icon icon"></div>
+                                @group.GroupName
+                        </li>
+                        </a>
+                    </ul>
+                }
+            }
+        }
+        else if (Accessor.HttpContext.Session.GetString("ROLE") != null && Accessor.HttpContext.Session.GetString("ROLE").Equals("RESIDENT"))
+        {
+            <p class="font-weight-bold mb-2 mt-2">Groups</p>
+            @if (@Model.GroupUsers.Count > 0)
+            {
+                Console.WriteLine("Toi la resident 2");
+                @foreach (GroupUser group in @Model.GroupUsers)
+                {
+                    <ul class="mb-3">
+                        <a asp-page="Index">
+                        <li class="d-flex align-items-center">
+                            <div class="group-icon icon"></div>
+                                @group.Group.GroupName
+                        </li>
+                        </a>
+                    </ul>
+                }
+            }
+        }
+
     </div>
     <div class="mid-content">
         <p class="font-weight-bold mb-2">Latest</p>
@@ -35,28 +102,50 @@
                 <div class="owner">
                     <img src="~/img/user.png" />
                     <div class="infos">
-                        <p class="name">@p.UserPost.FirstName @p.UserPost.LastName</p>
-                        <p class="date">@p.CreatedDate.ToString("MM/dd/yyyy h:mm tt")</p>
+                        <div class="flex-text">
+                            <p class="name">@p.UserPost.FirstName @p.UserPost.LastName</p>
+                            <ion-icon name="caret-forward-outline"></ion-icon>
+                            <p class="name">@p.GroupPost.GroupName</p>
+                        </div>
+                        <div class="flex-textt">
+                            <p class="date">@p.CreatedDate.ToString("dd/MM/yyyy h:mm tt")</p>
+                            @if (@p.GroupPost.PublicStatus == 6 && @p.Status != 7 && !@p.PostType.PostTypeName.Equals("Announcement"))
+                            {
+                                <img src="~/img/group.png" />
+                            }
+                            else
+                            {
+                                <img src="~/img/earth.png" />
+                            }
+                        </div>
                     </div>
                 </div>
                 <div class="news-body">
                     <div class="title">
-                        <h1>@p.Title</h1>
+                        <a class="text-decoration-none" asp-page="./Details" asp-route-id="@p.PostId">@p.Title</a>
                     </div>
                     <div class="tags">
-                        @foreach (string tmp in p.GetTagsList(p.Tags))
+                        @foreach (string tmp in p.GetTagsList())
                         {
                             <a class="tag text-dark text-decoration-none" asp-route-searchTag="@tmp">#@tmp</a>
                         }
                     </div>
                     <div class="react">
                         <div class="likes">
-                            <ion-icon name="thumbs-up-outline"></ion-icon>
-                            <p>@Model.PostLikes[p.PostId]</p>
+                            <button>
+                                <ion-icon name="heart-outline"></ion-icon>
+                            </button>
+                            <p>@p.LikesTotal</p>
                         </div>
                         <div class="comments">
-                            <ion-icon name="chatbox-ellipses-outline"></ion-icon>
-                            <p>@Model.PostComments[p.PostId]</p>
+                            <button>
+                                <ion-icon name="chatbubble-outline"></ion-icon>
+                            </button>
+                            <p>@p.CommentsTotal</p>
+                        </div>
+                        <div class="views">
+                            <ion-icon name="eye-outline"></ion-icon>
+                            <p>20</p>
                         </div>
                     </div>
                 </div>
@@ -71,18 +160,15 @@
         <div class="list-body">
             @foreach (Post post in @Model.HotNews)
             {
-               <div class="hotn hotn1">
-                <h1 class="title">
-                    @post.Title
-                </h1>
-                <p class="time">@post.CreatedDate.ToString("dd/MM/yyyy h:mm tt")</p>
-            </div> 
+                <div class="hotn hotn1">
+                    <h1 class="title">
+                        @post.Title
+                    </h1>
+                    <p class="time">@post.CreatedDate.ToString("dd/MM/yyyy h:mm tt")</p>
+                </div>
             }
-            
-            
         </div>
     </div>
 
 </div>
 
-@*<a asp-page="./Details" asp-route-id="@item.PostId">Details</a> |*@

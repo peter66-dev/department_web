@@ -10,7 +10,16 @@ a.navbar-brand {
     word-break: break-all;
 }
 
+*:focus {
+    outline: 0 !important;
+}
 
+ion-icon:before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
 /* Provide sufficient contrast against white background */
 a {
     color: #0366d6;
@@ -92,6 +101,8 @@ body {
         background-color: transparent;
     }
 
+
+
     .my-search-input input {
         width: 300px;
         border: none;
@@ -103,6 +114,45 @@ body {
         cursor: pointer;
         font-size: 25px;
     }
-.my-container{
+
+.my-container {
     padding: 0 8%;
 }
+
+.my-body {
+    margin-top: 6% !important;
+}
+
+.btn-login {
+    border-radius: 5px;
+    padding: 3px 0px;
+}
+
+    .btn-login:hover {
+        background-color: #d2e8ff;
+    }
+
+        .btn-login:hover a {
+            color: #0466c8 !important;
+            text-decoration: underline;
+        }
+
+.btn-register {
+    border: 1px solid #0366d6;
+    border-radius: 5px;
+    padding: 3px 0px;
+}
+
+    .btn-register a {
+        color: #0366d6 !important;
+    }
+
+    .btn-register:hover {
+        background-color: #185bef;
+        color: #fff;
+    }
+
+        .btn-register:hover a {
+            color: #fff !important;
+            text-decoration: underline;
+        }

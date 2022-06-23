@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor Accessor
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -6,6 +9,9 @@
     <title>@ViewData["Title"] - F.Department</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/PostDetail.css" />
+    <link rel="stylesheet" href="~/css/Index.css" />
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Style+Script&family=Work+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
@@ -14,7 +20,7 @@
     <header>
         <nav class="navbar navbar-expand-md navbar-toggleable-md navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid my-container">
-                <a class="navbar-brand font-weight-bold" asp-area="Posts" asp-page="/Index">FDpartment</a>
+                <a class="navbar-brand font-weight-bold" asp-area="Posts" asp-page="Index">FDpartment</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -33,12 +39,23 @@
                 </div>
 
                 <ul class="navbar-nav float-right">
-                    <li class="nav-item mr-2">
-                        <a class="btn btn-outline-info nav-link text-dark" asp-area="" asp-page="/Login">Log in</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="btn btn-outline-primary text-primary" asp-area="" asp-page="/Privacy">Create account</a>
-                    </li>
+                    @{
+                        if (Accessor.HttpContext.Session.GetString("ROLE") != null)
+                        {
+                            <li class="nav-item mr-2">
+                                <p class="btn btn-outline-info nav-link text-dark">Welcome @Accessor.HttpContext.Session.GetString("ROLE").ToLower(), @Accessor.HttpContext.Session.GetString("CURRENT_USER_FULLNAME")</p>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item mr-2 btn-login">
+                                <a class="nav-link " asp-area="" asp-page="/Login">Log in</a>
+                            </li>
+                            <li class="nav-item btn-register">
+                                <a class="nav-link " asp-area="" asp-page="./Post/Index">Create account</a>
+                            </li>
+                        }
+                    }
                 </ul>
             </div>
         </nav>

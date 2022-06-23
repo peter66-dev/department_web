@@ -118,18 +118,24 @@ namespace LibraryWeb.DataAccess
                     .IsRequired()
                     .HasMaxLength(50);
 
-                entity.Property(e => e.UserId).HasColumnName("UserID");
+                entity.Property(e => e.GroupOwnerId).HasColumnName("GroupOwnerID");
 
-                entity.HasOne(d => d.StatusNavigation)
+                entity.HasOne(d => d.GroupOwner)
                     .WithMany(p => p.Groups)
-                    .HasForeignKey(d => d.Status)
-                    .HasConstraintName("FK_tblGroup_tblStatus");
-
-                entity.HasOne(d => d.User)
-                    .WithMany(p => p.Groups)
-                    .HasForeignKey(d => d.UserId)
+                    .HasForeignKey(d => d.GroupOwnerId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_tblGroup_tblUser");
+
+                entity.HasOne(d => d.PublicStatusNavigation)
+                    .WithMany(p => p.GroupPublicStatusNavigations)
+                    .HasForeignKey(d => d.PublicStatus)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Groups_Status");
+
+                entity.HasOne(d => d.StatusNavigation)
+                    .WithMany(p => p.GroupStatusNavigations)
+                    .HasForeignKey(d => d.Status)
+                    .HasConstraintName("FK_tblGroup_tblStatus");
             });
 
             modelBuilder.Entity<GroupUser>(entity =>
@@ -140,7 +146,7 @@ namespace LibraryWeb.DataAccess
 
                 entity.Property(e => e.GroupId).HasColumnName("GroupID");
 
-                entity.Property(e => e.UserId).HasColumnName("UserID");
+                entity.Property(e => e.MemberId).HasColumnName("MemberID");
 
                 entity.HasOne(d => d.Group)
                     .WithMany(p => p.GroupUsers)
@@ -148,16 +154,16 @@ namespace LibraryWeb.DataAccess
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_GroupUsers_Groups");
 
+                entity.HasOne(d => d.Member)
+                    .WithMany(p => p.GroupUsers)
+                    .HasForeignKey(d => d.MemberId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_tblGroupUser_tblUser");
+
                 entity.HasOne(d => d.StatusNavigation)
                     .WithMany(p => p.GroupUsers)
                     .HasForeignKey(d => d.Status)
                     .HasConstraintName("FK_tblGroupUser_tblStatus");
-
-                entity.HasOne(d => d.User)
-                    .WithMany(p => p.GroupUsers)
-                    .HasForeignKey(d => d.UserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_tblGroupUser_tblUser");
             });
 
             modelBuilder.Entity<Like>(entity =>
@@ -218,30 +224,24 @@ namespace LibraryWeb.DataAccess
                     .WithMany(p => p.Posts)
                     .HasForeignKey(d => d.GroupPostId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_tblPost_tblGroup");
+                    .HasConstraintName("FK_Posts_Groups");
 
                 entity.HasOne(d => d.PostType)
                     .WithMany(p => p.Posts)
                     .HasForeignKey(d => d.PostTypeId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_tblPost_tblPostType");
-
-                entity.HasOne(d => d.PublicStatusNavigation)
-                    .WithMany(p => p.PostPublicStatusNavigations)
-                    .HasForeignKey(d => d.PublicStatus)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Posts_Status");
+                    .HasConstraintName("FK_Posts_PostTypes");
 
                 entity.HasOne(d => d.StatusNavigation)
-                    .WithMany(p => p.PostStatusNavigations)
+                    .WithMany(p => p.Posts)
                     .HasForeignKey(d => d.Status)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_tblPost_tblStatus");
+                    .HasConstraintName("FK_Posts_Status");
 
                 entity.HasOne(d => d.UserPost)
                     .WithMany(p => p.Posts)
                     .HasForeignKey(d => d.UserPostId)
-                    .HasConstraintName("FK_tblPost_tblUser");
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Posts_Users");
             });
 
             modelBuilder.Entity<PostType>(entity =>

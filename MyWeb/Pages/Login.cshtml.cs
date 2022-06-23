@@ -32,7 +32,8 @@ namespace MyWeb.Pages
             else
             {
                 string role = userRepo.CheckRole(tmp);
-                HttpContext.Session.SetString("CURRENT_USER", tmp.UserId.ToString());
+                HttpContext.Session.SetString("CURRENT_USER_ID", tmp.UserId.ToString());
+                HttpContext.Session.SetString("CURRENT_USER_FULLNAME", $"{tmp.FirstName} {tmp.LastName}");
                 if (role.Equals("ADMIN"))
                 {
                     HttpContext.Session.SetString("ROLE", "ADMIN");

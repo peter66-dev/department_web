@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 #nullable disable
 
@@ -18,24 +19,27 @@ namespace LibraryWeb.Model
         public Guid GroupPostId { get; set; }
         public Guid PostTypeId { get; set; }
         public string Title { get; set; }
+        public int LikesTotal { get; set; }
+        public int CommentsTotal { get; set; }
+
+        [Range(0, Int32.MaxValue)]
+        public int Views { get; set; }
         public string Tags { get; set; } // Nhớ Trim trước khi save db
         public string PostContent { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime LastModified { get; set; }
-        public int PublicStatus { get; set; } // Status: 5 || 6
         public int Status { get; set; } // Status: 5 || 6
 
         public virtual Group GroupPost { get; set; }
         public virtual PostType PostType { get; set; }
-        public virtual Status PublicStatusNavigation { get; set; }
         public virtual Status StatusNavigation { get; set; }
         public virtual User UserPost { get; set; }
         public virtual ICollection<Comment> Comments { get; set; }
         public virtual ICollection<Like> Likes { get; set; }
 
-        public List<string> GetTagsList(string Tags)
+        public List<string> GetTagsList()
         {
-            return new List<string>(Tags.Trim().Split(" "));
+            return new List<string>(this.Tags.Trim().Split(" "));
         }
 
     }

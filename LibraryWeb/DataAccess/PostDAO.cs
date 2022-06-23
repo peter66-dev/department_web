@@ -83,5 +83,20 @@ namespace MyLibrary.DataAccess
                 throw new Exception("Error at CreatePost: " + ex.Message);
             }
         }
+
+        public void IncreaseViews(Guid postid)
+        {
+            try
+            {
+                var context = new department_dbContext();
+                Post post = context.Posts.SingleOrDefault(p => p.PostId.Equals(postid));
+                ++post.Views;
+                context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error at CreatePost: " + ex.Message);
+            }
+        }
     }
 }

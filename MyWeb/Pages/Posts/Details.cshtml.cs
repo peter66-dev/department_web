@@ -29,10 +29,21 @@ namespace MyWeb.Pages.Posts
             }
 
             Post = await _context.Posts
-                .Include(p => p.GroupPost)
-                .Include(p => p.PostType)
-                .Include(p => p.StatusNavigation)
-                .Include(p => p.UserPost).FirstOrDefaultAsync(m => m.PostId == id);
+                                        .Include(p => p.GroupPost)
+                                        .Include(p => p.PostType)
+                                        .Include(p => p.StatusNavigation)
+                                        .Include(p => p.UserPost)
+                                        .Include(p => p.Comments.Where(c => c.Status == 5))
+                                        .ThenInclude(cr => cr.CommentReplies.Where(cr => cr.Status == 5))
+                                        .ThenInclude(ucr => ucr.UserReply)
+                                        .Include(p => p.Comments.Where(c => c.Status == 5))
+                                        .ThenInclude(usercomment => usercomment.UserComment)
+                                        .Include(p => p.UserPost.Role)
+                                        .FirstOrDefaultAsync(m => m.PostId == id);
+
+            // plus views
+            Post.Views++;
+            _context.SaveChanges();
 
             if (Post == null)
             {

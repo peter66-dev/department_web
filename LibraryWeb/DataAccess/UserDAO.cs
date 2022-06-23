@@ -3,8 +3,6 @@ using LibraryWeb.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MyLibrary.DataAccess
 {
@@ -50,7 +48,7 @@ namespace MyLibrary.DataAccess
             try
             {
                 var context = new department_dbContext();
-                tmp = context.Users.FirstOrDefault(u => u.UserId.Equals(userId));
+                tmp = context.Users.SingleOrDefault(u => u.UserId.Equals(userId));
             }
             catch (Exception ex)
             {
@@ -65,7 +63,7 @@ namespace MyLibrary.DataAccess
             try
             {
                 var context = new department_dbContext();
-                tmp = context.Users.FirstOrDefault(u => u.Email.Equals(email) && u.Password.Equals(password));
+                tmp = context.Users.SingleOrDefault(u => u.Email.Equals(email) && u.Password.Equals(password)); 
             }
             catch (Exception ex)
             {
@@ -95,7 +93,7 @@ namespace MyLibrary.DataAccess
             try
             {
                 var context = new department_dbContext();
-                User user = context.Users.FirstOrDefault(u => u.UserId.Equals(userId));
+                User user = context.Users.SingleOrDefault(u => u.UserId.Equals(userId));
                 user.Status = 6;
                 context.SaveChanges();
             }
