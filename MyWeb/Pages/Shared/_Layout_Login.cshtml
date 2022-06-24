@@ -20,43 +20,16 @@
     <header>
         <nav class="navbar navbar-expand-md navbar-toggleable-md navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid my-container">
-                <a class="navbar-brand font-weight-bold" asp-area="Posts" asp-page="Index">FDpartment</a>
-                @*<a class="navbar-brand font-weight-bold" asp-area="" asp-page="./Posts/Index">FDpartment</a>*@
+                 <a class="navbar-brand font-weight-bold" asp-area="" asp-page="./Posts/Index">FDpartment</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
-                @* search form *@
-                <div class="navbar-collapse collapse d-md-inline-flex justify-content-between">
-                    <div class="navbar-nav my-search-input">
-                        <form asp-area="Posts" asp-page="Index" method="get" class="d-flex">
-                            <input type="text" name="SearchString" placeholder="Search..." />
-                            <button>
-                                <ion-icon name="search-outline" class="search-icon" />
-                            </button>
-                        </form>
-                    </div>
-                </div>
-
                 <ul class="navbar-nav float-right">
-                    @{
-                        if (Accessor.HttpContext.Session.GetString("ROLE") != null)
-                        {
-                                <li class="nav-item mr-2">
-                                    <p class="nav-link text-dark">Welcome @Accessor.HttpContext.Session.GetString("ROLE").ToLower(), <span class="text-info">@Accessor.HttpContext.Session.GetString("CURRENT_USER_FULLNAME")</span></p>
-                                </li>
-                        }
-                        else
-                        {
-                                <li class="nav-item mr-2 btn-login">
-                                    <a class="nav-link " asp-area="" asp-page="/Login">Log in</a>
-                                </li>
-                                <li class="nav-item btn-register">
-                                    <a class="nav-link " asp-area="" asp-page="./Post/Index">Create account</a>
-                                </li>
-                        }
-                    }
+                    <li class="nav-item btn-register">
+                        <a class="nav-link " asp-area="" asp-page="./Post/Index">Create account</a>
+                    </li>
                 </ul>
             </div>
         </nav>

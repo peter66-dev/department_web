@@ -34,10 +34,6 @@ namespace MyWeb
                 options.Conventions.AddPageRoute("/Posts/Index", "");
             });
 
-            services.AddMvc()
-                .SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_3_0)
-                .AddJsonOptions( options => options.SerializerSettings.ContractResolver = new DefaultContractResolver());
-
             services.Configure<RouteOptions>(r =>
             {
                 r.LowercaseUrls = true;

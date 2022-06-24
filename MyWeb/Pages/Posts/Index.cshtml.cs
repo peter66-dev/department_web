@@ -45,6 +45,7 @@ namespace MyWeb.Pages.Posts
                                                 .Include(p => p.PostType)
                                                 .Include(p => p.StatusNavigation)
                                                 .Include(p => p.UserPost)
+                                                .ThenInclude(u => u.Role)
                                                 .ToListAsync();
                     searchString = null;
                 }
@@ -57,20 +58,24 @@ namespace MyWeb.Pages.Posts
                                                .Include(p => p.PostType)
                                                .Include(p => p.StatusNavigation)
                                                .Include(p => p.UserPost)
+                                               .ThenInclude(u => u.Role)
                                                .ToListAsync();
                     searchTag = null;
                 }
-                
+
                 else
                 {
-                    Console.WriteLine("Load home page!");
                     Posts = await context.Posts.Where(p => p.GroupPost.PublicStatus == 5 || p.PostType.PostTypeName.Equals("Announcement"))
                                                 .OrderBy(p => p.CreatedDate).Reverse()
                                                 .Include(p => p.GroupPost)
                                                 .Include(p => p.PostType)
                                                 .Include(p => p.StatusNavigation)
                                                 .Include(p => p.UserPost)
+                                                .ThenInclude(u => u.Role)
                                                 .ToListAsync();
+                    Console.WriteLine($"Load home page! Co {Posts.Count} posts");
+                    searchString = null;
+                    searchTag = null;
                 }
             }
             else // Đã login!
@@ -103,7 +108,9 @@ namespace MyWeb.Pages.Posts
                                                 .Include(p => p.PostType)
                                                 .Include(p => p.StatusNavigation)
                                                 .Include(p => p.UserPost)
+                                                .ThenInclude(u => u.Role)
                                                 .ToListAsync();
+                    searchString = null;
                 }
                 else if (searchTag != null)
                 {
@@ -115,7 +122,9 @@ namespace MyWeb.Pages.Posts
                                                .Include(p => p.PostType)
                                                .Include(p => p.StatusNavigation)
                                                .Include(p => p.UserPost)
+                                               .ThenInclude(u => u.Role)
                                                .ToListAsync();
+                    searchTag = null;
                 }
                 else
                 {
@@ -126,13 +135,17 @@ namespace MyWeb.Pages.Posts
                                                 .Include(p => p.PostType)
                                                 .Include(p => p.StatusNavigation)
                                                 .Include(p => p.UserPost)
+                                                .ThenInclude(u => u.Role)
                                                 .ToListAsync();
+                    searchString = null;
+                    searchTag = null;
                 }
             }
 
 
-            // Load important news (right side): Load announcement's admin 
-            HotNews = await context.Posts.Where(p => p.PostType.PostTypeName.Equals("Announcement"))
+            // Load important news (right side): Load announcement's admin
+            HotNews = await context.Posts.Where(p => p.PostType.PostTypeName.Equals("Announcement")
+                                                && p.UserPost.Role.RoleName.Equals("ADMIN"))
                                         .OrderBy(p => p.CreatedDate).Reverse()
                                         .Include(p => p.GroupPost)
                                         .Include(p => p.PostType)

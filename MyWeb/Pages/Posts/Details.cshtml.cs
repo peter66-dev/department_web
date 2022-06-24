@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using LibraryWeb.Model;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using LibraryWeb.DataAccess;
-using LibraryWeb.Model;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace MyWeb.Pages.Posts
 {
@@ -50,6 +48,20 @@ namespace MyWeb.Pages.Posts
                 return NotFound();
             }
             return Page();
+        }
+
+        public JsonResult OnPostLikeActionAsync(string userid, Guid postid)
+        {
+            try
+            {
+                Console.WriteLine("Userid: " + userid);
+                Console.WriteLine("Postid: " + postid);
+                return new JsonResult(new { code = 200, msg = "Good job!" });
+            }
+            catch (Exception ex)
+            {
+                return new JsonResult(new { code = 404, msg = "Bad request: " + ex.Message });
+            }
         }
     }
 }

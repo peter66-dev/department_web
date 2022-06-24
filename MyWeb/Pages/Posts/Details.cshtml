@@ -1,5 +1,6 @@
 ﻿@page
 @using LibraryWeb.Model
+@using Microsoft.AspNetCore.Http
 @model MyWeb.Pages.Posts.DetailsModel
 
 @{
@@ -11,10 +12,10 @@
 <div class="container-fluid my-detail-container">
     <div class="react-container ">
         <div class="react-item">
-            <button class="like-btn" onclick="toggleClass()">
+            <a class="like-btn" onclick="toggleClass()">
                 <ion-icon class="icon like-icon" name="heart-outline"></ion-icon>
                 <img class="heart-icon" src="~/img/heart.png" />
-            </button>
+            </a>
             <p class="like-amount">@Model.Post.LikesTotal</p>
         </div>
         <div class="react-item">
@@ -28,7 +29,7 @@
             <img src="~/img/user.png" />
             <div class="infos">
                 <a href="/" class="name text-decoration-none">@Model.Post.UserPost.FirstName @Model.Post.UserPost.LastName</a>
-                <p class="date">@Model.Post.CreatedDate.ToString("dd/MM/yyyy h:mm tt")</p>
+                <p class="date">@Model.Post.CreatedDate.ToString("dd MMMM yyyy h:mm tt")</p>
             </div>
         </div>
         <div class="posts-body">
@@ -78,7 +79,7 @@
                                             <div class="user">
                                                 <a href="#" class="cmt-user text-decoration-none">@cmt.UserComment.FirstName @cmt.UserComment.LastName</a>
                                             </div>
-                                            <p class="cmt-time ml-2 ">@cmt.CreatedDate.ToString("dd/MM/yyyy h:mm tt")</p>
+                                            <p class="cmt-time ml-2 ">@cmt.CreatedDate.ToString("dd MMMM yyyy h:mm tt")</p>
                                         </div>
 
                                         <div>
@@ -115,7 +116,7 @@
                                                                 <div class="user">
                                                                     <a href="#" class="cmt-user text-decoration-none">@cr.UserReply.FirstName @cr.UserReply.LastName</a>
                                                                 </div>
-                                                                <p class="cmt-time ml-2 ">@cr.CreatedDate.ToString("dd/MM/yyyy h:mm tt")</p>
+                                                                <p class="cmt-time ml-2 ">@cr.CreatedDate.ToString("dd MMMM yyyy h:mm tt")</p>
                                                             </div>
 
                                                             <div>
@@ -178,30 +179,52 @@
             likeImg.style.display = 'block';
             likeIcon.style.display = 'none';
         }
-    }
-    function handleFocus() {
-        commentGroup.style.display = 'block';
-        commentTextArea.style.height = '128px';
-        commentTextArea.style.border = '2px solid #150ec9';
-    }
-    function handleInput() {
-        if (commentTextArea.value.toString().trim() == "") {
-            commentSubmitBtn.setAttribute('disabled', '')
-            commentSubmitBtn.classList.remove('allowed')
-        } else {
-            commentSubmitBtn.classList.add('allowed')
-            commentSubmitBtn.removeAttribute('disabled')
+        function handleFocus() {
+            commentGroup.style.display = 'block';
+            commentTextArea.style.height = '128px';
+            commentTextArea.style.border = '2px solid #150ec9';
         }
-        if (repTextArea.value.toString().trim() == "") {
-            repBtn.setAttribute('disabled', '')
-            repBtn.classList.remove('allowed')
-        } else {
-            repBtn.classList.add('allowed')
-            repBtn.removeAttribute('disabled')
+        function handleInput() {
+            if (commentTextArea.value.toString().trim() == "") {
+                commentSubmitBtn.setAttribute('disabled', '')
+                commentSubmitBtn.classList.remove('allowed')
+            } else {
+                commentSubmitBtn.classList.add('allowed')
+                commentSubmitBtn.removeAttribute('disabled')
+            }
+            if (repTextArea.value.toString().trim() == "") {
+                repBtn.setAttribute('disabled', '')
+                repBtn.classList.remove('allowed')
+            } else {
+                repBtn.classList.add('allowed')
+                repBtn.removeAttribute('disabled')
+            }
         }
-    }
-    function handleRep() {
-        repForm.style.display = 'block';
-        repBtnn.style.display = 'none';
-    }
+        function handleRep() {
+            repForm.style.display = 'block';
+            repBtnn.style.display = 'none';
+        }
 </script>
+
+@section scripts{
+    <script>
+            let userId = "user id ne!!!";
+            let postId = @Model.Post.PostId;
+            function toggleClass() {
+                $.ajax({
+                    type: "POST",
+                    url: "/posts/details/?handler=LikeAction",
+                    data: {
+                        userId: userId,
+                        postId: postId
+                    },
+                    success: function(response) {
+                        alert(response.msg);
+                    },
+                    failure: function(xhr) {
+                        alert("loi me roi");
+                    }
+                });
+            }
+    </script>
+}

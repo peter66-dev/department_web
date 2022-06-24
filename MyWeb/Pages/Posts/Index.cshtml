@@ -103,12 +103,12 @@
                     <img src="~/img/user.png" />
                     <div class="infos">
                         <div class="flex-text">
-                            <p class="name">@p.UserPost.FirstName @p.UserPost.LastName</p>
+                            <p class="name">(@p.UserPost.Role.RoleName.ToUpper()) @p.UserPost.FirstName @p.UserPost.LastName</p>
                             <ion-icon name="caret-forward-outline"></ion-icon>
                             <p class="name">@p.GroupPost.GroupName</p>
                         </div>
                         <div class="flex-textt">
-                            <p class="date">@p.CreatedDate.ToString("dd/MM/yyyy h:mm tt")</p>
+                            <p class="date">@p.CreatedDate.ToString("dddd, dd MMMM yyyy h:mm tt")</p>
                             @if (@p.GroupPost.PublicStatus == 6 && @p.Status != 7 && !@p.PostType.PostTypeName.Equals("Announcement"))
                             {
                                 <img src="~/img/group.png" />
@@ -145,7 +145,7 @@
                         </div>
                         <div class="views">
                             <ion-icon name="eye-outline"></ion-icon>
-                            <p>20</p>
+                            <p>@p.Views</p>
                         </div>
                     </div>
                 </div>
@@ -161,10 +161,10 @@
             @foreach (Post post in @Model.HotNews)
             {
                 <div class="hotn hotn1">
-                    <h1 class="title">
-                        @post.Title
-                    </h1>
-                    <p class="time">@post.CreatedDate.ToString("dd/MM/yyyy h:mm tt")</p>
+                    <div class="title">
+                        <a class="text-decoration-none" asp-page="./Details" asp-route-id="@post.PostId">@post.Title</a>
+                    </div>
+                    <p class="time">@post.CreatedDate.ToString("dd MMMM yyyy h:mm tt")</p>
                 </div>
             }
         </div>
