@@ -39,7 +39,7 @@ namespace LibraryWeb.Model
 
         public List<string> GetTagsList()
         {
-            return new List<string>(this.Tags.Trim().Split(" "));
+            return new List<string>(Tags.Trim().Split(" "));
         }
 
     }

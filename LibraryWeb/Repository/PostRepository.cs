@@ -11,5 +11,11 @@ namespace LibraryWeb.Repository
         public Post GetPostById(Guid postId) => PostDAO.Instance.GetPostById(postId);
         public void DeletePostById(Guid postId) => PostDAO.Instance.DeletePostById(postId);
         public void CreatePost(Post post) => PostDAO.Instance.CreatePost(post);
+
+        public int DecreaseLikesTotal(Guid postid)
+             => PostDAO.Instance.DecreaseLikesTotal(postid);
+
+        public int IncreaseLikesTotal(Guid postid)
+            => PostDAO.Instance.IncreaseLikesTotal(postid);
     }
 }

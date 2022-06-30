@@ -1,4 +1,7 @@
-﻿using LibraryWeb.Model;
+﻿using LibraryWeb.DataAccess;
+using LibraryWeb.Model;
+using LibraryWeb.Repository;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -10,11 +13,17 @@ namespace MyWeb.Pages.Posts
 {
     public class DetailsModel : PageModel
     {
-        private readonly LibraryWeb.DataAccess.department_dbContext _context;
+        private readonly department_dbContext _context;
+        private ILikeRepository likeRepo;
+        private IPostRepository postRepo;
 
-        public DetailsModel(LibraryWeb.DataAccess.department_dbContext context)
+        public bool IsLiked { get; set; } = false;
+
+        public DetailsModel(department_dbContext context)
         {
             _context = context;
+            likeRepo = new LikeRepository();
+            postRepo = new PostRepository();
         }
 
         public Post Post { get; set; }
@@ -43,6 +52,21 @@ namespace MyWeb.Pages.Posts
             Post.Views++;
             _context.SaveChanges();
 
+            //Get IsLiked status
+            string user_login_id = HttpContext.Session.GetString("CURRENT_USER_ID");
+            if (user_login_id != null)
+            {
+                Console.WriteLine("user_login_id: " + user_login_id);
+                var context = new department_dbContext();
+                Like like = await context.Likes.FirstOrDefaultAsync(l =>
+                                            l.PostId == id.Value
+                                            && l.UserId.ToString().Equals(user_login_id));
+                if (like != null && like.Status == 1)
+                {
+                    IsLiked = true;
+                }
+            }
+
             if (Post == null)
             {
                 return NotFound();
@@ -50,17 +74,33 @@ namespace MyWeb.Pages.Posts
             return Page();
         }
 
-        public JsonResult OnPostLikeActionAsync(string userid, Guid postid)
+        public JsonResult OnGetLikeAction(string postid)
         {
-            try
+            string userid = HttpContext.Session.GetString("CURRENT_USER_ID");
+            if (userid == null)
             {
-                Console.WriteLine("Userid: " + userid);
-                Console.WriteLine("Postid: " + postid);
-                return new JsonResult(new { code = 200, msg = "Good job!" });
+                return new JsonResult(3);
             }
-            catch (Exception ex)
+            else
             {
-                return new JsonResult(new { code = 404, msg = "Bad request: " + ex.Message });
+                int result = likeRepo.ChangeLikeStatus(userid, postid);
+                IsLiked = result == 1;
+                int currentLikesTotal = 0;
+                if (result == 1) // bug here
+                { // plus like quantity in this post if result = 1
+                    currentLikesTotal = postRepo.IncreaseLikesTotal(Guid.Parse(postid));
+                    Console.WriteLine("plus like quantity => " + currentLikesTotal);
+                }
+                else if (result == 2) // sub like quantity in this post if result = 2
+                {
+                    currentLikesTotal = postRepo.DecreaseLikesTotal(Guid.Parse(postid));
+                    Console.WriteLine("sub like quantity => " + currentLikesTotal);
+                }
+                else
+                {
+                    Console.WriteLine("Something's wrong in changeLikeTotal!");
+                }
+                return new JsonResult(new int[] { result, currentLikesTotal });
             }
         }
     }

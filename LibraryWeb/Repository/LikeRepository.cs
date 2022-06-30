@@ -11,5 +11,8 @@ namespace LibraryWeb.Repository
         public Like GetLikeById(Guid likeId) => LikeDAO.Instance.GetLikeById(likeId);
         public void DeleteLikeById(Guid likeId) => LikeDAO.Instance.DeleteLikeById(likeId);
         public void CreateLike(Like like) => LikeDAO.Instance.CreateLike(like);
+
+        public int ChangeLikeStatus(string userid, string postid)
+            => LikeDAO.Instance.ChangeLikeStatus(userid, postid);
     }
 }

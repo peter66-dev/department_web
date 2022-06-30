@@ -7,8 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyWeb", "MyWeb\MyWeb.csproj
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibraryWeb", "LibraryWeb\LibraryWeb.csproj", "{87833F5D-F92A-4756-AAAE-290C0A15A062}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleAppTest", "ConsoleAppTest\ConsoleAppTest.csproj", "{7036D753-B908-4459-953F-80421B7DF987}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,10 +21,6 @@ Global
 		{87833F5D-F92A-4756-AAAE-290C0A15A062}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{87833F5D-F92A-4756-AAAE-290C0A15A062}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{87833F5D-F92A-4756-AAAE-290C0A15A062}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7036D753-B908-4459-953F-80421B7DF987}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7036D753-B908-4459-953F-80421B7DF987}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7036D753-B908-4459-953F-80421B7DF987}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7036D753-B908-4459-953F-80421B7DF987}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

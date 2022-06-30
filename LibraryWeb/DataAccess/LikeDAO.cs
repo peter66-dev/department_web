@@ -1,12 +1,13 @@
 ﻿using LibraryWeb.DataAccess;
 using LibraryWeb.Model;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace MyLibrary.DataAccess
 {
-    internal class LikeDAO
+    public class LikeDAO
     {
         private static LikeDAO instance = null;
         private static readonly object instanceLock = new object();
@@ -82,6 +83,56 @@ namespace MyLibrary.DataAccess
             {
                 throw new Exception("Error at CreateLike: " + ex.Message);
             }
+        }
+
+        private Like GetLikeByUserIDAndPostID(string userid, string postid)
+        {
+            Like like = null;
+            try
+            {
+                var context = new department_dbContext();
+                like = context.Likes.SingleOrDefault(l => l.UserId.ToString().Equals(userid) && l.PostId.ToString().Equals(postid));
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error at GetLikeByUserIDAndPostID: " + ex.Message);
+            }
+            return like;
+        }
+
+        public int ChangeLikeStatus(string userid, string postid)
+        {
+            int result = 0;
+            try
+            {
+                Like like = GetLikeByUserIDAndPostID(userid, postid);
+                var context = new department_dbContext();
+                if (like == null)
+                {
+                    like = new Like()
+                    {
+                        LikeId = Guid.NewGuid(),
+                        UserId = Guid.Parse(userid),
+                        PostId = Guid.Parse(postid),
+                        Status = 1
+                    };
+                    result = 1;
+                    context.Likes.Add(like);
+                    context.SaveChanges();
+                }
+                else // đã có trong bảng like
+                {
+                    like.Status = like.Status == 1 ? 2 : 1;
+                    result = like.Status;
+                    context.Entry(like).State = EntityState.Modified;
+                    context.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error at ChangeLikeStatus: " + ex.Message);
+            }
+            return result;
         }
     }
 }

@@ -35,6 +35,10 @@
         margin-bottom: 3px;
     }
 
+    .react-item .like-amount {
+        cursor: pointer;
+    }
+
 .like-btn, .more-btn {
     display: flex;
     align-items: center;

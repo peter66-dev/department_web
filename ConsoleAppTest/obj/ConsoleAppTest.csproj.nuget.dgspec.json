@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "E:\\Chuyen_nganh_7\\PRN221\\group\\department_web\\ConsoleAppTest\\ConsoleAppTest.csproj": {}
+    "E:\\Chuyen_nganh_7\\PRN221\\group_normal\\department_web\\ConsoleAppTest\\ConsoleAppTest.csproj": {}
   },
   "projects": {
-    "E:\\Chuyen_nganh_7\\PRN221\\group\\department_web\\ConsoleAppTest\\ConsoleAppTest.csproj": {
+    "E:\\Chuyen_nganh_7\\PRN221\\group_normal\\department_web\\ConsoleAppTest\\ConsoleAppTest.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\Chuyen_nganh_7\\PRN221\\group\\department_web\\ConsoleAppTest\\ConsoleAppTest.csproj",
+        "projectUniqueName": "E:\\Chuyen_nganh_7\\PRN221\\group_normal\\department_web\\ConsoleAppTest\\ConsoleAppTest.csproj",
         "projectName": "ConsoleAppTest",
-        "projectPath": "E:\\Chuyen_nganh_7\\PRN221\\group\\department_web\\ConsoleAppTest\\ConsoleAppTest.csproj",
+        "projectPath": "E:\\Chuyen_nganh_7\\PRN221\\group_normal\\department_web\\ConsoleAppTest\\ConsoleAppTest.csproj",
         "packagesPath": "C:\\Users\\vanph\\.nuget\\packages\\",
-        "outputPath": "E:\\Chuyen_nganh_7\\PRN221\\group\\department_web\\ConsoleAppTest\\obj\\",
+        "outputPath": "E:\\Chuyen_nganh_7\\PRN221\\group_normal\\department_web\\ConsoleAppTest\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\vanph\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -28,8 +28,8 @@
           "net5.0": {
             "targetAlias": "net5.0",
             "projectReferences": {
-              "E:\\Chuyen_nganh_7\\PRN221\\group\\department_web\\LibraryWeb\\LibraryWeb.csproj": {
-                "projectPath": "E:\\Chuyen_nganh_7\\PRN221\\group\\department_web\\LibraryWeb\\LibraryWeb.csproj"
+              "E:\\Chuyen_nganh_7\\PRN221\\group_normal\\department_web\\LibraryWeb\\LibraryWeb.csproj": {
+                "projectPath": "E:\\Chuyen_nganh_7\\PRN221\\group_normal\\department_web\\LibraryWeb\\LibraryWeb.csproj"
               }
             }
           }
@@ -62,14 +62,14 @@
         }
       }
     },
-    "E:\\Chuyen_nganh_7\\PRN221\\group\\department_web\\LibraryWeb\\LibraryWeb.csproj": {
+    "E:\\Chuyen_nganh_7\\PRN221\\group_normal\\department_web\\LibraryWeb\\LibraryWeb.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\Chuyen_nganh_7\\PRN221\\group\\department_web\\LibraryWeb\\LibraryWeb.csproj",
+        "projectUniqueName": "E:\\Chuyen_nganh_7\\PRN221\\group_normal\\department_web\\LibraryWeb\\LibraryWeb.csproj",
         "projectName": "LibraryWeb",
-        "projectPath": "E:\\Chuyen_nganh_7\\PRN221\\group\\department_web\\LibraryWeb\\LibraryWeb.csproj",
+        "projectPath": "E:\\Chuyen_nganh_7\\PRN221\\group_normal\\department_web\\LibraryWeb\\LibraryWeb.csproj",
         "packagesPath": "C:\\Users\\vanph\\.nuget\\packages\\",
-        "outputPath": "E:\\Chuyen_nganh_7\\PRN221\\group\\department_web\\LibraryWeb\\obj\\",
+        "outputPath": "E:\\Chuyen_nganh_7\\PRN221\\group_normal\\department_web\\LibraryWeb\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\vanph\\AppData\\Roaming\\NuGet\\NuGet.Config",

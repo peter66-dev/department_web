@@ -11,17 +11,26 @@
 
 <div class="container-fluid my-detail-container">
     <div class="react-container ">
-        <div class="react-item">
-            <a class="like-btn" onclick="toggleClass()">
-                <ion-icon class="icon like-icon" name="heart-outline"></ion-icon>
-                <img class="heart-icon" src="~/img/heart.png" />
-            </a>
+        <div class="react-item" id="btnLike">
+            @if (Model.IsLiked)
+            {
+                <button class="like-btn liked">
+                    <ion-icon class="icon like-icon" name="heart-outline" style="display:none"></ion-icon>
+                    <img class="heart-icon" src="~/img/heart.png" style="display:block" />
+                </button>
+            }
+            else
+            {
+                <button class="like-btn">
+                    <ion-icon class="icon like-icon" name="heart-outline" style="display:block"></ion-icon>
+                    <img class="heart-icon" src="~/img/heart.png" style="display:none" />
+                </button>
+            }
             <p class="like-amount">@Model.Post.LikesTotal</p>
         </div>
         <div class="react-item">
             <ion-icon class="icon mb-3" name="eye-outline"></ion-icon>
             <p class="view-amount">@Model.Post.Views</p>
-
         </div>
     </div>
     <div class="main-detail-container">
@@ -158,6 +167,7 @@
         </div>
     </div>
 </div>
+
 <script>
     const likeBtn = document.querySelector('.like-btn');
     const likeImg = document.querySelector('.heart-icon');
@@ -170,61 +180,90 @@
     const repBtn = document.querySelector('.submit-rep-btn');
     const repBtnn = document.querySelector('.repBtn');
     function toggleClass() {
-        if (likeBtn.classList.contains('liked')) {
+        if (@Model.IsLiked == true) {
+            console.log("liked > unlike");
+    @Model.IsLiked = false;
             likeBtn.classList.remove('liked');
             likeImg.style.display = 'none';
             likeIcon.style.display = 'block';
         } else {
+    @Model.IsLiked = true;
+            console.log("unliked > like");
             likeBtn.classList.add('liked');
             likeImg.style.display = 'block';
             likeIcon.style.display = 'none';
         }
-        function handleFocus() {
-            commentGroup.style.display = 'block';
-            commentTextArea.style.height = '128px';
-            commentTextArea.style.border = '2px solid #150ec9';
+    }
+    function handleFocus() {
+        commentGroup.style.display = 'block';
+        commentTextArea.style.height = '128px';
+        commentTextArea.style.border = '2px solid #150ec9';
+    }
+    function handleInput() {
+        if (commentTextArea.value.toString().trim() == "") {
+            commentSubmitBtn.setAttribute('disabled', '')
+            commentSubmitBtn.classList.remove('allowed')
+        } else {
+            commentSubmitBtn.classList.add('allowed')
+            commentSubmitBtn.removeAttribute('disabled')
         }
-        function handleInput() {
-            if (commentTextArea.value.toString().trim() == "") {
-                commentSubmitBtn.setAttribute('disabled', '')
-                commentSubmitBtn.classList.remove('allowed')
-            } else {
-                commentSubmitBtn.classList.add('allowed')
-                commentSubmitBtn.removeAttribute('disabled')
-            }
-            if (repTextArea.value.toString().trim() == "") {
-                repBtn.setAttribute('disabled', '')
-                repBtn.classList.remove('allowed')
-            } else {
-                repBtn.classList.add('allowed')
-                repBtn.removeAttribute('disabled')
-            }
+        if (repTextArea.value.toString().trim() == "") {
+            repBtn.setAttribute('disabled', '')
+            repBtn.classList.remove('allowed')
+        } else {
+            repBtn.classList.add('allowed')
+            repBtn.removeAttribute('disabled')
         }
-        function handleRep() {
-            repForm.style.display = 'block';
-            repBtnn.style.display = 'none';
-        }
+    }
+    function handleRep() {
+        repForm.style.display = 'block';
+        repBtnn.style.display = 'none';
+    }
 </script>
 
-@section scripts{
-    <script>
-            let userId = "user id ne!!!";
-            let postId = @Model.Post.PostId;
-            function toggleClass() {
-                $.ajax({
-                    type: "POST",
-                    url: "/posts/details/?handler=LikeAction",
-                    data: {
-                        userId: userId,
-                        postId: postId
-                    },
-                    success: function(response) {
-                        alert(response.msg);
-                    },
-                    failure: function(xhr) {
-                        alert("loi me roi");
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.19/dist/sweetalert2.all.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="sweetalert2.all.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+        $('#btnLike').click(function() {
+            $.ajax({
+                type: "GET",
+                url: '/Posts/Details?handler=LikeAction&postid=@Model.Post.PostId.ToString()',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function(result) {
+                    var htmlContent = '';
+                    if (result[0] == 1) { // active like icon BUG chỗ lấy heart.png
+                        console.log('btnLike was actived!');
+                        htmlContent += `<button class="like-btn liked">
+                                            <ion-icon class="icon like-icon" name="heart-outline" style="display:none"></ion-icon>
+                                            <img class="heart-icon" src="../img/heart.png" style="display:block" />
+                                        </button>`;
+                        htmlContent += `<p class="like-amount">` + result[1] + `</p>`;
+                        $('#btnLike').html(htmlContent);
+                    } else if (result[0] == 2) { // inactive like icon BUG chỗ lấy heart.png
+                        console.log('btnLike was inactived!');
+                        htmlContent += `<button class="like-btn">
+                                            <ion-icon class="icon like-icon" name="heart-outline" style="display:block"></ion-icon>
+                                            <img class="heart-icon" src="../img/heart.png" style="display:none" />
+                                        </button>`;
+                        htmlContent += `<p class="like-amount">` + result[1] + `</p>`;
+                        $('#btnLike').html(htmlContent);
                     }
-                });
-            }
-    </script>
-}
+                    else { // result == 3 Nhựt dô chỉnh lại sweetalert!!!
+                        alert("Bạn cần phải login trước khi thả tym hoặc gửi comment!");
+                        const Swal = require('sweetalert2');
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'Oops...',
+                            text: 'Bạn cần phải login trước khi thả tym hoặc gửi comment!'
+                        });
+                    }
+                }
+            });
+        });
+    });
+</script>

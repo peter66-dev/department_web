@@ -10,5 +10,6 @@ namespace LibraryWeb.Repository
         void DeleteLikeById(Guid likeId);
         Like GetLikeById(Guid likeId);
         IEnumerable<Like> GetLikes();
+        public int ChangeLikeStatus(string userid, string postid);
     }
 }

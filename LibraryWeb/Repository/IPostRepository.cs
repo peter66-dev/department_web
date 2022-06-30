@@ -10,5 +10,7 @@ namespace LibraryWeb.Repository
         void DeletePostById(Guid postId);
         Post GetPostById(Guid postId);
         IEnumerable<Post> GetPosts();
+        public int IncreaseLikesTotal(Guid postid);
+        public int DecreaseLikesTotal(Guid postid);
     }
 }

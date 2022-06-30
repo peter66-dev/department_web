@@ -42,6 +42,7 @@ namespace MyLibrary.DataAccess
             }
             return list;
         }
+
         public Post GetPostById(Guid postId)
         {
             Post post = new Post();
@@ -56,6 +57,7 @@ namespace MyLibrary.DataAccess
             }
             return post;
         }
+
         public void DeletePostById(Guid postId)
         {
             try
@@ -97,6 +99,42 @@ namespace MyLibrary.DataAccess
             {
                 throw new Exception("Error at CreatePost: " + ex.Message);
             }
+        }
+
+        public int IncreaseLikesTotal(Guid postid)
+        {
+            int result = 0;
+            try
+            {
+                var context = new department_dbContext();
+                Post post = context.Posts.SingleOrDefault(p => p.PostId.Equals(postid));
+                ++post.LikesTotal;
+                result = post.LikesTotal;
+                context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error at DecreaseLikesTotal: " + ex.Message);
+            }
+            return result;
+        }
+
+        public int DecreaseLikesTotal(Guid postid)
+        {
+            int result = 0;
+            try
+            {
+                var context = new department_dbContext();
+                Post post = context.Posts.SingleOrDefault(p => p.PostId.Equals(postid));
+                --post.LikesTotal;
+                result = post.LikesTotal;
+                context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error at DecreaseLikesTotal: " + ex.Message);
+            }
+            return result;
         }
     }
 }

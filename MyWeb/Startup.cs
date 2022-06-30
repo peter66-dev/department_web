@@ -3,12 +3,14 @@ using LibraryWeb.Repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
 namespace MyWeb
@@ -33,11 +35,18 @@ namespace MyWeb
             {
                 options.Conventions.AddPageRoute("/Posts/Index", "");
             });
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+            JsonConvert.DefaultSettings = () => new JsonSerializerSettings
+            {
+                ContractResolver = new CamelCasePropertyNamesContractResolver()
+            };
+
 
             services.Configure<RouteOptions>(r =>
             {
                 r.LowercaseUrls = true;
             });
+
             services.AddSession();
             services.AddHttpContextAccessor();
 
@@ -53,7 +62,6 @@ namespace MyWeb
             services.AddTransient<IUserRepository, UserRepository>();
 
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            //services.AddSignalR();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
