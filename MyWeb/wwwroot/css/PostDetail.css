@@ -82,14 +82,61 @@
     border-radius: 5px;
     padding: 25px 60px;
     margin-bottom: 20px;
+    position: relative;
 }
 
-    .main-detail-container img {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        cursor: pointer;
+    .main-detail-container .your-action-btn {
+        position: absolute;
+        right: 3%;
     }
+
+    .main-detail-container .menu-btn {
+        float: right;
+        position: relative;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 20px;
+        padding: 5px 6px;
+        background-color: transparent;
+        color: #000;
+        text-decoration: none;
+    }
+
+    .main-detail-container .your-action-btn .dropdown-group {
+        position: absolute;
+        background-color: #fff;
+        box-shadow: 0 0 0 1px rgba(23, 23, 23, 0.1);
+        top: 90%;
+        right: 10%;
+        border-radius: 5px;
+        padding: 8px;
+        width: 150px;
+        display: none;
+    }
+
+        .main-detail-container .your-action-btn .dropdown-group .dropdown-item {
+            display: flex;
+            gap: 10px;
+            padding: 10px 20px 10px 10px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+            .main-detail-container .your-action-btn .dropdown-group .dropdown-item:hover {
+                background-color: #e3e3e3;
+            }
+
+            .main-detail-container .menu-btn:hover {
+                background-color: #ebeaea;
+            }
+
+        .main-detail-container img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
 
     .main-detail-container .owner {
         display: flex;
@@ -159,7 +206,7 @@
             gap: 10px;
         }
 
-            .main-detail-container .discussion .discussion-bottom form {
+            .main-detail-container .discussion .discussion-bottom .your-cmt {
                 width: 100%;
             }
 
@@ -262,6 +309,7 @@
 
         .main-detail-container .discussion .comment-rep {
             margin-top: 15px;
+            margin-bottom: 20px;
         }
 
             .main-detail-container .discussion .comment-rep .content {

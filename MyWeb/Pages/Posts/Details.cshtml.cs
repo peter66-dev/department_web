@@ -129,6 +129,7 @@ namespace MyWeb.Pages.Posts
                 //return new JsonResult(commentsTotal);
                 return new JsonResult(new
                 {
+                    commentId = comment.CommentId,
                     firstName = userCmt.FirstName,
                     lastName = userCmt.LastName,
                     createdAt = comment.CreatedDate.ToString("dd MMMM yyyy h:mm tt"),

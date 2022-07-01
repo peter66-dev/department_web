@@ -16,8 +16,11 @@ namespace LibraryWeb.Model
 
         public Guid PostId { get; set; }
         public Guid UserPostId { get; set; }
+        [Display(Name = "Select Group")]
         public Guid GroupPostId { get; set; }
         public Guid PostTypeId { get; set; }
+
+        [Display(Name = "Post Title")]
         public string Title { get; set; }
         public int LikesTotal { get; set; }
         public int CommentsTotal { get; set; }
@@ -25,6 +28,8 @@ namespace LibraryWeb.Model
         [Range(0, Int32.MaxValue)]
         public int Views { get; set; }
         public string Tags { get; set; } // Nhớ Trim trước khi save db
+
+        [Display(Name = "Post Content")]
         public string PostContent { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime LastModified { get; set; }

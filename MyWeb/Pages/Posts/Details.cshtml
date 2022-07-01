@@ -34,6 +34,23 @@
         </div>
     </div>
     <div class="main-detail-container">
+        <div class="your-action-btn">
+            <a class="menu-btn" onclick="handleMenu()">
+                <ion-icon name="ellipsis-horizontal-outline"></ion-icon>
+            </a>
+            <div class="dropdown-group">
+                <div class="dropdown-items">
+                    <a class="edit-btn dropdown-item">
+                        <ion-icon name="create-outline"></ion-icon>
+                        <p>Edit</p>
+                    </a>
+                    <a class="delete-btn dropdown-item">
+                        <ion-icon name="trash-outline"></ion-icon>
+                        <p>Delete</p>
+                    </a>
+                </div>
+            </div>
+        </div>
         <div class="owner">
             <img src="~/img/user.png" />
             <div class="infos">
@@ -62,18 +79,18 @@
                     <p>Comments <span id="commentsTotal" class="discuss-amount">(@Model.Post.CommentsTotal)</span></p>
                 </div>
                 <div class="discussion-bottom">
-                    @*<form>*@
                     <img src="~/img/user.png" />
-                    <textarea id="commentContent" placeholder="Add comment..."
-                              class="comment-textarea"
-                              onfocus="handleFocus()"
-                              oninput="handleInput()"></textarea>
-                    <div class="comment-btn-group">
-                        <button id="btnCommentRoot" class="submit-btn" disabled>
-                            Submit
-                        </button>
+                    <div class="your-cmt">
+                        <textarea id="commentContent" placeholder="Add comment..."
+                                  class="comment-textarea"
+                                  onfocus="handleFocus()"
+                                  oninput="handleInput()"></textarea>
+                        <div class="comment-btn-group">
+                            <button id="btnCommentRoot" class="submit-btn" disabled>
+                                Submit
+                            </button>
+                        </div>
                     </div>
-                    @*</form>*@
                 </div>
                 <div class="comments">
 
@@ -84,7 +101,7 @@
                         <div class="comment-root">
                             <div class="content">
                                 <img src="~/img/user.png" />
-                                <div>
+                                <div style="width: 100%">
                                     <div class="comment">
                                         <div class="d-flex align-items-center">
                                             <div class="user">
@@ -93,7 +110,7 @@
                                             <p class="cmt-time ml-2 ">@cmt.CreatedDate.ToString("dd MMMM yyyy h:mm tt")</p>
                                         </div>
 
-                                        <div>
+                                        <div style="word-break: break-word">
                                             @cmt.CommentContent
                                         </div>
                                     </div>
@@ -102,16 +119,22 @@
                                             <ion-icon name="chatbubbles-outline"></ion-icon>
                                             Reply
                                         </button>
-                                        <form id="@cmt.CommentId.ToString()" class="rep-form" style="display:none">
-                                            <textarea placeholder="Reply..."
-                                                  class="rep-comment-textarea"
-                                                  oninput="handleInput()"></textarea>
-                                            <div class="rep-comment-btn-group">
-                                                <button class="submit-rep-btn" disabled>
-                                                    Submit
-                                                </button>
-                                            </div>
-                                        </form>
+                                        <div id="@cmt.CommentId.ToString()" class="rep-form" style="display:none">
+                                            @{
+                                                var textAreaId = "txt" + cmt.CommentId;
+                                                var repBtnId = "repBtn" + cmt.CommentId;
+                                                <textarea placeholder="Reply..."
+                                                          id="@textAreaId"
+                                                          class="rep-comment-textarea"
+                                                          oninput="handleInput('@textAreaId', '@repBtnId')"></textarea>
+
+                                                <div class="rep-comment-btn-group">
+                                                    <button id="@repBtnId" class="submit-rep-btn" disabled>
+                                                        Submit
+                                                    </button>
+                                                </div>
+                                            }
+                                        </div>
                                     </div>
 
                                     @if (cmt.CommentReplies.Count > 0)
@@ -121,7 +144,7 @@
                                             <div class="comment-rep">
                                                 <div class="content">
                                                     <img src="~/img/user.png" />
-                                                    <div>
+                                                    <div style="width: 100%">
                                                         <div class="comment">
                                                             <div class="d-flex align-items-center">
                                                                 <div class="user">
@@ -130,7 +153,7 @@
                                                                 <p class="cmt-time ml-2 ">@cr.CreatedDate.ToString("dd MMMM yyyy h:mm tt")</p>
                                                             </div>
 
-                                                            <div>
+                                                            <div style="word-break: break-word">
                                                                 @cr.CommentReplyContent
                                                             </div>
                                                         </div>
@@ -177,8 +200,11 @@
     const commentGroup = document.querySelector('.comment-btn-group');
     const commentTextArea = document.querySelector('.comment-textarea');
     const commentSubmitBtn = document.querySelector('.submit-btn');
-    const repTextArea = document.querySelector('.rep-comment-textarea');
-    const repBtn = document.querySelector('.submit-rep-btn');
+
+    // handle menu icon in post
+    const dropdownMenu = document.querySelector('.dropdown-group');
+    const menuBtn = document.querySelector('.menu-btn');
+
     const repBtnn = document.querySelector('.repBtn');
     function toggleClass() {
         if (@Model.IsLiked == true) {
@@ -200,7 +226,13 @@
         commentTextArea.style.height = '128px';
         commentTextArea.style.border = '2px solid #150ec9';
     }
-    function handleInput() { // bug here
+    function handleInput(commentId, repBtnId) { // bug here
+        var repTextAreaId = '' + commentId + '';
+        var repButtonId = '' + repBtnId + '';
+
+        var repTextArea = document.getElementById(repTextAreaId);
+        var repBtn = document.getElementById(repButtonId);
+
         if (commentTextArea.value.toString().trim() == "") {
             commentSubmitBtn.setAttribute('disabled', '')
             commentSubmitBtn.classList.remove('allowed')
@@ -208,13 +240,17 @@
             commentSubmitBtn.classList.add('allowed')
             commentSubmitBtn.removeAttribute('disabled')
         }
-        if (repTextArea.value.toString().trim() == "") {
-            repBtn.setAttribute('disabled', '')
-            repBtn.classList.remove('allowed')
-        } else {
-            repBtn.classList.add('allowed')
-            repBtn.removeAttribute('disabled')
+
+        if (repTextArea != null) {
+            if (repTextArea.value.toString().trim() == "") {
+                repBtn.setAttribute('disabled', '')
+                repBtn.classList.remove('allowed')
+            } else {
+                repBtn.classList.add('allowed')
+                repBtn.removeAttribute('disabled')
+            }
         }
+
     }
     function handleRep(commentId) {
         var tmp = '' + commentId + '';
@@ -223,9 +259,23 @@
         repForm.style.display = 'block';
         repBtnn.style.display = 'none';
     }
+
+    //function handle open menu
+    function handleMenu() {
+        dropdownMenu.style.display = 'block';
+    }
+    document.addEventListener('click', function handleClickOutsideMenu(event) {
+        if (!dropdownMenu.contains(event.target) && !menuBtn.contains(event.target)) {
+            dropdownMenu.style.display = 'none';
+        }
+    });
+
 </script>
 
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.all.min.js"></script>
+<link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.min.css'>
+
 
 @*like action*@
 <script>
@@ -256,12 +306,11 @@
                         $('#btnLike').html(htmlContent);
                     }
                     else { // result[0] == 3 Nhựt dô chỉnh lại sweetalert!!!
-                        alert("Bạn cần phải login trước khi thả tym!");
-                        const Swal = require('sweetalert2');
+                        //alert("Bạn cần phải login trước khi thả tym!");
                         Swal.fire({
-                            icon: 'warning',
-                            title: 'Oops...',
-                            text: 'Bạn cần phải login trước khi thả tym!'
+                            icon: 'error',
+                            title: 'Hold up...',
+                            text: 'You need to login before like this content!'
                         });
                     }
                 }, error: function(error) {
@@ -284,8 +333,17 @@
                 dataType: 'json',
                 success: function(result) {
                     if (!result) {
-                        alert('Bạn cần phải login trước khi gửi comment');
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Hold up...',
+                            text: 'you need to login before comment!'
+                        });
                     } else {
+                        var commentId = result.commentId;
+
+                        var textAreaId = 'txt' + commentId;
+                        var repBtnId = 'repBtn' + commentId;
+
                         var firstName = result.firstName;
                         var lastName = result.lastName;
                         var createdAt = result.createdAt;
@@ -298,7 +356,7 @@
                         let content = `<div class="comment-root">
                                                 <div class="content">
                                                     <img src="../img/user.png" />
-                                                    <div>
+                                                    <div style="width: 100%">
                                                         <div class="comment">
                                                             <div class="d-flex align-items-center">
                                                                 <div class="user">
@@ -310,16 +368,16 @@
                                                             <div>` + $('#commentContent').val() + `</div>
                                                         </div>
                                                         <div class="rep-btn">
-                                                            <button class="repBtn" onclick="handleRep()">
+                                                            <button class="repBtn" onclick="handleRep('` + commentId + `')">
                                                                 <ion-icon name="chatbubbles-outline"></ion-icon>
                                                                 Reply
                                                             </button>
-                                                            <div id="rep-form">
-                                                                <textarea placeholder="Reply..."
+                                                            <div id="` + commentId + `" class="rep-form" style="display:none">
+                                                                <textarea id="` + textAreaId + `" placeholder="Reply..."
                                                                       class="rep-comment-textarea"
-                                                                      oninput="handleInput()"></textarea>
+                                                                      oninput="handleInput('` + textAreaId + `', '` + repBtnId + `')"></textarea>
                                                                 <div class="rep-comment-btn-group">
-                                                                    <button class="submit-rep-btn" disabled>
+                                                                    <button id="` + repBtnId + `" class="submit-rep-btn" disabled>
                                                                         Submit
                                                                     </button>
                                                                 </div>
@@ -329,7 +387,7 @@
                                                 </div>
                                             </div>`;
                         commentsForeach.insertAdjacentHTML("afterbegin", content);
-                        $('#commentContent').value = ''; // this code line is not valid!
+                        $('#commentContent').val('');
                     }
                 }, error: function(error) {
                     console.log(error);

@@ -1,0 +1,47 @@
+﻿* {
+    margin: 0;
+    padding: 0;
+}
+
+    *:focus {
+        outline: 0 !important;
+    }
+
+/*============  Create Post =============== */
+.id-hide {
+    display: none;
+}
+
+h1 {
+    font-size: 30px;
+    font-weight: 700;
+    color: #6C6C6C;
+}
+
+label {
+    font-size: 20px;
+    font-weight: 700;
+    color: #6C6C6C;
+    margin-bottom: 10px;
+}
+
+input::placeholder {
+    color: #BCBCBC;
+}
+
+.post-description {
+    width: 80vw;
+}
+
+.top-content {
+    width: 40vw;
+    display: flex;
+    gap: 20px;
+    justify-content: space-between;
+}
+
+.post-title {
+    width: 40vw;
+}
+
+/*=========== End Create Post ==============*/

@@ -5,50 +5,61 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
+<link rel="stylesheet" href="~/css/CRUD.css" />
+<script src="https://cdn.tiny.cloud/1/pyapdqq1dyb1bd234vpnlt6ssc4x4i0ii786ea6y1tz9wypw/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+<script>tinymce.init({ selector: 'textarea' });</script>
 
-<h4>Post</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form method="post">
+<div class="container-fluid">
+    <h1>Create New Post</h1>
+    <hr />
+
+    <form method="post" id="createPost" class="create-post">
+        <div class="left-content">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Post.GroupPostId" class="control-label"></label>
-                <select asp-for="Post.GroupPostId" class ="form-control" asp-items="ViewBag.GroupPostId"></select>
+            <div class="top-content">
+                <div class="form-group">
+                    <label asp-for="Post.GroupPostId" class="control-label"></label>
+                    <select asp-for="Post.GroupPostId" class="form-control" asp-items="ViewBag.GroupPostId"></select>
+                </div>
+                <div class="form-group id-hide">
+                    <label asp-for="Post.PostTypeId" class="control-label"></label>
+                    <select asp-for="Post.PostTypeId" class="form-control" asp-items="ViewBag.PostTypeId"></select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Post.Tags" class="control-label"></label>
+                    <input asp-for="Post.Tags" class="form-control" placeholder="ex: warning carefull fun" />
+                    <span asp-validation-for="Post.Tags" class="text-danger"></span>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Post.PostTypeId" class="control-label"></label>
-                <select asp-for="Post.PostTypeId" class ="form-control" asp-items="ViewBag.PostTypeId"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="Post.Tags" class="control-label">Tags (Vd: HTML CSS JavaScript ...)</label>
-                <input asp-for="Post.Tags" class="form-control" />
-                <span asp-validation-for="Post.Tags" class="text-danger"></span>
-            </div>
-            <div class="form-group">
+
+
+            <div class="form-group post-title">
                 <label asp-for="Post.Title" class="control-label"></label>
                 <input asp-for="Post.Title" class="form-control" />
                 <span asp-validation-for="Post.Title" class="text-danger"></span>
             </div>
-            <div class="form-group">
+        </div>
+
+        <div class="right-content">
+            <div class="form-group post-description">
                 <label asp-for="Post.PostContent" class="control-label"></label>
-                <input asp-for="Post.PostContent" class="form-control" />
+                @*<input asp-for="Post.PostContent" class="form-control" />*@
+                <textarea class="textarea" name="description" cols="50" rows="40" form="createPost"></textarea>
                 <span asp-validation-for="Post.PostContent" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group id-hide">
                 <label asp-for="Post.Status" class="control-label"></label>
-                <select asp-for="Post.Status" class ="form-control" asp-items="ViewBag.Status"></select>
+                <select asp-for="Post.Status" class="form-control" asp-items="ViewBag.Status"></select>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
-        </form>
-    </div>
-</div>
+        </div>
+    </form>
 
-<div>
-    <a asp-page="Index">Back to List</a>
+    <div>
+        <a asp-page="Index">Go Back</a>
+    </div>
 </div>
 
 @section Scripts {
