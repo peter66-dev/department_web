@@ -16,17 +16,22 @@ namespace MyWeb.Pages.Posts
         private readonly department_dbContext _context;
         private ILikeRepository likeRepo;
         private IPostRepository postRepo;
+        private IUserRepository userRepo;
+        private ICommentRepository cmtRepo;
 
         public bool IsLiked { get; set; } = false;
+        public Post Post { get; set; }
 
         public DetailsModel(department_dbContext context)
         {
             _context = context;
             likeRepo = new LikeRepository();
             postRepo = new PostRepository();
+            userRepo = new UserRepository();
+            cmtRepo = new CommentRepository();
+            Post = new Post();
         }
 
-        public Post Post { get; set; }
 
         public async Task<IActionResult> OnGetAsync(Guid? id)
         {
@@ -79,7 +84,7 @@ namespace MyWeb.Pages.Posts
             string userid = HttpContext.Session.GetString("CURRENT_USER_ID");
             if (userid == null)
             {
-                return new JsonResult(3);
+                return new JsonResult(new int[] { 3 });
             }
             else
             {
@@ -101,6 +106,34 @@ namespace MyWeb.Pages.Posts
                     Console.WriteLine("Something's wrong in changeLikeTotal!");
                 }
                 return new JsonResult(new int[] { result, currentLikesTotal });
+            }
+        }
+
+        public JsonResult OnGetCommentAction(string postid, string content)
+        {
+            Console.WriteLine("Tui goi ajax qua Model view duoc roi ne!");
+            Console.WriteLine("PostID: " + postid);
+            Console.WriteLine("Content: " + content);
+
+            string userid = HttpContext.Session.GetString("CURRENT_USER_ID");
+            if (userid == null)
+            {
+                return new JsonResult(false);
+            }
+            else
+            {
+                Console.WriteLine("Toi la model view!");
+                User userCmt = userRepo.GetUserById(Guid.Parse(userid));
+                Comment comment = cmtRepo.CreateComment(Guid.Parse(userid), Guid.Parse(postid), content);
+                int commentsTotal = postRepo.IncreaseCommentsTotal(Guid.Parse(postid));
+                //return new JsonResult(commentsTotal);
+                return new JsonResult(new
+                {
+                    firstName = userCmt.FirstName,
+                    lastName = userCmt.LastName,
+                    createdAt = comment.CreatedDate.ToString("dd MMMM yyyy h:mm tt"),
+                    commentsTotal = commentsTotal
+                });
             }
         }
     }

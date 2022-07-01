@@ -17,5 +17,7 @@ namespace LibraryWeb.Repository
 
         public int IncreaseLikesTotal(Guid postid)
             => PostDAO.Instance.IncreaseLikesTotal(postid);
+
+        public int IncreaseCommentsTotal(Guid postid) =>PostDAO.Instance.IncreaseCommentsTotal(postid);
     }
 }

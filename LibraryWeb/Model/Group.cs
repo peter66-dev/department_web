@@ -15,7 +15,7 @@ namespace LibraryWeb.Model
 
         public Guid GroupId { get; set; }
         public Guid GroupOwnerId { get; set; }
-        public string GroupName { get; set; }
+        public string GroupName { get; set; } // Phải check trùng
         public string GroupDescription { get; set; }
         public DateTime CreatedDate { get; set; }
         public int PublicStatus { get; set; }

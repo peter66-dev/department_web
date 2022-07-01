@@ -59,24 +59,26 @@
             <hr />
             <div class="discussion">
                 <div class="discussion-top">
-                    <p>Comments <span class="discuss-amount">(@Model.Post.CommentsTotal)</span></p>
+                    <p>Comments <span id="commentsTotal" class="discuss-amount">(@Model.Post.CommentsTotal)</span></p>
                 </div>
                 <div class="discussion-bottom">
+                    @*<form>*@
                     <img src="~/img/user.png" />
-                    <form>
-                        <textarea placeholder="Add comment..."
-                                  class="comment-textarea"
-                                  onfocus="handleFocus()"
-                                  oninput="handleInput()"></textarea>
-                        <div class="comment-btn-group">
-                            <button class="submit-btn" disabled>
-                                Submit
-                            </button>
-                        </div>
-                    </form>
-
+                    <textarea id="commentContent" placeholder="Add comment..."
+                              class="comment-textarea"
+                              onfocus="handleFocus()"
+                              oninput="handleInput()"></textarea>
+                    <div class="comment-btn-group">
+                        <button id="btnCommentRoot" class="submit-btn" disabled>
+                            Submit
+                        </button>
+                    </div>
+                    @*</form>*@
                 </div>
                 <div class="comments">
+
+                    <span id="commentsForeach"></span> @*make new comment*@
+
                     @foreach (Comment cmt in @Model.Post.Comments.OrderBy(c => c.CreatedDate).Reverse())
                     {
                         <div class="comment-root">
@@ -96,11 +98,11 @@
                                         </div>
                                     </div>
                                     <div class="rep-btn">
-                                        <button class="repBtn" onclick="handleRep()">
+                                        <button class="repBtn" onclick="handleRep('@cmt.CommentId.ToString()')">
                                             <ion-icon name="chatbubbles-outline"></ion-icon>
                                             Reply
                                         </button>
-                                        <form id="rep-form">
+                                        <form id="@cmt.CommentId.ToString()" class="rep-form" style="display:none">
                                             <textarea placeholder="Reply..."
                                                   class="rep-comment-textarea"
                                                   oninput="handleInput()"></textarea>
@@ -175,7 +177,6 @@
     const commentGroup = document.querySelector('.comment-btn-group');
     const commentTextArea = document.querySelector('.comment-textarea');
     const commentSubmitBtn = document.querySelector('.submit-btn');
-    const repForm = document.querySelector('#rep-form');
     const repTextArea = document.querySelector('.rep-comment-textarea');
     const repBtn = document.querySelector('.submit-rep-btn');
     const repBtnn = document.querySelector('.repBtn');
@@ -199,7 +200,7 @@
         commentTextArea.style.height = '128px';
         commentTextArea.style.border = '2px solid #150ec9';
     }
-    function handleInput() {
+    function handleInput() { // bug here
         if (commentTextArea.value.toString().trim() == "") {
             commentSubmitBtn.setAttribute('disabled', '')
             commentSubmitBtn.classList.remove('allowed')
@@ -215,22 +216,23 @@
             repBtn.removeAttribute('disabled')
         }
     }
-    function handleRep() {
+    function handleRep(commentId) {
+        var tmp = '' + commentId + '';
+        console.log(tmp);
+        var repForm = document.getElementById(tmp);
         repForm.style.display = 'block';
         repBtnn.style.display = 'none';
     }
 </script>
 
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.19/dist/sweetalert2.all.min.js"></script>
-<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="sweetalert2.all.min.js"></script>
 
+@*like action*@
 <script>
     $(document).ready(function() {
         $('#btnLike').click(function() {
             $.ajax({
-                type: "GET",
+                type: 'GET',
                 url: '/Posts/Details?handler=LikeAction&postid=@Model.Post.PostId.ToString()',
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
@@ -239,29 +241,98 @@
                     if (result[0] == 1) { // active like icon BUG chỗ lấy heart.png
                         console.log('btnLike was actived!');
                         htmlContent += `<button class="like-btn liked">
-                                            <ion-icon class="icon like-icon" name="heart-outline" style="display:none"></ion-icon>
-                                            <img class="heart-icon" src="../img/heart.png" style="display:block" />
-                                        </button>`;
+                                                                            <ion-icon class="icon like-icon" name="heart-outline" style="display:none"></ion-icon>
+                                                                            <img class="heart-icon" src="../img/heart.png" style="display:block" />
+                                                                        </button>`;
                         htmlContent += `<p class="like-amount">` + result[1] + `</p>`;
                         $('#btnLike').html(htmlContent);
                     } else if (result[0] == 2) { // inactive like icon BUG chỗ lấy heart.png
                         console.log('btnLike was inactived!');
                         htmlContent += `<button class="like-btn">
-                                            <ion-icon class="icon like-icon" name="heart-outline" style="display:block"></ion-icon>
-                                            <img class="heart-icon" src="../img/heart.png" style="display:none" />
-                                        </button>`;
+                                                                            <ion-icon class="icon like-icon" name="heart-outline" style="display:block"></ion-icon>
+                                                                            <img class="heart-icon" src="../img/heart.png" style="display:none" />
+                                                                        </button>`;
                         htmlContent += `<p class="like-amount">` + result[1] + `</p>`;
                         $('#btnLike').html(htmlContent);
                     }
-                    else { // result == 3 Nhựt dô chỉnh lại sweetalert!!!
-                        alert("Bạn cần phải login trước khi thả tym hoặc gửi comment!");
+                    else { // result[0] == 3 Nhựt dô chỉnh lại sweetalert!!!
+                        alert("Bạn cần phải login trước khi thả tym!");
                         const Swal = require('sweetalert2');
                         Swal.fire({
                             icon: 'warning',
                             title: 'Oops...',
-                            text: 'Bạn cần phải login trước khi thả tym hoặc gửi comment!'
+                            text: 'Bạn cần phải login trước khi thả tym!'
                         });
                     }
+                }, error: function(error) {
+                    console.log(error);
+                }
+            });
+        });
+    });
+</script>
+
+@*comment action*@
+<script>
+    $(document).ready(function() {
+        $('#btnCommentRoot').click(function() {
+            $.ajax({
+                type: 'GET',
+                url: '/Posts/Details?handler=CommentAction&content='
+                    + $('#commentContent').val() + '&postid=@Model.Post.PostId.ToString()',
+                contentType: "application/json; charset=utf-8",
+                dataType: 'json',
+                success: function(result) {
+                    if (!result) {
+                        alert('Bạn cần phải login trước khi gửi comment');
+                    } else {
+                        var firstName = result.firstName;
+                        var lastName = result.lastName;
+                        var createdAt = result.createdAt;
+                        var commentsTotal = result.commentsTotal;
+                        console.log('Inserting comment ...');
+                        $('#commentsTotal').html('(' + commentsTotal + ')'); // update comments total
+
+                        // add 1 comment div on top comments list
+                        const commentsForeach = document.getElementById("commentsForeach");
+                        let content = `<div class="comment-root">
+                                                <div class="content">
+                                                    <img src="../img/user.png" />
+                                                    <div>
+                                                        <div class="comment">
+                                                            <div class="d-flex align-items-center">
+                                                                <div class="user">
+                                                                    <a href="#" class="cmt-user text-decoration-none">` + firstName + ` ` + lastName + `</a>
+                                                                </div>
+                                                                <p class="cmt-time ml-2 ">` + createdAt + `</p>
+                                                            </div>
+
+                                                            <div>` + $('#commentContent').val() + `</div>
+                                                        </div>
+                                                        <div class="rep-btn">
+                                                            <button class="repBtn" onclick="handleRep()">
+                                                                <ion-icon name="chatbubbles-outline"></ion-icon>
+                                                                Reply
+                                                            </button>
+                                                            <div id="rep-form">
+                                                                <textarea placeholder="Reply..."
+                                                                      class="rep-comment-textarea"
+                                                                      oninput="handleInput()"></textarea>
+                                                                <div class="rep-comment-btn-group">
+                                                                    <button class="submit-rep-btn" disabled>
+                                                                        Submit
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>`;
+                        commentsForeach.insertAdjacentHTML("afterbegin", content);
+                        $('#commentContent').value = ''; // this code line is not valid!
+                    }
+                }, error: function(error) {
+                    console.log(error);
                 }
             });
         });

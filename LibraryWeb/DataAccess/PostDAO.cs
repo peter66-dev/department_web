@@ -101,6 +101,24 @@ namespace MyLibrary.DataAccess
             }
         }
 
+        public int IncreaseCommentsTotal(Guid postid)
+        {
+            int result = 0;
+            try
+            {
+                var context = new department_dbContext();
+                Post post = context.Posts.SingleOrDefault(p => p.PostId.Equals(postid));
+                ++post.CommentsTotal;
+                result = post.CommentsTotal;
+                context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error at IncreaseCommentsTotal: " + ex.Message);
+            }
+            return result;
+        }
+
         public int IncreaseLikesTotal(Guid postid)
         {
             int result = 0;
@@ -136,5 +154,7 @@ namespace MyLibrary.DataAccess
             }
             return result;
         }
+
+
     }
 }

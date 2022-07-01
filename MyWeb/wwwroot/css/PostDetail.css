@@ -270,12 +270,12 @@
             }
 
         /* rep form */
-        .main-detail-container .discussion .comments #rep-form {
+        .main-detail-container .discussion .comments .rep-form {
             display: none;
             width: 100%;
         }
 
-            .main-detail-container .discussion .comments #rep-form textarea {
+            .main-detail-container .discussion .comments .rep-form textarea {
                 width: 100%;
                 height: 128px;
                 width: 100%;

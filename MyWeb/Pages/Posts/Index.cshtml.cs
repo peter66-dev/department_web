@@ -37,7 +37,6 @@ namespace MyWeb.Pages.Posts
             {
                 if (searchString != null && searchString.Trim().Length > 0) // search by tag + title
                 {
-                    Console.WriteLine("Search string: " + searchString);
                     Posts = await context.Posts.Where(p => (p.Tags.Contains(searchString) && (p.GroupPost.PublicStatus == 5 || p.PostType.PostTypeName.Equals("Announcement"))
                                                           || (p.Title.Contains(searchString) && (p.GroupPost.PublicStatus == 5 || p.PostType.PostTypeName.Equals("Announcement")))))
                                                 .OrderBy(p => p.CreatedDate).Reverse()
@@ -51,7 +50,6 @@ namespace MyWeb.Pages.Posts
                 }
                 else if (searchTag != null)                               // search by tag
                 {
-                    Console.WriteLine("Search by tag!Tag: " + searchTag);
                     Posts = await context.Posts.Where(p => p.Tags.Contains(searchTag) && (p.GroupPost.PublicStatus == 5 || p.PostType.PostTypeName.Equals("Announcement")))
                                                .OrderBy(p => p.CreatedDate).Reverse()
                                                .Include(p => p.GroupPost)
@@ -73,7 +71,6 @@ namespace MyWeb.Pages.Posts
                                                 .Include(p => p.UserPost)
                                                 .ThenInclude(u => u.Role)
                                                 .ToListAsync();
-                    Console.WriteLine($"Load home page! Co {Posts.Count} posts");
                     searchString = null;
                     searchTag = null;
                 }
@@ -84,14 +81,12 @@ namespace MyWeb.Pages.Posts
                 if (role.Equals("MANAGER"))
                 {
                     var groupContXext = new department_dbContext();
-                    Console.WriteLine("Toi la manager 1");
                     Groups = await groupContXext.Groups
                                                     .Where(g => g.GroupOwnerId.ToString() == (currenxt_user_id))
                                                     .ToListAsync();
                 }
                 else if (role.Equals("RESIDENT"))
                 {
-                    Console.WriteLine("Toi la resident 1");
                     var groupUserContext = new department_dbContext();
                     GroupUsers = await groupUserContext.GroupUsers
                                                     .Where(g => g.MemberId.ToString() == (currenxt_user_id))
@@ -100,7 +95,6 @@ namespace MyWeb.Pages.Posts
                 }
                 if (searchString != null && searchString.Trim().Length > 0)
                 {
-                    Console.WriteLine("Search string: " + searchString);
                     Posts = await context.Posts.Where(p => p.Tags.Contains(searchString)
                                                       && p.GroupPost.PublicStatus == 5)
                                                 .OrderBy(p => p.CreatedDate).Reverse()
@@ -114,7 +108,6 @@ namespace MyWeb.Pages.Posts
                 }
                 else if (searchTag != null)
                 {
-                    Console.WriteLine("Search by tag!Tag: " + searchTag);
                     Posts = await context.Posts.Where(p => p.Tags.Contains(searchTag)
                                                     && p.GroupPost.PublicStatus == 5)
                                                .OrderBy(p => p.CreatedDate).Reverse()
@@ -128,7 +121,6 @@ namespace MyWeb.Pages.Posts
                 }
                 else
                 {
-                    Console.WriteLine("Search by default!");
                     Posts = await context.Posts.Where(p => p.GroupPost.PublicStatus == 5)
                                                 .OrderBy(p => p.CreatedDate).Reverse()
                                                 .Include(p => p.GroupPost)

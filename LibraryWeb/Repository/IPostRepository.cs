@@ -12,5 +12,6 @@ namespace LibraryWeb.Repository
         IEnumerable<Post> GetPosts();
         public int IncreaseLikesTotal(Guid postid);
         public int DecreaseLikesTotal(Guid postid);
+        public int IncreaseCommentsTotal(Guid postid);
     }
 }

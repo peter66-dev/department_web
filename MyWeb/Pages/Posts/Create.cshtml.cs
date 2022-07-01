@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using LibraryWeb.Model;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using LibraryWeb.DataAccess;
-using LibraryWeb.Model;
+using System.Threading.Tasks;
 
 namespace MyWeb.Pages.Posts
 {
@@ -21,10 +17,10 @@ namespace MyWeb.Pages.Posts
 
         public IActionResult OnGet()
         {
-        ViewData["GroupPostId"] = new SelectList(_context.Groups, "GroupId", "GroupDescription");
+        ViewData["GroupPostId"] = new SelectList(_context.Groups, "GroupId", "GroupName");
         ViewData["PostTypeId"] = new SelectList(_context.PostTypes, "PostTypeId", "PostTypeName");
         ViewData["Status"] = new SelectList(_context.Statuses, "StatusId", "StatusName");
-        ViewData["UserPostId"] = new SelectList(_context.Users, "UserId", "Address");
+        ViewData["UserPostId"] = new SelectList(_context.Users, "UserId", "Email");
             return Page();
         }
 
@@ -39,8 +35,8 @@ namespace MyWeb.Pages.Posts
                 return Page();
             }
 
-            _context.Posts.Add(Post);
-            await _context.SaveChangesAsync();
+            //_context.Posts.Add(Post);
+            //await _context.SaveChangesAsync();
 
             return RedirectToPage("./Index");
         }

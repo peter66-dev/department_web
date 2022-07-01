@@ -23,9 +23,10 @@
             </li>
             </a>
 
-            @if (Accessor.HttpContext.Session.GetString("ROLE") != null && Accessor.HttpContext.Session.GetString("ROLE").Equals("ADMIN"))
+            @if (Accessor.HttpContext.Session.GetString("ROLE") != null 
+                && Accessor.HttpContext.Session.GetString("ROLE").Equals("ADMIN"))
             {
-                <a asp-page="Index">
+                <a asp-page="Create">
                 <li class="d-flex align-items-center">
                     <div class="anounce-manage-icon icon"></div>
                     Create Anouncement
@@ -39,9 +40,11 @@
                 </a>
             }
 
-            @if (Accessor.HttpContext.Session.GetString("ROLE") != null && Accessor.HttpContext.Session.GetString("ROLE").Equals("MANAGER"))
+            @if (Accessor.HttpContext.Session.GetString("ROLE") != null 
+                && (Accessor.HttpContext.Session.GetString("ROLE").Equals("MANAGER") ||
+                 Accessor.HttpContext.Session.GetString("ROLE").Equals("RESIDENT")))
             {
-                <a asp-page="Index">
+                <a asp-page="Create">
                 <li class="d-flex align-items-center">
                     <div class="post-manage-icon icon"></div>
                     Create Post
@@ -50,7 +53,8 @@
             }
         </ul>
 
-        @if (Accessor.HttpContext.Session.GetString("ROLE") != null && Accessor.HttpContext.Session.GetString("ROLE").Equals("MANAGER"))
+        @if (Accessor.HttpContext.Session.GetString("ROLE") != null 
+            && Accessor.HttpContext.Session.GetString("ROLE").Equals("MANAGER"))
         {
             <p class="font-weight-bold mb-2 mt-2">Groups</p>
             @if (@Model.Groups.Count > 0)

@@ -1,8 +1,10 @@
 ﻿using LibraryWeb.DataAccess;
 using LibraryWeb.Model;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace MyLibrary.DataAccess
 {
@@ -70,18 +72,31 @@ namespace MyLibrary.DataAccess
                 throw new Exception("Error at DeleteCommentById: " + ex.Message);
             }
         }
-        public void CreateComment(Comment comment)
+        public Comment CreateComment(Guid userid, Guid postid, string content)
         {
+            Comment cmt = null;
             try
             {
                 var context = new department_dbContext();
+                Comment comment = new Comment()
+                {
+                    CommentId = Guid.NewGuid(),
+                    UserCommentId = userid,
+                    PostId = postid,
+                    CommentContent = content,
+                    CreatedDate = DateTime.Now,
+                    Status = 5
+                };
+                Console.WriteLine("Created at: " + comment.CreatedDate);
                 context.Comments.Add(comment);
                 context.SaveChanges();
+                cmt = comment;
             }
             catch (Exception ex)
             {
                 throw new Exception("Error at CreateComment: " + ex.Message);
             }
+            return cmt;
         }
 
 
