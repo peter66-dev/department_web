@@ -43,18 +43,21 @@
                     @{
                         if (Accessor.HttpContext.Session.GetString("ROLE") != null)
                         {
-                                <li class="nav-item mr-2">
-                                    <p class="nav-link text-dark">Welcome @Accessor.HttpContext.Session.GetString("ROLE").ToLower(), <span class="text-info">@Accessor.HttpContext.Session.GetString("CURRENT_USER_FULLNAME")</span></p>
-                                </li>
+                            <li class="nav-item mr-2 d-flex align-items-center" >
+                                <p class="nav-link text-dark">Welcome @Accessor.HttpContext.Session.GetString("ROLE").ToLower(), <span class="text-info">@Accessor.HttpContext.Session.GetString("CURRENT_USER_FULLNAME")</span></p>
+                            </li>
+                            <li class="nav-item mr-2 btn-logout">
+                                <a class="nav-link " asp-area="" asp-page="">Log out</a>
+                            </li>
                         }
                         else
                         {
-                                <li class="nav-item mr-2 btn-login">
-                                    <a class="nav-link " asp-area="" asp-page="/Login">Log in</a>
-                                </li>
-                                <li class="nav-item btn-register">
-                                    <a class="nav-link " asp-area="" asp-page="./Post/Index">Create account</a>
-                                </li>
+                            <li class="nav-item mr-2 btn-login">
+                                <a class="nav-link " asp-area="" asp-page="/Login">Log in</a>
+                            </li>
+                            <li class="nav-item btn-register">
+                                <a class="nav-link " asp-area="" asp-page="./Post/Index">Create account</a>
+                            </li>
                         }
                     }
                 </ul>
