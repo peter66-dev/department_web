@@ -87,7 +87,6 @@ namespace MyLibrary.DataAccess
                     CreatedDate = DateTime.Now,
                     Status = 5
                 };
-                Console.WriteLine("Created at: " + comment.CreatedDate);
                 context.Comments.Add(comment);
                 context.SaveChanges();
                 cmt = comment;

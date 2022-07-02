@@ -1,44 +1,61 @@
-﻿using LibraryWeb.Model;
+﻿using LibraryWeb.DataAccess;
+using LibraryWeb.Model;
+using LibraryWeb.Repository;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace MyWeb.Pages.Posts
 {
     public class CreateModel : PageModel
     {
-        private readonly LibraryWeb.DataAccess.department_dbContext _context;
+        private IGroupUserRepository groupUserRepo;
+        private IPostRepository postRepo;
 
-        public CreateModel(LibraryWeb.DataAccess.department_dbContext context)
+        public CreateModel()
         {
-            _context = context;
+            groupUserRepo = new GroupUserRepository();
+            postRepo = new PostRepository();
         }
 
-        public IActionResult OnGet()
+        public async Task<IActionResult> OnGetAsync()
         {
-        ViewData["GroupPostId"] = new SelectList(_context.Groups, "GroupId", "GroupName");
-        ViewData["PostTypeId"] = new SelectList(_context.PostTypes, "PostTypeId", "PostTypeName");
-        ViewData["Status"] = new SelectList(_context.Statuses, "StatusId", "StatusName");
-        ViewData["UserPostId"] = new SelectList(_context.Users, "UserId", "Email");
+            string userid = HttpContext.Session.GetString("CURRENT_USER_ID");
+            ViewData["GroupPostId"] = new SelectList(await groupUserRepo.GetGroupsByUserId(Guid.Parse(userid)),
+                                                        "GroupId",
+                                                        "GroupName");
             return Page();
         }
 
         [BindProperty]
         public Post Post { get; set; }
 
-        // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
         {
+            string userid = HttpContext.Session.GetString("CURRENT_USER_ID");
             if (!ModelState.IsValid)
             {
+                Console.WriteLine("Post information is not valid!");
+                ViewData["GroupPostId"] = new SelectList(await groupUserRepo.GetGroupsByUserId(Guid.Parse(userid)),
+                                                            "GroupId",
+                                                            "GroupName");
                 return Page();
             }
+            else
+            {
+                Console.WriteLine("Good information");
+                string roleName = HttpContext.Session.GetString("ROLE");
+                postRepo.CreatePost(Guid.Parse(userid), roleName, Post.GroupPostId.Value, Post.Title, Post.Tags, Post.PostContent);
+                return RedirectToPage("./Index");
+            }
 
-            //_context.Posts.Add(Post);
-            //await _context.SaveChangesAsync();
 
-            return RedirectToPage("./Index");
         }
     }
 }

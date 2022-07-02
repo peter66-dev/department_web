@@ -1,6 +1,7 @@
 ﻿using LibraryWeb.Model;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace LibraryWeb.Repository
 {
@@ -10,5 +11,6 @@ namespace LibraryWeb.Repository
         void DeleteGroupById(Guid groupId);
         Group GetGroupById(Guid groupId);
         IEnumerable<Group> GetGroups();
+        Task<IEnumerable<Group>> GetGroupsByLeaderId(Guid leaderId);
     }
 }

@@ -47,7 +47,7 @@
                                 <p class="nav-link text-dark">Welcome @Accessor.HttpContext.Session.GetString("ROLE").ToLower(), <span class="text-info">@Accessor.HttpContext.Session.GetString("CURRENT_USER_FULLNAME")</span></p>
                             </li>
                             <li class="nav-item mr-2 btn-logout">
-                                <a class="nav-link " asp-area="" asp-page="">Log out</a>
+                                <a class="nav-link " asp-area="" asp-page-handler="Logout" asp-page="/Login">Log out</a>
                             </li>
                         }
                         else

@@ -1,8 +1,10 @@
 ﻿using LibraryWeb.DataAccess;
 using LibraryWeb.Model;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace MyLibrary.DataAccess
 {
@@ -34,7 +36,7 @@ namespace MyLibrary.DataAccess
             try
             {
                 var context = new department_dbContext();
-                context.GroupUsers.ToList();
+                list = context.GroupUsers.ToList();
             }
             catch (Exception ex)
             {
@@ -42,6 +44,29 @@ namespace MyLibrary.DataAccess
             }
             return list;
         }
+
+        public async Task<IEnumerable<Group>> GetGroupsByUserId(Guid userid)
+        {
+            List<Group> list = new List<Group>();
+            try
+            {
+                var context = new department_dbContext();
+                var tmp = await context.GroupUsers
+                                .Where(gu => gu.MemberId == userid)
+                                .Include(gu => gu.Group).ToListAsync();
+                foreach (var cur in tmp)
+                {
+                    list.Add(cur.Group);
+                }
+                Console.WriteLine($"Co {list.Count} groups with userid: "+ userid);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error at GetGroupsByUserId: " + ex.Message);
+            }
+            return list;
+        }
+
         public GroupUser GetGroupUserById(Guid groupUserId)
         {
             GroupUser gu = new GroupUser();
@@ -56,6 +81,7 @@ namespace MyLibrary.DataAccess
             }
             return gu;
         }
+
         public void DeleteGroupUserById(Guid groupUserId)
         {
 
@@ -71,6 +97,7 @@ namespace MyLibrary.DataAccess
                 throw new Exception("Error at DeleteGroupUserById: " + ex.Message);
             }
         }
+
         public void CreateGroupUser(GroupUser groupUser)
         {
             try

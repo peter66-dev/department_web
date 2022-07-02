@@ -18,17 +18,19 @@ namespace MyWeb.Pages.Posts
         private readonly department_dbContext context;
 
         public IUserRepository userRepo;
+        public IPostRepository postRepo;
+        public IList<Post> Posts { get; set; }
+        public IList<Post> HotNews { get; set; }
+        public IList<GroupUser> GroupUsers { get; set; }
+        public IList<Group> Groups { get; set; }
 
         public IndexModel(department_dbContext context)
         {
             this.context = context;
             userRepo = new UserRepository();
+            postRepo = new PostRepository();
         }
 
-        public IList<Post> Posts { get; set; }
-        public IList<Post> HotNews { get; set; }
-        public IList<GroupUser> GroupUsers { get; set; }
-        public IList<Group> Groups { get; set; }
 
         public async Task OnGetAsync(string searchString, string searchTag, string loadPage)
         {
@@ -61,9 +63,10 @@ namespace MyWeb.Pages.Posts
                     searchTag = null;
                 }
 
-                else
+                else // OK
                 {
-                    Posts = await context.Posts.Where(p => p.GroupPost.PublicStatus == 5 || p.PostType.PostTypeName.Equals("Announcement"))
+                    Posts = await context.Posts.Where(p => p.GroupPost.PublicStatus == 5
+                                                        || p.PostType.PostTypeName.Equals("Announcement"))
                                                 .OrderBy(p => p.CreatedDate).Reverse()
                                                 .Include(p => p.GroupPost)
                                                 .Include(p => p.PostType)
@@ -77,67 +80,43 @@ namespace MyWeb.Pages.Posts
             }
             else // Đã login!
             {
-                string currenxt_user_id = HttpContext.Session.GetString("CURRENT_USER_ID");
+                string current_user_id = HttpContext.Session.GetString("CURRENT_USER_ID");
                 if (role.Equals("MANAGER"))
-                {
+                { // Lấy ra những group mà nó đang làm chủ
                     var groupContXext = new department_dbContext();
                     Groups = await groupContXext.Groups
-                                                    .Where(g => g.GroupOwnerId.ToString() == (currenxt_user_id))
+                                                    .Where(g => g.GroupOwnerId.ToString() == (current_user_id))
                                                     .ToListAsync();
                 }
                 else if (role.Equals("RESIDENT"))
-                {
+                { // Lấy ra những group mà nó đang follow
                     var groupUserContext = new department_dbContext();
                     GroupUsers = await groupUserContext.GroupUsers
-                                                    .Where(g => g.MemberId.ToString() == (currenxt_user_id))
+                                                    .Where(g => g.MemberId.ToString() == (current_user_id))
                                                     .Include(p => p.Group)
                                                     .ToListAsync();
                 }
-                if (searchString != null && searchString.Trim().Length > 0)
+
+                if (searchString != null && searchString.Trim().Length > 0) // Lấy các bài mà manager đang quản lý trong group???
                 {
-                    Posts = await context.Posts.Where(p => p.Tags.Contains(searchString)
-                                                      && p.GroupPost.PublicStatus == 5)
-                                                .OrderBy(p => p.CreatedDate).Reverse()
-                                                .Include(p => p.GroupPost)
-                                                .Include(p => p.PostType)
-                                                .Include(p => p.StatusNavigation)
-                                                .Include(p => p.UserPost)
-                                                .ThenInclude(u => u.Role)
-                                                .ToListAsync();
+                    Posts = await postRepo.SearchStringPostsByUserLogined(Guid.Parse(current_user_id), searchString);
                     searchString = null;
                 }
                 else if (searchTag != null)
                 {
-                    Posts = await context.Posts.Where(p => p.Tags.Contains(searchTag)
-                                                    && p.GroupPost.PublicStatus == 5)
-                                               .OrderBy(p => p.CreatedDate).Reverse()
-                                               .Include(p => p.GroupPost)
-                                               .Include(p => p.PostType)
-                                               .Include(p => p.StatusNavigation)
-                                               .Include(p => p.UserPost)
-                                               .ThenInclude(u => u.Role)
-                                               .ToListAsync();
+                    Posts = await postRepo.SearchTagsPostsByUserLogined(Guid.Parse(current_user_id), searchTag);
                     searchTag = null;
                 }
-                else
+                else // OK
                 {
-                    Posts = await context.Posts.Where(p => p.GroupPost.PublicStatus == 5)
-                                                .OrderBy(p => p.CreatedDate).Reverse()
-                                                .Include(p => p.GroupPost)
-                                                .Include(p => p.PostType)
-                                                .Include(p => p.StatusNavigation)
-                                                .Include(p => p.UserPost)
-                                                .ThenInclude(u => u.Role)
-                                                .ToListAsync();
+                    Posts = await postRepo.GetPostsForUserLogined(Guid.Parse(current_user_id));
                     searchString = null;
                     searchTag = null;
                 }
             }
 
-
             // Load important news (right side): Load announcement's admin
-            HotNews = await context.Posts.Where(p => p.PostType.PostTypeName.Equals("Announcement")
-                                                && p.UserPost.Role.RoleName.Equals("ADMIN"))
+            HotNews = await context.Posts.Where(p => p.PostType.PostTypeName.Equals("Announcement"))
                                         .OrderBy(p => p.CreatedDate).Reverse()
                                         .Include(p => p.GroupPost)
                                         .Include(p => p.PostType)

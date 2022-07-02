@@ -23,8 +23,8 @@
             </li>
             </a>
 
-            @if (Accessor.HttpContext.Session.GetString("ROLE") != null 
-                && Accessor.HttpContext.Session.GetString("ROLE").Equals("ADMIN"))
+            @if (Accessor.HttpContext.Session.GetString("ROLE") != null
+            && Accessor.HttpContext.Session.GetString("ROLE").Equals("ADMIN"))
             {
                 <a asp-page="Create">
                 <li class="d-flex align-items-center">
@@ -40,21 +40,21 @@
                 </a>
             }
 
-            @if (Accessor.HttpContext.Session.GetString("ROLE") != null 
-                && (Accessor.HttpContext.Session.GetString("ROLE").Equals("MANAGER") ||
-                 Accessor.HttpContext.Session.GetString("ROLE").Equals("RESIDENT")))
+            @if (Accessor.HttpContext.Session.GetString("ROLE") != null
+            && (Accessor.HttpContext.Session.GetString("ROLE").Equals("MANAGER") ||
+            Accessor.HttpContext.Session.GetString("ROLE").Equals("RESIDENT")))
             {
                 <a asp-page="Create">
                 <li class="d-flex align-items-center">
                     <div class="post-manage-icon icon"></div>
-                    Create Post
+                    Create News
                 </li>
                 </a>
             }
         </ul>
 
-        @if (Accessor.HttpContext.Session.GetString("ROLE") != null 
-            && Accessor.HttpContext.Session.GetString("ROLE").Equals("MANAGER"))
+        @if (Accessor.HttpContext.Session.GetString("ROLE") != null
+        && Accessor.HttpContext.Session.GetString("ROLE").Equals("MANAGER"))
         {
             <p class="font-weight-bold mb-2 mt-2">Groups</p>
             @if (@Model.Groups.Count > 0)
@@ -77,7 +77,6 @@
             <p class="font-weight-bold mb-2 mt-2">Groups</p>
             @if (@Model.GroupUsers.Count > 0)
             {
-                Console.WriteLine("Toi la resident 2");
                 @foreach (GroupUser group in @Model.GroupUsers)
                 {
                     <ul class="mb-3">
@@ -108,12 +107,17 @@
                     <div class="infos">
                         <div class="flex-text">
                             <p class="name">(@p.UserPost.Role.RoleName.ToUpper()) @p.UserPost.FirstName @p.UserPost.LastName</p>
-                            <ion-icon name="caret-forward-outline"></ion-icon>
-                            <p class="name">@p.GroupPost.GroupName</p>
+                            @if (@p.GroupPost != null)
+                            {
+                                <ion-icon name="caret-forward-outline"></ion-icon>
+                                <p class="name">@p.GroupPost.GroupName</p>
+                            }
                         </div>
                         <div class="flex-textt">
                             <p class="date">@p.CreatedDate.ToString("dddd, dd MMMM yyyy h:mm tt")</p>
-                            @if (@p.GroupPost.PublicStatus == 6 && @p.Status != 7 && !@p.PostType.PostTypeName.Equals("Announcement"))
+                            @if (@p.GroupPost != null 
+                                    && @p.GroupPost.PublicStatus == 6 && @p.Status != 7 
+                                    && !@p.PostType.PostTypeName.Equals("Announcement"))
                             {
                                 <img src="~/img/group.png" />
                             }

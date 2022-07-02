@@ -1,8 +1,10 @@
 ﻿using LibraryWeb.DataAccess;
 using LibraryWeb.Model;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace MyLibrary.DataAccess
 {
@@ -42,6 +44,7 @@ namespace MyLibrary.DataAccess
             }
             return list;
         }
+
         public Group GetGroupById(Guid groupId)
         {
             Group gr = new Group();
@@ -83,6 +86,21 @@ namespace MyLibrary.DataAccess
             {
                 throw new Exception("Error at CreateGroup: " + ex.Message);
             }
+        }
+
+        public async Task<IEnumerable<Group>> GetGroupsByLeaderId(Guid leaderId)
+        {
+            List<Group> list = new List<Group>();
+            try
+            {
+                var context = new department_dbContext();
+                list = await context.Groups.Where(g => g.GroupOwnerId == leaderId).ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error at GetGroupsByLeaderId: " + ex.Message);
+            }
+            return list;
         }
     }
 }

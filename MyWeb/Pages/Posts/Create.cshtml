@@ -1,4 +1,6 @@
 ﻿@page
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor Accessor
 @model MyWeb.Pages.Posts.CreateModel
 
 @{
@@ -18,21 +20,30 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="top-content">
                 <div class="form-group">
-                    <label asp-for="Post.GroupPostId" class="control-label"></label>
-                    <select asp-for="Post.GroupPostId" class="form-control" asp-items="ViewBag.GroupPostId"></select>
-                </div>
-                <div class="form-group id-hide">
-                    <label asp-for="Post.PostTypeId" class="control-label"></label>
-                    <select asp-for="Post.PostTypeId" class="form-control" asp-items="ViewBag.PostTypeId"></select>
-                </div>
-                <div class="form-group">
                     <label asp-for="Post.Tags" class="control-label"></label>
                     <input asp-for="Post.Tags" class="form-control" placeholder="ex: warning carefull fun" />
                     <span asp-validation-for="Post.Tags" class="text-danger"></span>
                 </div>
+                @if (HttpContext.Session.GetString("ROLE") != null
+                && HttpContext.Session.GetString("ROLE").Equals("ADMIN"))
+                {
+                    <div class="form-group id-hide">
+                        <label asp-for="Post.GroupPostId" class="control-label"></label>
+                        <select asp-for="Post.GroupPostId" class="form-control" asp-items="ViewBag.GroupPostId"></select>
+                    </div>
+                }
+                else
+                {
+                    <div class="form-group">
+                        <label asp-for="Post.GroupPostId" class="control-label"></label>
+                        <select asp-for="Post.GroupPostId" class="form-control" asp-items="ViewBag.GroupPostId"></select>
+                    </div>
+                }
+                <div class="form-group id-hide">
+                    <label asp-for="Post.PostTypeId" class="control-label"></label>
+                    <select asp-for="Post.PostTypeId" class="form-control" asp-items="ViewBag.PostTypeId"></select>
+                </div>
             </div>
-
-
             <div class="form-group post-title">
                 <label asp-for="Post.Title" class="control-label"></label>
                 <input asp-for="Post.Title" class="form-control" />
@@ -40,11 +51,11 @@
             </div>
         </div>
 
+
         <div class="right-content">
             <div class="form-group post-description">
                 <label asp-for="Post.PostContent" class="control-label"></label>
-                @*<input asp-for="Post.PostContent" class="form-control" />*@
-                <textarea class="textarea" name="description" cols="50" rows="40" form="createPost"></textarea>
+                <textarea name="@Html.NameFor(m => m.Post.PostContent)" class="textarea" cols="50" rows="40" form="createPost"></textarea>
                 <span asp-validation-for="Post.PostContent" class="text-danger"></span>
             </div>
             <div class="form-group id-hide">
@@ -58,10 +69,12 @@
     </form>
 
     <div>
-        <a asp-page="Index">Go Back</a>
+        <a asp-page="Index"><<< Back to home page</a>
     </div>
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }

@@ -131,12 +131,12 @@
                 background-color: #ebeaea;
             }
 
-        .main-detail-container img {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            cursor: pointer;
-        }
+    .main-detail-container .user-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        cursor: pointer;
+    }
 
     .main-detail-container .owner {
         display: flex;

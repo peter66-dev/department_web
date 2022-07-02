@@ -8,9 +8,9 @@ namespace LibraryWeb.Repository
     {
         void CreateUser(User user);
         void DeleteUserById(Guid userId);
-        public List<User> GetAllUsers();
+        List<User> GetAllUsers();
         User GetUserById(Guid userId);
-        public User CheckLogin(string email, string password);
-        public string CheckRole(User user);
+        User CheckLogin(string email, string password);
+        string CheckRole(User user);
     }
 }

@@ -61,7 +61,6 @@ namespace MyWeb.Pages.Posts
             string user_login_id = HttpContext.Session.GetString("CURRENT_USER_ID");
             if (user_login_id != null)
             {
-                Console.WriteLine("user_login_id: " + user_login_id);
                 var context = new department_dbContext();
                 Like like = await context.Likes.FirstOrDefaultAsync(l =>
                                             l.PostId == id.Value
@@ -94,12 +93,10 @@ namespace MyWeb.Pages.Posts
                 if (result == 1) // bug here
                 { // plus like quantity in this post if result = 1
                     currentLikesTotal = postRepo.IncreaseLikesTotal(Guid.Parse(postid));
-                    Console.WriteLine("plus like quantity => " + currentLikesTotal);
                 }
                 else if (result == 2) // sub like quantity in this post if result = 2
                 {
                     currentLikesTotal = postRepo.DecreaseLikesTotal(Guid.Parse(postid));
-                    Console.WriteLine("sub like quantity => " + currentLikesTotal);
                 }
                 else
                 {
@@ -111,10 +108,6 @@ namespace MyWeb.Pages.Posts
 
         public JsonResult OnGetCommentAction(string postid, string content)
         {
-            Console.WriteLine("Tui goi ajax qua Model view duoc roi ne!");
-            Console.WriteLine("PostID: " + postid);
-            Console.WriteLine("Content: " + content);
-
             string userid = HttpContext.Session.GetString("CURRENT_USER_ID");
             if (userid == null)
             {
@@ -122,7 +115,6 @@ namespace MyWeb.Pages.Posts
             }
             else
             {
-                Console.WriteLine("Toi la model view!");
                 User userCmt = userRepo.GetUserById(Guid.Parse(userid));
                 Comment comment = cmtRepo.CreateComment(Guid.Parse(userid), Guid.Parse(postid), content);
                 int commentsTotal = postRepo.IncreaseCommentsTotal(Guid.Parse(postid));

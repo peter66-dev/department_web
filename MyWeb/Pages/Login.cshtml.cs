@@ -21,8 +21,6 @@ namespace MyWeb.Pages
 
         public IActionResult OnPost()
         {
-            Console.WriteLine("Email: " + UserLogin.Email);
-            Console.WriteLine("Password: " + UserLogin.Password);
             User tmp = userRepo.CheckLogin(UserLogin.Email, UserLogin.Password);
             if (tmp == null)
             {
@@ -52,6 +50,16 @@ namespace MyWeb.Pages
                 }
                 return Redirect("/Posts/Index");
             }
+        }
+
+        public IActionResult OnGetLogout()
+        {
+            Console.WriteLine("Da logout!");
+            HttpContext.Session.Remove("CURRENT_USER_ID");
+            HttpContext.Session.Remove("CURRENT_USER_FULLNAME");
+            HttpContext.Session.Remove("ROLE");
+            HttpContext.Session.Clear();
+            return Page();
         }
     }
 }

@@ -1,7 +1,5 @@
 ﻿using LibraryWeb.Model;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using System.IO;
 
 #nullable disable
 
@@ -35,11 +33,6 @@ namespace LibraryWeb.DataAccess
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
                 optionsBuilder.UseSqlServer("Server=.;Database=department_db;Uid=sa;Pwd=1234567890;");
-                //IConfiguration config = new ConfigurationBuilder()
-                //                       .SetBasePath(Directory.GetCurrentDirectory())
-                //                       .AddJsonFile("appsettings.json", true, true)
-                //                       .Build();
-                //optionsBuilder.UseSqlServer(config["ConnectionStrings:DefaultConnection"]);
             }
         }
 
@@ -207,6 +200,8 @@ namespace LibraryWeb.DataAccess
                     .ValueGeneratedNever()
                     .HasColumnName("PostID");
 
+                entity.Property(e => e.ApprovedDate).HasColumnType("datetime");
+
                 entity.Property(e => e.CreatedDate).HasColumnType("datetime");
 
                 entity.Property(e => e.GroupPostId).HasColumnName("GroupPostID");
@@ -216,6 +211,8 @@ namespace LibraryWeb.DataAccess
                 entity.Property(e => e.PostContent).IsRequired();
 
                 entity.Property(e => e.PostTypeId).HasColumnName("PostTypeID");
+
+                entity.Property(e => e.Reason).HasMaxLength(250);
 
                 entity.Property(e => e.Tags)
                     .IsRequired()
@@ -230,7 +227,6 @@ namespace LibraryWeb.DataAccess
                 entity.HasOne(d => d.GroupPost)
                     .WithMany(p => p.Posts)
                     .HasForeignKey(d => d.GroupPostId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Posts_Groups");
 
                 entity.HasOne(d => d.PostType)

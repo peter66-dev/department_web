@@ -6,12 +6,12 @@ namespace LibraryWeb.Repository
 {
     public interface IRoleRepository
     {
-        public List<Role> GetAllRoles();
+        List<Role> GetAllRoles();
 
-        public Role GetRoleById(Guid roleId);
+        Role GetRoleById(Guid roleId);
 
-        public void DeleteRoleById(Guid roleId);
+        void DeleteRoleById(Guid roleId);
 
-        public void CreateRole(Role role);
+        void CreateRole(Role role);
     }
 }
