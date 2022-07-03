@@ -71,18 +71,33 @@ namespace MyLibrary.DataAccess
                 throw new Exception("Error at DeleteCommentReplyById: " + ex.Message);
             }
         }
-        public void CreateCommentReply(CommentReply commentReply)
+        public CommentReply CreateCommentReply(Guid userReplyId, Guid commentId, string content)
         {
+            CommentReply cmtReply = null;
             try
             {
                 var context = new department_dbContext();
-                context.CommentReplies.Add(commentReply);
-                context.SaveChanges();
+                cmtReply = new CommentReply()
+                {
+                    CommentReplyId = Guid.NewGuid(),
+                    UserReplyId = userReplyId,
+                    CommentId = commentId,
+                    CommentReplyContent = content,
+                    CreatedDate = DateTime.Now,
+                    Status = 5
+                };
+                context.CommentReplies.Add(cmtReply);
+                bool check = context.SaveChanges() > 0;
+                if (!check) // insert fail > return null
+                {
+                    cmtReply = null;
+                }
             }
             catch (Exception ex)
             {
                 throw new Exception("Error at CreateCommentReply: " + ex.Message);
             }
+            return cmtReply;
         }
 
 

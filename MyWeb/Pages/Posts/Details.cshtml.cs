@@ -17,10 +17,13 @@ namespace MyWeb.Pages.Posts
         private ILikeRepository likeRepo;
         private IPostRepository postRepo;
         private IUserRepository userRepo;
+        private ICommentReplyRepository cmtReplyRepo;
         private ICommentRepository cmtRepo;
 
         public bool IsLiked { get; set; } = false;
         public Post Post { get; set; }
+
+        public string RepBtnId { get; set; }
 
         public DetailsModel(department_dbContext context)
         {
@@ -30,8 +33,8 @@ namespace MyWeb.Pages.Posts
             userRepo = new UserRepository();
             cmtRepo = new CommentRepository();
             Post = new Post();
+            cmtReplyRepo = new CommentReplyRepository();
         }
-
 
         public async Task<IActionResult> OnGetAsync(Guid? id)
         {
@@ -128,6 +131,67 @@ namespace MyWeb.Pages.Posts
                     commentsTotal = commentsTotal
                 });
             }
+        }
+
+        /* JsonResult ({
+         *      status: int,
+         *      commentId: commentId,
+         *      firstName: firstName,
+         *      lastName: lastName,
+         *      createdAt: createdAt,
+         *      commentsTotal: commentsTotal
+         * });
+         * Status =>>
+         *      0: Chưa login
+         *      1: Add comment reply thành công! => render on view page
+         *      2: Không có content hoặc repBtnId nào cả
+         */
+        public JsonResult OnGetReplyCommentAction(string content, string commentId, string postid)
+        {
+            string userid = HttpContext.Session.GetString("CURRENT_USER_ID");
+            if (userid == null)
+            {
+                return new JsonResult(new { status = 0 });
+            }
+            else // Đã login!
+            {
+                if (content != null && commentId != null && content.Trim().Length > 0)
+                {
+                    User user = userRepo.GetUserById(Guid.Parse(userid));
+                    Console.WriteLine("Content: " + content);
+                    Console.WriteLine("comment Id: " + commentId);
+                    CommentReply cmtReply = cmtReplyRepo.CreateCommentReply(Guid.Parse(userid), Guid.Parse(commentId), content);
+                    if (cmtReply != null)
+                    {
+                        Console.WriteLine("add comment reply thanh cong!");
+
+                        // Tăng số lượng commentsTotal 
+                        int commentsTotal = postRepo.IncreaseCommentsTotal(Guid.Parse(postid));
+                        Console.WriteLine("Comment totals => " + commentsTotal);
+                        return new JsonResult(new
+                        {
+                            status = 1,
+                            commentId = commentId,
+                            firstName = user.FirstName,
+                            lastName = user.LastName,
+                            createdAt = cmtReply.CreatedDate.ToString("dd MMMM yyyy h:mm tt"),
+                            commentsTotal = commentsTotal
+                        });
+                    }
+                    else
+                    {
+                        return new JsonResult(new { status = 3 });
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Content: Nothing");
+                    Console.WriteLine("comment Id: Nothing");
+                    return new JsonResult(new { status = 2 });
+                }
+            }
+
+
         }
     }
 }
