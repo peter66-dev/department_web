@@ -1,0 +1,205 @@
+﻿* {
+    margin: 0;
+    padding: 0;
+}
+
+    *:focus {
+        outline: 0 !important;
+    }
+
+.profile-container {
+}
+
+.bg-1 {
+    padding: 0 10%;
+    position: relative;
+}
+
+.name-ava {
+    height: 22vh;
+    background-color: #fff;
+    border-radius: 5px;
+    /*box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;*/
+    box-shadow: 0 0 0 1px rgba(23, 23, 23, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+    .name-ava .ava-bg {
+        position: absolute;
+        top: -48%;
+        padding: 8px;
+        background-color: #000;
+        border-radius: 50%;
+    }
+
+    .name-ava img {
+        width: 112px;
+        height: 112px;
+        border-radius: 50%;
+    }
+
+    .name-ava .profile-name {
+        font-size: 35px;
+        font-weight: 800;
+        margin-top: 20px;
+        position: absolute;
+        top: 35%;
+    }
+
+/* ========== personal infos- posts =================*/
+
+.personal-info-and-posts {
+    display: flex;
+    gap: 15px;
+    padding: 0 10%;
+    margin-top: 15px;
+}
+
+.personal-infos {
+    width: 25%;
+    height: fit-content;
+    background-color: #fff;
+    box-shadow: 0 0 0 1px rgba(23, 23, 23, 0.1);
+    padding: 25px;
+    border-radius: 5px;
+}
+
+    .personal-infos .infos-item {
+        margin-bottom: 14px;
+    }
+
+        .personal-infos .infos-item .info-title {
+            font-weight: 700;
+            color: #171717;
+            margin-bottom: 5px;
+        }
+
+        .personal-infos .infos-item .info-content {
+            font-weight: 500;
+            color: #858585;
+        }
+/*==========  peronal posts ==============*/
+.news {
+    background-color: #fff;
+    box-shadow: 0 0 0 1px rgba(23, 23, 23, 0.1);
+    border-radius: 5px;
+    margin-bottom: 15px;
+    padding: 25px;
+}
+
+.news-body {
+    margin-left: 45px;
+    margin-top: 10px;
+}
+
+    .news-body .title {
+        font-size: 30px;
+        font-weight: 700;
+        cursor: pointer;
+    }
+
+        .news-body .title a {
+            color: #000;
+            text-decoration: none;
+        }
+
+            .news-body .title a:hover {
+                color: #150ec9;
+            }
+
+    .news-body .tags {
+        margin-top: 15px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        cursor: pointer;
+        padding: 2px;
+    }
+
+        .news-body .tags .tag {
+            padding: 5px;
+            border: 1px solid #fff;
+        }
+
+            .news-body .tags .tag:hover {
+                border-radius: 5px;
+                background-color: #e4e3e3;
+                border: 1px solid #999;
+            }
+
+    .news-body .react {
+        margin-top: 15px;
+        display: flex;
+        gap: 20px;
+    }
+
+        .news-body .react .likes,
+        .news-body .react .comments {
+            display: flex;
+            gap: 5px;
+            cursor: pointer;
+            padding: 10px;
+        }
+
+        .news-body .react .views {
+            display: flex;
+            gap: 5px;
+            padding: 10px;
+        }
+
+            .news-body .react .likes button,
+            .news-body .react .comments button,
+            .news-body .react .views button {
+                border: none;
+                background-color: transparent;
+            }
+
+        .news-body .react .likes:hover,
+        .news-body .react .comments:hover {
+            background-color: #e9e8e8;
+            border-radius: 5px;
+        }
+
+
+.news .owner {
+    display: flex;
+    gap: 10px;
+}
+
+    .news .owner .name {
+        font-weight: 600;
+        margin-bottom: 5px;
+        cursor: pointer;
+    }
+
+    .news .owner .date {
+        font-size: 13px;
+    }
+
+.news img {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.news .infos .flex-text {
+    display: flex;
+    gap: 5px;
+}
+
+.news .infos .flex-textt {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+}
+
+    .news .infos .flex-textt img {
+        width: 16px;
+        height: 16px;
+        cursor: unset;
+    }
+
+/*========== end post css ========== */

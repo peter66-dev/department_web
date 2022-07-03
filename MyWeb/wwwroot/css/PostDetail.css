@@ -106,7 +106,7 @@
     .main-detail-container .your-action-btn .dropdown-group {
         position: absolute;
         background-color: #fff;
-        box-shadow: 0 0 0 1px rgba(23, 23, 23, 0.1);
+        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
         top: 90%;
         right: 10%;
         border-radius: 5px;
@@ -364,7 +364,7 @@
     border-radius: 5px;
     padding: 20px;
     position: sticky;
-    top: 2%;
+    top: 10%;
     align-self: start;
 }
 

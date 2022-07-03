@@ -30,7 +30,7 @@ input::placeholder {
 }
 
 .post-description {
-    width: 80vw;
+    width: 55vw;
 }
 
 .top-content {
@@ -38,10 +38,72 @@ input::placeholder {
     display: flex;
     gap: 20px;
     justify-content: space-between;
+    flex-direction: column;
 }
 
 .post-title {
     width: 40vw;
+    margin-bottom: 30px;
+}
+
+.create-post-container, .edit-post-container {
+    display: flex;
+    gap: 20px;
+}
+
+.guide-title {
+    font-size: 20px;
+    font-weight: 800;
+    color: #6C6C6C;
+    margin-bottom: 10px;
+}
+
+.guide-content {
+    line-height: 1.4;
+    font-weight: 500;
+    color: #7a7a7a;
+}
+
+.post-content-warpper {
+    margin-bottom: 20px;
+    background-color: #FFF;
+    padding: 30px 50px;
+    width: fit-content;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
+}
+
+.ip-post-title {
+    border: none;
+    height: 60px;
+    width: 100%;
+    font-size: 50px;
+    font-weight: 800;
+    color: #969696;
+}
+
+    .ip-post-title::placeholder {
+        font-size: 50px;
+        font-weight: 800;
+        color: #969696;
+    }
+
+.ip-tags {
+    border: none;
+    width: 100%;
+    font-weight: 500;
+    font-size: 25px;
+    color: #6C6C6C;
+}
+
+.post-tags{
+    margin: 10px 0 30px 0;
+}
+
+.group-id-label {
+    margin-right: 10px;
+    font-weight: 500;
+    font-size: 20px;
+    color: #6C6C6C;
 }
 
 /*=========== End Create Post ==============*/

@@ -24,7 +24,7 @@
             </a>
 
             @if (Accessor.HttpContext.Session.GetString("ROLE") != null
-            && Accessor.HttpContext.Session.GetString("ROLE").Equals("ADMIN"))
+           && Accessor.HttpContext.Session.GetString("ROLE").Equals("ADMIN"))
             {
                 <a asp-page="Create">
                 <li class="d-flex align-items-center">
@@ -41,8 +41,8 @@
             }
 
             @if (Accessor.HttpContext.Session.GetString("ROLE") != null
-            && (Accessor.HttpContext.Session.GetString("ROLE").Equals("MANAGER") ||
-            Accessor.HttpContext.Session.GetString("ROLE").Equals("RESIDENT")))
+           && (Accessor.HttpContext.Session.GetString("ROLE").Equals("MANAGER") ||
+           Accessor.HttpContext.Session.GetString("ROLE").Equals("RESIDENT")))
             {
                 <a asp-page="Create">
                 <li class="d-flex align-items-center">
@@ -54,7 +54,7 @@
         </ul>
 
         @if (Accessor.HttpContext.Session.GetString("ROLE") != null
-        && Accessor.HttpContext.Session.GetString("ROLE").Equals("MANAGER"))
+       && Accessor.HttpContext.Session.GetString("ROLE").Equals("MANAGER"))
         {
             <p class="font-weight-bold mb-2 mt-2">Groups</p>
             @if (@Model.Groups.Count > 0)
@@ -65,7 +65,7 @@
                         <a asp-page="Index">
                         <li class="d-flex align-items-center">
                             <div class="group-icon icon"></div>
-                                @group.GroupName
+                            @group.GroupName
                         </li>
                         </a>
                     </ul>
@@ -83,7 +83,7 @@
                         <a asp-page="Index">
                         <li class="d-flex align-items-center">
                             <div class="group-icon icon"></div>
-                                @group.Group.GroupName
+                            @group.Group.GroupName
                         </li>
                         </a>
                     </ul>
@@ -96,7 +96,9 @@
         <p class="font-weight-bold mb-2">Latest</p>
         @if (@Model.Posts.Count == 0)
         {
-            <p class="text-center text-danger">Sorry, we can not find out any post you want!</p>
+
+            <p class="text-center not-found-item">Sorry, we can not find out any post you want!</p>
+            <lottie-player src="https://assets10.lottiefiles.com/packages/lf20_etdc3qqu.json" background="transparent" speed="1" style="width: 80%; height: 80%;" loop autoplay></lottie-player>
         }
         @foreach (Post p in @Model.Posts)
         {
@@ -115,11 +117,11 @@
                         </div>
                         <div class="flex-textt">
                             <p class="date">@p.CreatedDate.ToString("dddd, dd MMMM yyyy h:mm tt")</p>
-                            @if (@p.GroupPost != null 
-                                    && @p.GroupPost.PublicStatus == 6 && @p.Status != 7 
-                                    && !@p.PostType.PostTypeName.Equals("Announcement"))
+                            @if (@p.GroupPost != null
+                                 && @p.GroupPost.PublicStatus == 6 && @p.Status != 7
+                                 && !@p.PostType.PostTypeName.Equals("Announcement"))
                             {
-                                <img src="~/img/group.png" />
+                                <img src="~/img/lock.png" />
                             }
                             else
                             {
