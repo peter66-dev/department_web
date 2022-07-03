@@ -12,69 +12,82 @@
 <script>tinymce.init({ selector: 'textarea' });</script>
 
 <div class="container-fluid">
-    <h1>Create New Post</h1>
-    <hr />
 
-    <form method="post" id="createPost" class="create-post">
-        <div class="left-content">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="top-content">
-                <div class="form-group">
-                    <label asp-for="Post.Tags" class="control-label"></label>
-                    <input asp-for="Post.Tags" class="form-control" placeholder="ex: warning carefull fun" />
-                    <span asp-validation-for="Post.Tags" class="text-danger"></span>
+    <div class="create-post-container">
+
+        <form method="post" id="createPost" class="create-post">
+            <div class="post-content-warpper">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group post-title">
+                    <input asp-for="Post.Title" class="ip-post-title" placeholder="New Post Title Here" />
+                    <span asp-validation-for="Post.Title" class="text-danger"></span>
                 </div>
-                @if (HttpContext.Session.GetString("ROLE") != null
-                && HttpContext.Session.GetString("ROLE").Equals("ADMIN"))
-                {
+                <div class="top-content">
+
+                    @if (HttpContext.Session.GetString("ROLE") != null
+              && HttpContext.Session.GetString("ROLE").Equals("ADMIN"))
+                    {
+                        <div class="form-group id-hide">
+                            <select asp-for="Post.GroupPostId" class="form-control" asp-items="ViewBag.GroupPostId"></select>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="d-flex align-items-center">
+                            <span class="group-id-label">What group are you posting to: </span>
+                            <div class="group-name-select">
+                                <select asp-for="Post.GroupPostId" class="form-control" asp-items="ViewBag.GroupPostId"></select>
+                            </div>
+                        </div>
+                    }
+                    <div class="form-group post-tags">
+                        <input asp-for="Post.Tags" class="ip-tags" placeholder="Add Tags: anounce notice..." />
+                        <span asp-validation-for="Post.Tags" class="text-danger"></span>
+                    </div>
                     <div class="form-group id-hide">
-                        <label asp-for="Post.GroupPostId" class="control-label"></label>
-                        <select asp-for="Post.GroupPostId" class="form-control" asp-items="ViewBag.GroupPostId"></select>
+                        <label asp-for="Post.PostTypeId" class="control-label"></label>
+                        <select asp-for="Post.PostTypeId" class="form-control" asp-items="ViewBag.PostTypeId"></select>
                     </div>
-                }
-                else
-                {
-                    <div class="form-group">
-                        <label asp-for="Post.GroupPostId" class="control-label"></label>
-                        <select asp-for="Post.GroupPostId" class="form-control" asp-items="ViewBag.GroupPostId"></select>
-                    </div>
-                }
-                <div class="form-group id-hide">
-                    <label asp-for="Post.PostTypeId" class="control-label"></label>
-                    <select asp-for="Post.PostTypeId" class="form-control" asp-items="ViewBag.PostTypeId"></select>
                 </div>
-            </div>
-            <div class="form-group post-title">
-                <label asp-for="Post.Title" class="control-label"></label>
-                <input asp-for="Post.Title" class="form-control" />
-                <span asp-validation-for="Post.Title" class="text-danger"></span>
-            </div>
-        </div>
 
 
-        <div class="right-content">
-            <div class="form-group post-description">
-                <label asp-for="Post.PostContent" class="control-label"></label>
-                <textarea name="@Html.NameFor(m => m.Post.PostContent)" class="textarea" cols="50" rows="40" form="createPost"></textarea>
-                <span asp-validation-for="Post.PostContent" class="text-danger"></span>
+                <div class="form-group post-description">
+                    @*<label asp-for="Post.PostContent" class="control-label"></label>*@
+                    <textarea name="@Html.NameFor(m => m.Post.PostContent)" class="textarea" cols="40" rows="40" form="createPost"></textarea>
+                    <span asp-validation-for="Post.PostContent" class="text-danger"></span>
+                </div>
+                <div class="form-group id-hide">
+                    <label asp-for="Post.Status" class="control-label"></label>
+                    <select asp-for="Post.Status" class="form-control" asp-items="ViewBag.Status"></select>
+                </div>
+
             </div>
-            <div class="form-group id-hide">
-                <label asp-for="Post.Status" class="control-label"></label>
-                <select asp-for="Post.Status" class="form-control" asp-items="ViewBag.Status"></select>
-            </div>
+
+
+            @* submit btn *@
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
+        </form>
+
+        <div class="user-guide">
+            <p class="guide-title">
+                Writing a great Post Title
+            </p>
+            <p class="guide-content">
+                Think of your post title as a short (but compelling) description - like
+                an overview of the actual post in one short sentence.
+                Use tags to help ensure people can easily find your post by search.
+            </p>
         </div>
-    </form>
-
-    <div>
-        <a asp-page="Index"><<< Back to home page</a>
     </div>
-</div>
+    <div>
+        <a asp-page="Index"><ion-icon name="arrow-back-outline"></ion-icon> Back to home page</a>
+    </div>
 
-@section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    @section Scripts {
+        @{
+            await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        }
     }
-    }
+</div>

@@ -119,6 +119,13 @@ body {
     padding: 0 8%;
 }
 
+.my-container-profile {
+    position: absolute;
+    top: 20%;
+    padding: 0 8%;
+}
+
+
 .my-body {
     margin-top: 6% !important;
 }
@@ -165,3 +172,8 @@ body {
             color: #fff !important;
             text-decoration: underline;
         }
+
+.profile-bg {
+    height: 26vh;
+    background-color: #000;
+}

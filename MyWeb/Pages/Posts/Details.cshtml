@@ -298,6 +298,8 @@
                             icon: 'warning',
                             title: 'Hold up...',
                             text: 'You need to login before reply comment!'
+                        }).then(value => {
+                            window.location = "../Login";
                         });
                     } else if (status == 1) {
                         let htmlContent = '';
@@ -331,7 +333,7 @@
                                                     </div>
                                                 </div>`;
                         commentsReplyForeach.insertAdjacentHTML("afterbegin", htmlContent);
-                        $('#textAreaId').val('');
+                        $('#' + textAreaId).val('');
                     } else if (status == 2) {
                         Swal.fire({
                             icon: 'warning',
@@ -397,6 +399,8 @@
                                 icon: 'warning',
                                 title: 'Hold up...',
                                 text: 'You need to login before like this content!'
+                            }).then(value => {
+                                window.location = "../Login";
                             });
                         }
                     }, error: function(error) {
@@ -421,6 +425,8 @@
                                 icon: 'warning',
                                 title: 'Hold up...',
                                 text: 'you need to login before comment!'
+                            }).then(value => {
+                                window.location = "../Login";
                             });
                         } else {
                             var commentId = result.commentId;
@@ -468,8 +474,10 @@
                                                                                                                         </button>
                                                                                                                     </div>
                                                                                                                 </div>
-                                                                                                            </div>
-                                                                                                        </div>
+                                                                                                             </div>`;
+                            let boundaryCommentReply = "boundary" + commentId;
+                            content += `          <span id="` + boundaryCommentReply + `"></span>
+                                                     </div>
                                                                                                     </div>
                                                                                                 </div>`;
                             commentsForeach.insertAdjacentHTML("afterend", content);

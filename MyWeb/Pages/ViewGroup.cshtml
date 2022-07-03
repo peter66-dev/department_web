@@ -1,0 +1,133 @@
+﻿@page
+@model MyWeb.Pages.ViewGroupModel
+@{
+    ViewData["Title"] = "Details";
+}
+
+<link rel="stylesheet" href="~/css/ViewGroup.css" />
+
+
+<div class="container-fluid">
+    <div class="view-group-container">
+        <div class="group-content">
+            <div class="private-group">
+                <lottie-player src="https://assets2.lottiefiles.com/private_files/lf30_j8eocx6c.json" background="transparent" speed="1" style="width: 50%; height: 50%;" loop autoplay></lottie-player>
+                <p class="private-group-text">This group is private</p>
+                <p class="private-group-text2">Join this group to view or participate in discussions.</p>
+            </div>
+            @*<div class="public-group">
+                <p class="font-weight-bold mb-2">Latest</p>
+                <div class="news">
+                    <div class="owner">
+                        <img src="~/img/user.png" />
+                        <div class="infos">
+                            <div class="flex-text">
+                                <p class="name">Phan Minh Nhut</p>
+                                <ion-icon name="caret-forward-outline"></ion-icon>
+                                <p class="name">Chung Cư Khu B</p>
+                            </div>
+                            <div class="flex-textt">
+                                <p class="date">Jun 20 6:43 PM</p>
+                                <img src="~/img/group.png" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="news-body">
+                        <div class="title">
+                            <a asp-page="./PostDetail">Bản tin thông báo cho khu B nhà dưới lòng đất.</a>
+                        </div>
+                        <div class="tags">
+                            <p class="tag">#chungcu</p>
+                            <p class="tag">#longdat</p>
+                            <p class="tag">#canho</p>
+                        </div>
+                        <div class="react">
+                            <div class="likes">
+                                <button>
+                                    <ion-icon name="heart-outline"></ion-icon>
+                                </button>
+                                <p>20 Likes</p>
+                            </div>
+                            <div class="comments">
+                                <button>
+                                    <ion-icon name="chatbubble-outline"></ion-icon>
+                                </button>
+                                <p>5 Comments</p>
+                            </div>
+                            <div class="views">
+                                <ion-icon name="eye-outline"></ion-icon>
+                                <p>20</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="news">
+                    <div class="owner">
+                        <img src="~/img/user.png" />
+                        <div class="infos">
+                            <div class="flex-text">
+                                <p class="name">Phan Minh Nhut</p>
+                                <ion-icon name="caret-forward-outline"></ion-icon>
+                                <p class="name">Chung Cư Khu B</p>
+                            </div>
+                            <div class="flex-textt">
+                                <p class="date">Jun 20 6:43 PM</p>
+                                <img src="~/img/group.png" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="news-body">
+                        <div class="title">
+                            <a asp-page="./PostDetail">Bản tin thông báo cho khu B nhà dưới lòng đất.</a>
+                        </div>
+                        <div class="tags">
+                            <p class="tag">#chungcu</p>
+                            <p class="tag">#longdat</p>
+                            <p class="tag">#canho</p>
+                        </div>
+                        <div class="react">
+                            <div class="likes">
+                                <button>
+                                    <ion-icon name="heart-outline"></ion-icon>
+                                </button>
+                                <p>20 Likes</p>
+                            </div>
+                            <div class="comments">
+                                <button>
+                                    <ion-icon name="chatbubble-outline"></ion-icon>
+                                </button>
+                                <p>5 Comments</p>
+                            </div>
+                            <div class="views">
+                                <ion-icon name="eye-outline"></ion-icon>
+                                <p>20</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>*@
+        </div>
+        <div class="group-infos">
+            <div class="group-info">
+                <p class="group-name">Chung Cu Nha Giau</p>
+                <div class="group-status">
+                    @*<img src="~/img/earth.png" />
+                    <p class="group-status-text">Public Group - 100 members</p>*@
+                    <img src="~/img/lock.png" />
+                    <p class="group-status-text">Private Group - 100 members</p>
+                </div>
+            </div>
+            <div class="group-info">
+                <button class="join-btn">Join group</button>
+            </div>
+            <div class="group-info">
+                <p class="gr-info-title">Manager</p>
+                <p class="gr-info-content">Nguyen Van Hung</p>
+            </div>
+            <div class="group-info">
+                <p class="gr-info-title">Create date</p>
+                <p class="gr-info-content">20-3-2025</p>
+            </div>
+        </div>
+    </div>
+</div>

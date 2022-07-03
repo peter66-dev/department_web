@@ -255,6 +255,13 @@ table {
         height: 16px;
         cursor: unset;
     }
+
+.not-found-item{
+    margin-top: 20px;
+    font-size: 22px;
+    font-weight: 600;
+    color: #ff0000;
+}
 /* =============== right content ================== */
 .right-content {
     width: 25%;
