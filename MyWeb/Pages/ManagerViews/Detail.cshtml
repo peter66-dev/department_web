@@ -1,0 +1,76 @@
+﻿@page
+@model MyWeb.Pages.ManagerViews.DetailModel
+@{
+    ViewData["Title"] = "Post Detail";
+}
+
+<link rel="stylesheet" href="~/css/PostDetail.css" />
+
+<div class="container-fluid d-flex justify-content-center">
+    <div class="main-detail-container">
+        <div class="owner">
+            <img class="user-avatar" src="~/img/user.png" />
+            <div class="infos">
+                <a href="/" class="name text-decoration-none">Đình Văn Công</a>
+                <p class="date">2011-12-06</p>
+            </div>
+        </div>
+        <div class="posts-body">
+            <div class="title">
+                <h1>Thông báo cúp tiền điện nước</h1>
+            </div>
+            <div class="tags">
+                <a class="tag text-dark text-decoration-none" asp-route-searchTag="" asp-area="Posts" asp-page="Index">
+                    #news
+                </a>
+            </div>
+            <div class="post-content">
+                Chi bộ Trường THPT Tạ Quang Bửu (quận 8, TPHCM) vừa long trọng tổ chức lễ kết nạp Đảng cho quần chúng ưu tú hiện đang là học sinh của trường.
+
+                Tham dự buổi lễ có các đồng chí: Nguyễn Thị Ngọc Hà, Ủy viên Ban Thường vụ, Trưởng Ban Tổ chức Quận ủy; Huỳnh Mỹ Ngọc, Ủy viên Ban Thường vụ, Chủ nhiệm Ủy ban Kiểm tra Quận ủy; Phạm Ngọc Muôn, Ủy viên Ban Thường vụ, Trưởng Ban Tuyên giáo Quận ủy; Huỳnh Quốc Thái, Ủy viên Ban Thường vụ, Bí thư Đảng ủy phường 2 và Trần Nguyễn Ngọc Phượng, Bí thư Quận Đoàn 8.
+
+                Ngay sau khi tiến hành nghi thức dâng hương tại Khu di tích Lịch sử - Văn hóa Quốc gia Đình Bình Đông và khu tưởng niệm Chủ tịch Tôn Đức Thắng, đồng chí Nguyễn Thị Ngọc Hà đã trao Quyết định kết nạp đảng viên mới cho quần chúng ưu tú Nguyễn Ngọc Quang Hà (sinh ngày 22-3-2004, quê quán tỉnh Thái Nguyên; lớp trưởng lớp 12A12, Trường THPT Tạ Quang Bửu).
+            </div>
+            <hr />
+            <div class="approve-confirm">
+                <p class="approve-title">Approve this post?</p>
+                <div class="btns">
+                    <button class="approve-btn">Approve</button>
+                    <button class="reject-btn" onclick="handleReject()">Reject</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.all.min.js"></script>
+<link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.min.css'>
+
+<script>
+    function handleReject() {
+        Swal.fire({
+            title: 'Reason to reject this post',
+            input: 'text',
+            inputAttributes: {
+                autocapitalize: 'off'
+            },
+            showCancelButton: true,
+            confirmButtonText: 'Submit',
+            showLoaderOnConfirm: true,
+            preConfirm: (login) => {
+                alert(login);
+                //window.location.href = "Posts?Category=" + sel;
+            },
+            allowOutsideClick: () => !Swal.isLoading()
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Reject reason sent!',
+                })
+            }
+        })
+    }
+</script>

@@ -1,0 +1,104 @@
+﻿@page
+@model MyWeb.Pages.ManagerViews.IndexModel
+@{
+    ViewData["Title"] = "Manager-Management";
+
+}
+
+<link rel="stylesheet" href="~/css/Management.css" />
+<link rel="stylesheet" href="~/css/site.css" />
+@*<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css" />*@
+<link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap4.min.css" />
+
+<div class="container-fluid">
+    <div class="management-container">
+        <div class="navigation">
+            <p class="font-weight-bold mb-2">Menu</p>
+            <ul class="mb-3">
+                <a asp-page="Index">
+                <li class="d-flex align-items-center">
+                    <div class="pending-post-icon icon"></div>
+                    Pending Post
+                </li>
+                </a>
+                <a asp-page="Index">
+                <li class="d-flex align-items-center">
+                    <div class="pending-resident-icon icon"></div>
+                    Pending Resident
+                </li>
+                </a>
+            </ul>
+        </div>
+        <div class="table-container">
+
+            @* PENDING POST MANAGEEMNT *@
+
+            <p class="manager-title">Pending Post Management</p>
+            <table id="post-management" class="table table-striped table-bordered table-hover" style="width:100%">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>No</th>
+                        <th>Title</th>
+                        <th>To group</th>
+                        <th>Owner</th>
+                        <th>Create date</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td><a href="/">Thông báo cúp tiền điện nước</a></td>
+                        <td>Chung cư B</td>
+                        <td>Đình Văn Công</td>
+                        <td>2011-12-06</td>
+                        <td><button class="view-detail-btn"><ion-icon name="eye-outline"></ion-icon>View</button></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            @* PENDING RESIDENT MANAGEEMNT *@
+
+
+            @*<p class="manager-title">Pending Resident Management</p>
+                <table id="resident-management" class="table table-striped table-bordered table-hover" style="width:100%">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>No</th>
+                            <th>Resident name</th>
+                            <th>To group</th>
+                            <th>Address</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td><a href="/">Phan Van B</a></td>
+                            <td>Chung cư B</td>
+                            <td>1/99 to 7 khu pho 5</td>
+                            <td><button class="view-detail-btn"><ion-icon name="eye-outline"></ion-icon>View</button></td>
+                        </tr>
+                    </tbody>
+                </table>*@
+        </div>
+    </div>
+</div>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+<script>
+
+    // SCRIPT FOR POST PENDING TABLE
+
+    $(document).ready(function () {
+        $('#post-management').DataTable();
+    });
+
+
+    // SCRIPT FOR RESIDENT PENDING TABLE
+
+    //$(document).ready(function () {
+    //    $('#resident-management').DataTable();
+    //});
+</script>

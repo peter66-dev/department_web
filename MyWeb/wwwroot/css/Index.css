@@ -108,6 +108,14 @@ table {
     background-size: cover;
 }
 
+.post-resident-manage-icon {
+    width: 20px;
+    height: 20px;
+    background-image: url('../img/management.png');
+    background-position: center;
+    background-size: cover;
+}
+
 .left-content a {
     color: #000;
 }
@@ -256,11 +264,11 @@ table {
         cursor: unset;
     }
 
-.not-found-item{
+.not-found-item {
     margin-top: 20px;
-    font-size: 22px;
-    font-weight: 600;
-    color: #ff0000;
+    font-size: 20px;
+    font-weight: 800;
+    color: #191919;
 }
 /* =============== right content ================== */
 .right-content {

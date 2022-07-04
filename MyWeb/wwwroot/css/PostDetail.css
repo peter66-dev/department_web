@@ -399,3 +399,48 @@
             font-size: 13px;
             margin-bottom: 5px;
         }
+
+
+/*========== detail css for manager =============*/
+.approve-confirm{
+    margin: 30px 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.approve-confirm .btns {
+    display: flex;
+    gap: 15px;
+}
+
+.approve-title {
+    font-size: 20px;
+    font-weight: 800;
+    margin-bottom: 20px;
+}
+
+.approve-confirm .approve-btn {
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+    background-color: #0094ff;
+    color: #fff;
+    font-weight: 700;
+    transition: 0.2s;
+}
+
+        .approve-confirm .approve-btn:hover {
+            background-color: #007bffad;
+        }
+
+    .approve-confirm .reject-btn {
+        border: none;
+        border-radius: 5px;
+        padding: 10px;
+        background-color: #e74c3c;
+        color: #fff;
+        font-weight: 700;
+        transition: 0.2s;
+    }

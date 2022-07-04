@@ -1,0 +1,86 @@
+﻿* {
+    margin: 0;
+    padding: 0;
+}
+
+    *:focus {
+        outline: 0 !important;
+    }
+
+.management-container{
+    display: flex;
+    gap: 20px;
+}
+
+.view-detail-btn {
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: #fff;
+    font-weight: 700;
+    background-color: #0094ff;
+    transition: 0.2s;
+}
+
+    .view-detail-btn:hover {
+        background-color: #007bffad;
+    }
+
+/* ========== table container ==========*/
+.table-container {
+    width: 80%;
+}
+
+.manager-title {
+    margin-bottom: 30px;
+    color: #404040;
+    font-size: 40px;
+    font-weight: 800;
+}
+
+/* ========== navigation ============*/
+.pending-post-icon {
+    width: 20px;
+    height: 20px;
+    background-image: url('../img/post-management.png');
+    background-position: center;
+    background-size: cover;
+}
+
+.pending-resident-icon {
+    width: 20px;
+    height: 20px;
+    background-image: url('../img/pending-resident.png');
+    background-position: center;
+    background-size: cover;
+}
+
+.navigation {
+    width: 20%;
+}
+
+.navigation a {
+    color: #000;
+}
+
+.navigation ul li {
+    padding: 10px;
+    cursor: pointer;
+}
+
+    .navigation ul li:hover {
+        border-radius: 10px;
+        background-color: #a2aaff57;
+    }
+
+        .navigation ul li:hover > a {
+            color: blue !important;
+        }
+
+
+.navigation .icon {
+    margin-right: 10px;
+}
