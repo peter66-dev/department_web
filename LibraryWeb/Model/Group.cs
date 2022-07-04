@@ -18,7 +18,7 @@ namespace LibraryWeb.Model
         public string GroupName { get; set; } // Phải check trùng
         public string GroupDescription { get; set; }
         public DateTime CreatedDate { get; set; }
-        public int PublicStatus { get; set; }
+        public int PublicStatus { get; set; }// Status: 5 || 6
         public int Status { get; set; } // Status: 1 || 2
 
         public virtual User GroupOwner { get; set; }

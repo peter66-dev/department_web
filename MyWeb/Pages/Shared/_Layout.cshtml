@@ -43,11 +43,17 @@
                     @{
                         if (Accessor.HttpContext.Session.GetString("ROLE") != null)
                         {
+                            string CURRENT_USER_ID = @Accessor.HttpContext.Session.GetString("CURRENT_USER_ID");
                             <li class="nav-item mr-2 d-flex align-items-center">
-                                <p class="nav-link text-dark">Welcome @Accessor.HttpContext.Session.GetString("ROLE").ToLower(), <span class="text-info">@Accessor.HttpContext.Session.GetString("CURRENT_USER_FULLNAME")</span></p>
+                                <p class="nav-link text-dark">
+                                    Welcome @Accessor.HttpContext.Session.GetString("ROLE").ToLower(),
+                                    <a asp-area="" asp-page="../Users/Details" asp-route-id="@CURRENT_USER_ID" class="text-info text-decoration-none">
+                                        @Accessor.HttpContext.Session.GetString("CURRENT_USER_FULLNAME")
+                                    </a>
+                                </p>
                             </li>
                             <li class="nav-item mr-2 btn-logout">
-                                <a class="nav-link " asp-area="" asp-page-handler="Logout" asp-page="/Login">Log out</a>
+                                <a class="nav-link" asp-area="" asp-page-handler="Logout" asp-page="/Login">Log out</a>
                             </li>
                         }
                         else

@@ -30,5 +30,14 @@ namespace LibraryWeb.Repository
 
         public async Task<List<Post>> SearchTagsPostsByUserLogined(Guid userid, string searchTags)
             => await PostDAO.Instance.SearchTagsPostsByUserLogined(userid, searchTags);
+
+        public async Task<List<Post>> GetPostsInUserDetailsWithoutLogin(Guid userDetailId)
+                => await PostDAO.Instance.GetPostsInUserDetailsWithoutLogin(userDetailId);
+
+        public async Task<IEnumerable<Post>> GetPostByGroupIdAndUserPostId(Guid groupId, Guid userPostId)
+                => await PostDAO.Instance.GetPostByGroupIdAndUserPostId(groupId, userPostId);
+
+        public async Task<IEnumerable<Post>> GetPostsByGroupId(Guid groupId)
+                => await PostDAO.Instance.GetPostsByGroupId(groupId);
     }
 }

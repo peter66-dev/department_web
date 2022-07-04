@@ -51,7 +51,9 @@ namespace MyLibrary.DataAccess
             try
             {
                 var context = new department_dbContext();
-                gr = context.Groups.FirstOrDefault(g => g.GroupId.Equals(groupId));
+                gr = context.Groups
+                                    .Include(g => g.GroupOwner)
+                                    .FirstOrDefault(g => g.GroupId.Equals(groupId));
             }
             catch (Exception ex)
             {
@@ -101,6 +103,42 @@ namespace MyLibrary.DataAccess
                 throw new Exception("Error at GetGroupsByLeaderId: " + ex.Message);
             }
             return list;
+        }
+
+        public async Task<IEnumerable<Group>> GetGroupsPublicByLeaderId(Guid leaderId)
+        {
+            List<Group> list = new List<Group>();
+            try
+            {
+                var context = new department_dbContext();
+                list = await context.Groups
+                                        .Where(g => g.GroupOwnerId == leaderId 
+                                            && g.PublicStatus == 5)
+                                        .ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error at GetGroupsPublicByLeaderId: " + ex.Message);
+            }
+            return list;
+        }
+
+        public async Task<int> GetTotalMembersInGroupById(Guid groupId)
+        {
+            int total = 0;
+            try
+            {
+                var context = new department_dbContext();
+                IEnumerable<GroupUser> list = await context.GroupUsers
+                                        .Where(g => g.GroupId == groupId && (g.Status == 1 || g.Status == 2))
+                                        .ToListAsync();
+                total = list.ToList().Count;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error at GetTotalMembersInGroupById: " + ex.Message);
+            }
+            return total;
         }
     }
 }

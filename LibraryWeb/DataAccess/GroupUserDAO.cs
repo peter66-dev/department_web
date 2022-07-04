@@ -1,5 +1,6 @@
 ﻿using LibraryWeb.DataAccess;
 using LibraryWeb.Model;
+using LibraryWeb.Repository;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -58,7 +59,7 @@ namespace MyLibrary.DataAccess
                 {
                     list.Add(cur.Group);
                 }
-                Console.WriteLine($"Co {list.Count} groups with userid: "+ userid);
+                Console.WriteLine($"Co {list.Count} groups with userid: " + userid);
             }
             catch (Exception ex)
             {
@@ -110,6 +111,33 @@ namespace MyLibrary.DataAccess
             {
                 throw new Exception("Error at CreateGroupUser: " + ex.Message);
             }
+        }
+
+        public async Task<IEnumerable<Group>> GetGroupsPublicByMemberID(Guid memberId)
+        {
+            List<Group> list = new List<Group>();
+            try
+            {
+                var context = new department_dbContext();
+                List<GroupUser> tmp = await context.GroupUsers
+                                        .Where(g => g.Group.PublicStatus == 5
+                                            && g.MemberId == memberId)
+                                        .Include(g => g.Group)
+                                        .ToListAsync();
+                if (tmp.Count > 0)
+                {
+                    foreach (GroupUser ge in tmp)
+                    {
+                        GroupRepository repo = new GroupRepository();
+                        list.Add(repo.GetGroupById(ge.GroupId));
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error at GetGroupsPublicByMemberID: " + ex.Message);
+            }
+            return list;
         }
     }
 }

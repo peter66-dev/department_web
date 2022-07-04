@@ -2,6 +2,7 @@
 using MyLibrary.DataAccess;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace LibraryWeb.Repository
 {
@@ -13,5 +14,8 @@ namespace LibraryWeb.Repository
         public void CreateUser(User user) => UserDAO.Instance.CreateUser(user);
         public User CheckLogin(string email, string password) => UserDAO.Instance.CheckLogin(email, password);
         public string CheckRole(User user) => UserDAO.Instance.CheckRole(user);
+
+        public Task<User> GetUserByIdAsync(Guid userId)
+            => UserDAO.Instance.GetUserByIdAsync(userId);
     }
 }

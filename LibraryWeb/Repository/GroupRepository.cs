@@ -15,5 +15,10 @@ namespace LibraryWeb.Repository
 
         public async Task<IEnumerable<Group>> GetGroupsByLeaderId(Guid leaderId)
             => await GroupDAO.Instance.GetGroupsByLeaderId(leaderId);
+        public async Task<IEnumerable<Group>> GetGroupsPublicByLeaderId(Guid leaderId)
+                => await GroupDAO.Instance.GetGroupsPublicByLeaderId(leaderId);
+
+        public async Task<int> GetTotalMembersInGroupById(Guid groupId)
+            => await GroupDAO.Instance.GetTotalMembersInGroupById(groupId);
     }
 }

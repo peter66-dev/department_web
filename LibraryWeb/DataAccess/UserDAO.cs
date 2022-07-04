@@ -1,8 +1,10 @@
 ﻿using LibraryWeb.DataAccess;
 using LibraryWeb.Model;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace MyLibrary.DataAccess
 {
@@ -48,11 +50,31 @@ namespace MyLibrary.DataAccess
             try
             {
                 var context = new department_dbContext();
-                tmp = context.Users.SingleOrDefault(u => u.UserId.Equals(userId));
+                tmp = context.Users.Include(u => u.Role)
+                                    .Include(u => u.StatusNavigation)
+                                    .SingleOrDefault(u => u.UserId.Equals(userId));
             }
             catch (Exception ex)
             {
                 throw new Exception("Error at GetUserById: " + ex.Message);
+            }
+            return tmp;
+        }
+
+        public async Task<User> GetUserByIdAsync(Guid userId)
+        {
+            User tmp = new User();
+            try
+            {
+                var context = new department_dbContext();
+                tmp = await context.Users
+                                    .Include(u => u.Role)
+                                    .Include(u => u.StatusNavigation)
+                                    .FirstOrDefaultAsync(m => m.UserId == userId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error at GetUserByIdAsync: " + ex.Message);
             }
             return tmp;
         }

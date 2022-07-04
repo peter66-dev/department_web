@@ -306,7 +306,7 @@ namespace MyLibrary.DataAccess
                 foreach (Group gr in groups)
                 { // Lấy những bài mà resident đang follow
                     List<Post> tmp = new List<Post>();
-                    tmp = await context.Posts.Where(p => p.GroupPost.PublicStatus == 5 
+                    tmp = await context.Posts.Where(p => p.GroupPost.PublicStatus == 5
                                                         || p.PostType.PostTypeName.Equals("Announcement")
                                                         || p.GroupPostId == gr.GroupId)
                                                 .OrderBy(p => p.CreatedDate).Reverse()
@@ -338,6 +338,94 @@ namespace MyLibrary.DataAccess
             catch (Exception ex)
             {
                 Console.WriteLine("Error at SearchPostsByUserLogined: " + ex.Message); ;
+            }
+            return list;
+        }
+
+        public async Task<List<Post>> GetPostsInUserDetailsWithoutLogin(Guid userDetailId)
+        {
+            List<Post> list = new List<Post>();
+            try
+            {
+                var context = new department_dbContext();
+                IUserRepository repo = new UserRepository();
+                User user = repo.GetUserById(userDetailId);
+
+                if (user.Role.RoleName.Equals("ADMIN"))
+                {
+                    list = await context.Posts
+                                    .Where(p => p.UserPostId == userDetailId 
+                                                && p.Status == 7) // Nếu nó là admin
+                                    .Include(p => p.UserPost)
+                                    .ToListAsync();
+                }
+                else if (user.Role.RoleName.Equals("MANAGER"))
+                {
+                    list = await context.Posts.Where(p => p.UserPostId == userDetailId // Bài của userDetailId
+                                                        && p.GroupPost.PublicStatus == 5) // group public mà userDetailId đang quản lý
+                                              .Include(p => p.UserPost)
+                                              .Include(p => p.GroupPost)
+                                              .ToListAsync();
+                }
+                else        // RESIDENT
+                {
+                    IGroupUserRepository groupRepo = new GroupUserRepository();
+                    IEnumerable<Group> groups = await groupRepo.GetGroupsPublicByMemberID(userDetailId); // lấy ra groups (public) mà nó đang follow
+                    if (groups.ToList().Count > 0)
+                    {
+                        foreach (Group gr in groups)
+                        {
+                            IEnumerable<Post> tmp = await GetPostByGroupIdAndUserPostId(gr.GroupId, userDetailId);
+                            if (tmp.ToList().Count > 0)
+                            {
+                                list.AddRange(tmp);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error at GetPostsInUserDetailsWithoutLogin: " + ex.Message); ;
+            }
+            return list;
+        }
+
+        public async Task<IEnumerable<Post>> GetPostByGroupIdAndUserPostId(Guid groupId, Guid userPostId)
+        {
+            IEnumerable<Post> list = new List<Post>();
+            try
+            {
+                var context = new department_dbContext();
+                list = await context.Posts.Where(p => p.GroupPostId == groupId
+                                                    && p.Status == 5
+                                                    && p.UserPostId == userPostId)
+                                              .Include(p => p.UserPost)
+                                              .Include(p => p.GroupPost)
+                                              .ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error at GetPostByGroupIdAndUserPostId: " + ex.Message);
+            }
+            return list;
+        }
+
+        public async Task<IEnumerable<Post>> GetPostsByGroupId(Guid groupId)
+        {
+            IEnumerable<Post> list = new List<Post>();
+            try
+            {
+                var context = new department_dbContext();
+                list = await context.Posts.Where(p => p.GroupPostId == groupId
+                                                    && p.Status == 5)
+                                              .Include(p => p.UserPost)
+                                              .Include(p => p.GroupPost)
+                                              .ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error at GetPostsByGroupId: " + ex.Message);
             }
             return list;
         }

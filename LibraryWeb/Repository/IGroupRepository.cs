@@ -12,5 +12,7 @@ namespace LibraryWeb.Repository
         Group GetGroupById(Guid groupId);
         IEnumerable<Group> GetGroups();
         Task<IEnumerable<Group>> GetGroupsByLeaderId(Guid leaderId);
+        Task<IEnumerable<Group>> GetGroupsPublicByLeaderId(Guid leaderId);
+        Task<int> GetTotalMembersInGroupById(Guid groupId);
     }
 }

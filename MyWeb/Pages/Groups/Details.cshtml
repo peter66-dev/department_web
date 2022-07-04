@@ -1,0 +1,119 @@
+﻿@page
+@using LibraryWeb.Model
+@model MyWeb.Pages.Groups.DetailsModel
+
+@{
+    ViewData["Title"] = "Group";
+    Layout = "_Layout_Group_View";
+}
+
+<link rel="stylesheet" href="~/css/ViewGroup.css" />
+
+<div class="container-fluid">
+    <div class="view-group-container">
+        <div class="group-content">
+            @if (@Model.Group.PublicStatus == 5)
+            {
+                <div class="public-group">
+                    <p class="font-weight-bold mb-2">Latest</p>
+                    @if (@Model.Posts.ToList().Count > 0)
+                    {
+                        @foreach (Post post in @Model.Posts.ToList())
+                        {
+                            <div class="news">
+                                <div class="owner">
+                                    <img src="~/img/user.png" />
+                                    <div class="infos">
+                                        <div class="flex-text">
+                                            <a asp-area="" asp-page="../Users/Details" asp-route-id="@post.UserPost.UserId" class="name text-dark text-decoration-none">
+                                                @post.UserPost.FirstName @post.UserPost.LastName
+                                            </a>
+                                            <ion-icon name="caret-forward-outline"></ion-icon>
+                                            <p class="name">@post.GroupPost.GroupName</p>
+                                        </div>
+                                        <div class="flex-textt">
+                                            <p class="date">@post.CreatedDate.ToString("dddd, dd MMMM yyyy h:mm tt")</p>
+                                            <img src="~/img/group.png" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="news-body">
+                                    <div class="title">
+                                        <a asp-page="../Posts/Details" asp-route-id="@post.PostId">@post.Title</a>
+                                    </div>
+                                    <div class="tags">
+                                        @foreach (string tag in @post.GetTagsList())
+                                        {
+                                            <a class="tag text-dark text-decoration-none" asp-area="" asp-page="../Posts/Index" asp-route-searchTag="@tag">#@tag</a>
+                                        }
+                                    </div>
+                                    <div class="react">
+                                        <div class="likes">
+                                            <button>
+                                                <ion-icon name="heart-outline"></ion-icon>
+                                            </button>
+                                            <p>@post.LikesTotal</p>
+                                        </div>
+                                        <div class="comments">
+                                            <button>
+                                                <ion-icon name="chatbubble-outline"></ion-icon>
+                                            </button>
+                                            <p>@post.CommentsTotal</p>
+                                        </div>
+                                        <div class="views">
+                                            <ion-icon name="eye-outline"></ion-icon>
+                                            <p>@post.Views</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <p class="text-center not-found-item">This group don't have any news!</p>
+                    }
+                </div>
+            }
+            else
+            {
+                <div class="private-group">
+                    <lottie-player src="https://assets2.lottiefiles.com/private_files/lf30_j8eocx6c.json" background="transparent" speed="1" style="width: 50%; height: 50%;" loop autoplay></lottie-player>
+                    <p class="private-group-text">This group is private</p>
+                    <p class="private-group-text2">Join this group to view or participate in discussions.</p>
+                </div>
+            }
+
+        </div>
+        <div class="group-infos">
+            <div class="group-info">
+                <p class="group-name">@Model.Group.GroupName</p>
+                <div class="group-status">
+                    @if (@Model.Group.PublicStatus == 5)
+                    {
+                        <img src="~/img/earth.png" />
+                        <p class="group-status-text">Public Group - @Model.TotalMembers members</p>
+                    }
+                    else
+                    {
+                        <img src="~/img/lock.png" />
+                        <p class="group-status-text">Private Group - @Model.TotalMembers members</p>
+                    }
+                </div>
+            </div>
+
+            <div class="group-info">
+                <button class="join-btn">Join group</button>
+            </div>
+
+            <div class="group-info">
+                <p class="gr-info-title">Manager</p>
+                <p class="gr-info-content">@Model.Group.GroupOwner.FirstName @Model.Group.GroupOwner.LastName</p>
+            </div>
+            <div class="group-info">
+                <p class="gr-info-title">Created date</p>
+                <p class="gr-info-content">@Model.Group.CreatedDate.ToString("dddd, dd MMMM yyyy h:mm tt")</p>
+            </div>
+        </div>
+    </div>
+</div>

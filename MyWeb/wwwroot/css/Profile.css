@@ -57,6 +57,10 @@
     margin-top: 15px;
 }
 
+.personal-posts {
+    width: 75%;
+}
+
 .personal-infos {
     width: 25%;
     height: fit-content;
@@ -200,6 +204,21 @@
         width: 16px;
         height: 16px;
         cursor: unset;
+    }
+
+/*if dont have any posts*/
+.personal-posts .empty-posts {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+    .personal-posts .empty-posts .empty-post-alert {
+        font-size: 20px;
+        font-weight: 800;
+        color: #171717;
+        margin: 10px 0;
     }
 
 /*========== end post css ========== */

@@ -18,5 +18,9 @@ namespace LibraryWeb.Repository
         Task<List<Post>> SearchStringPostsByUserLogined(Guid userid, string searchString);
         Task<List<Post>> GetPostsForUserLogined(Guid userid);
         Task<List<Post>> SearchTagsPostsByUserLogined(Guid userid, string searchTags);
+        Task<List<Post>> GetPostsInUserDetailsWithoutLogin(Guid userDetailId);
+
+        Task<IEnumerable<Post>> GetPostByGroupIdAndUserPostId(Guid groupId, Guid userPostId);
+        Task<IEnumerable<Post>> GetPostsByGroupId(Guid groupId);
     }
 }

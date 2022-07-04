@@ -35,27 +35,37 @@
         </div>
     </div>
     <div class="main-detail-container">
-        <div class="your-action-btn">
-            <a class="menu-btn" onclick="handleMenu()">
-                <ion-icon name="ellipsis-horizontal-outline"></ion-icon>
-            </a>
-            <div class="dropdown-group">
-                <div class="dropdown-items">
-                    <a class="edit-btn dropdown-item">
-                        <ion-icon name="create-outline"></ion-icon>
-                        <p>Edit</p>
-                    </a>
-                    <a class="delete-btn dropdown-item">
-                        <ion-icon name="trash-outline"></ion-icon>
-                        <p>Delete</p>
-                    </a>
-                </div>
-            </div>
-        </div>
+        @{
+            string CURRENT_USER_ID = HttpContext.Session.GetString("CURRENT_USER_ID");
+            string user_post_id = @Model.Post.UserPostId.ToString();
+            if (CURRENT_USER_ID != null && CURRENT_USER_ID.Equals(user_post_id))
+            {
+                    <div class="your-action-btn">
+                        <a class="menu-btn" onclick="handleMenu()">
+                            <ion-icon name="ellipsis-horizontal-outline"></ion-icon>
+                        </a>
+                        <div class="dropdown-group">
+                            <div class="dropdown-items">
+                                <a class="edit-btn dropdown-item">
+                                    <ion-icon name="create-outline"></ion-icon>
+                                    <p>Edit</p>
+                                </a>
+                                <a class="delete-btn dropdown-item">
+                                    <ion-icon name="trash-outline"></ion-icon>
+                                    <p>Delete</p>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+            }
+        }
+
         <div class="owner">
             <img class="user-avatar" src="~/img/user.png" />
             <div class="infos">
-                <a href="/" class="name text-decoration-none">@Model.Post.UserPost.FirstName @Model.Post.UserPost.LastName</a>
+                <a asp-area="" asp-page="../Users/Details" asp-route-id="@Model.Post.UserPostId" class="name text-decoration-none">
+                    @Model.Post.UserPost.FirstName @Model.Post.UserPost.LastName
+                    </a>
                 <p class="date">@Model.Post.CreatedDate.ToString("dd MMMM yyyy h:mm tt")</p>
             </div>
         </div>
@@ -106,7 +116,9 @@
                                     <div class="comment">
                                         <div class="d-flex align-items-center">
                                             <div class="user">
-                                                <a href="#" class="cmt-user text-decoration-none">@cmt.UserComment.FirstName @cmt.UserComment.LastName</a>
+                                                <a asp-area="" asp-page="../Users/Details" asp-route-id="@cmt.UserCommentId" class="cmt-user text-decoration-none">
+                                                    @cmt.UserComment.FirstName @cmt.UserComment.LastName
+                                                </a>
                                             </div>
                                             <p class="cmt-time ml-2 ">@cmt.CreatedDate.ToString("dd MMMM yyyy h:mm tt")</p>
                                         </div>
@@ -143,7 +155,7 @@
 
                                     @{
                                         var boundaryCommentReply = "boundary" + cmt.CommentId;
-                                        <span id="@boundaryCommentReply"></span> @*make new comment reply*@
+                                            <span id="@boundaryCommentReply"></span> @*make new comment reply*@
                                     }
 
                                     @if (cmt.CommentReplies.Count > 0)
@@ -157,7 +169,9 @@
                                                         <div class="comment">
                                                             <div class="d-flex align-items-center">
                                                                 <div class="user">
-                                                                    <a href="#" class="cmt-user text-decoration-none">@cr.UserReply.FirstName @cr.UserReply.LastName</a>
+                                                                    <a asp-area="" asp-page="../Users/Details" asp-route-id="@cr.UserReplyId" class="cmt-user text-decoration-none">
+                                                                        @cr.UserReply.FirstName @cr.UserReply.LastName
+                                                                    </a>
                                                                 </div>
                                                                 <p class="cmt-time ml-2 ">@cr.CreatedDate.ToString("dd MMMM yyyy h:mm tt")</p>
                                                             </div>
@@ -184,7 +198,9 @@
         <div class="owner">
             <img class="user-avatar" src="~/img/user.png" />
             <div class="infos">
-                <a href="/" class="name text-decoration-none">@Model.Post.UserPost.FirstName @Model.Post.UserPost.LastName</a>
+                <a asp-area="" asp-page="../Users/Details" asp-route-id="@Model.Post.UserPostId" class="name text-decoration-none">
+                    @Model.Post.UserPost.FirstName @Model.Post.UserPost.LastName
+                    </a>
             </div>
         </div>
         <div class="info">
@@ -304,6 +320,7 @@
                     } else if (status == 1) {
                         let htmlContent = '';
                         var commentId = result.commentId;
+                        var userReplyId = result.userReplyId;
                         var firstName = result.firstName;
                         var lastName = result.lastName;
                         var createdAt = result.createdAt;
@@ -314,24 +331,24 @@
                         var commentsReplyForeach = document.getElementById("boundary" + commentId); // mark boundary between old and new comment reply
 
                         htmlContent += `<div class="comment-rep">
-                                                    <div class="content">
-                                                        <img class="user-avatar" src="../img/user.png" />
-                                                        <div style="width: 100%">
-                                                            <div class="comment">
-                                                                <div class="d-flex align-items-center">
-                                                                    <div class="user">
-                                                                        <a href="#" class="cmt-user text-decoration-none">` + firstName + ` ` + lastName + `</a>
+                                                        <div class="content">
+                                                            <img class="user-avatar" src="../img/user.png" />
+                                                            <div style="width: 100%">
+                                                                <div class="comment">
+                                                                    <div class="d-flex align-items-center">
+                                                                        <div class="user">
+                                                                            <a asp-area="" asp-page="../Users/Details" asp-route-id="` + userReplyId + `" class="cmt-user text-decoration-none">` + firstName + ` ` + lastName + `</a>
+                                                                        </div>
+                                                                        <p class="cmt-time ml-2 ">` + createdAt + `</p>
                                                                     </div>
-                                                                    <p class="cmt-time ml-2 ">` + createdAt + `</p>
-                                                                </div>
 
-                                                                <div style="word-break: break-word">
-                                                                    ` + commentReplycontent + `
+                                                                    <div style="word-break: break-word">
+                                                                        ` + commentReplycontent + `
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                </div>`;
+                                                    </div>`;
                         commentsReplyForeach.insertAdjacentHTML("afterbegin", htmlContent);
                         $('#' + textAreaId).val('');
                     } else if (status == 2) {
@@ -358,7 +375,7 @@
         dropdownMenu.style.display = 'block';
     }
     document.addEventListener('click', function handleClickOutsideMenu(event) {
-        if (!dropdownMenu.contains(event.target) && !menuBtn.contains(event.target)) {
+        if (dropdownMenu != null && menuBtn != null && !dropdownMenu.contains(event.target) && !menuBtn.contains(event.target)) {
             dropdownMenu.style.display = 'none';
         }
     });
@@ -379,17 +396,17 @@
                         if (result[0] == 1) { // active like icon BUG chỗ lấy heart.png
                             console.log('btnLike was actived!');
                             htmlContent += `<button class="like-btn liked">
-                                                                                                                                <ion-icon class="icon like-icon" name="heart-outline" style="display:none"></ion-icon>
-                                                                                                                                <img class="heart-icon" src="../img/heart.png" style="display:block" />
-                                                                                                                            </button>`;
+                                                                                                                                    <ion-icon class="icon like-icon" name="heart-outline" style="display:none"></ion-icon>
+                                                                                                                                    <img class="heart-icon" src="../img/heart.png" style="display:block" />
+                                                                                                                                </button>`;
                             htmlContent += `<p class="like-amount">` + result[1] + `</p>`;
                             $('#btnLike').html(htmlContent);
                         } else if (result[0] == 2) { // inactive like icon BUG chỗ lấy heart.png
                             console.log('btnLike was inactived!');
                             htmlContent += `<button class="like-btn">
-                                                                                                                                <ion-icon class="icon like-icon" name="heart-outline" style="display:block"></ion-icon>
-                                                                                                                                <img class="heart-icon" src="../img/heart.png" style="display:none" />
-                                                                                                                            </button>`;
+                                                                                                                                    <ion-icon class="icon like-icon" name="heart-outline" style="display:block"></ion-icon>
+                                                                                                                                    <img class="heart-icon" src="../img/heart.png" style="display:none" />
+                                                                                                                                </button>`;
                             htmlContent += `<p class="like-amount">` + result[1] + `</p>`;
                             $('#btnLike').html(htmlContent);
                         }
@@ -435,6 +452,7 @@
                             var repBtnId = 'repBtn' + commentId;
 
                             var firstName = result.firstName;
+                            var userCommentId = result.userCommentId;
                             var lastName = result.lastName;
                             var createdAt = result.createdAt;
                             var commentsTotal = result.commentsTotal;
@@ -444,42 +462,42 @@
                             // add 1 comment div on top comments list
                             const commentsForeach = document.getElementById("commentsForeach");
                             let content = `<div class="comment-root">
-                                                                                    <div class="content">
-                                                                                                        <img class="user-avatar" src="../img/user.png" />
-                                                                                                        <div style="width: 100%">
-                                                                                                            <div class="comment">
-                                                                                                                <div class="d-flex align-items-center">
-                                                                                                                    <div class="user">
-                                                                                                                        <a href="#" class="cmt-user text-decoration-none">` + firstName + ` ` + lastName + `</a>
+                                                                                        <div class="content">
+                                                                                                            <img class="user-avatar" src="../img/user.png" />
+                                                                                                            <div style="width: 100%">
+                                                                                                                <div class="comment">
+                                                                                                                    <div class="d-flex align-items-center">
+                                                                                                                        <div class="user">
+                                                                                                                            <a asp-area="" asp-page="../Users/Details" asp-route-id="` + userCommentId + `" class="cmt-user text-decoration-none">` + firstName + ` ` + lastName + `</a>
+                                                                                                                        </div>
+                                                                                                                        <p class="cmt-time ml-2 ">` + createdAt + `</p>
                                                                                                                     </div>
-                                                                                                                    <p class="cmt-time ml-2 ">` + createdAt + `</p>
-                                                                                                                </div>
 
-                                                                                                                <div>` + $('#commentContent').val() + `</div>
-                                                                                                            </div>
-                                                                                                            <div class="rep-btn">`;
+                                                                                                                    <div>` + $('#commentContent').val() + `</div>
+                                                                                                                </div>
+                                                                                                                <div class="rep-btn">`;
                             var repBtnIdInit = "repBtnIdInit" + commentId;
                             content += `<button id="` + repBtnIdInit + `" class="repBtn" onclick="handleRep('` + commentId + `', '` + repBtnIdInit + `')">
-                                                                                                                    <ion-icon name="chatbubbles-outline"></ion-icon>
-                                                                                                                    Reply
-                                                                                                                </button>
-                                                                                                                <div id="` + commentId + `" class="rep-form" style="display:none">
-                                                                                                                    <textarea id="` + textAreaId + `" placeholder="Reply..."
-                                                                                                                          class="rep-comment-textarea"
-                                                                                                                          oninput="handleInput('` + textAreaId + `', '` + repBtnId + `')"></textarea>
-                                                                                                                    <div class="rep-comment-btn-group">
-                                                                                                                        <button onclick="submitReplyCmt('` + repBtnId + `', '` + textAreaId + `')"
-                                                                                                                            id="` + repBtnId + `" class="submit-rep-btn" disabled>
-                                                                                                                            Submit
-                                                                                                                        </button>
+                                                                                                                        <ion-icon name="chatbubbles-outline"></ion-icon>
+                                                                                                                        Reply
+                                                                                                                    </button>
+                                                                                                                    <div id="` + commentId + `" class="rep-form" style="display:none">
+                                                                                                                        <textarea id="` + textAreaId + `" placeholder="Reply..."
+                                                                                                                              class="rep-comment-textarea"
+                                                                                                                              oninput="handleInput('` + textAreaId + `', '` + repBtnId + `')"></textarea>
+                                                                                                                        <div class="rep-comment-btn-group">
+                                                                                                                            <button onclick="submitReplyCmt('` + repBtnId + `', '` + textAreaId + `')"
+                                                                                                                                id="` + repBtnId + `" class="submit-rep-btn" disabled>
+                                                                                                                                Submit
+                                                                                                                            </button>
+                                                                                                                        </div>
                                                                                                                     </div>
-                                                                                                                </div>
-                                                                                                             </div>`;
+                                                                                                                 </div>`;
                             let boundaryCommentReply = "boundary" + commentId;
                             content += `          <span id="` + boundaryCommentReply + `"></span>
-                                                     </div>
-                                                                                                    </div>
-                                                                                                </div>`;
+                                                         </div>
+                                                                                                        </div>
+                                                                                                    </div>`;
                             commentsForeach.insertAdjacentHTML("afterend", content);
                             $('#commentContent').val('');
                         }

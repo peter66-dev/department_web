@@ -125,6 +125,7 @@ namespace MyWeb.Pages.Posts
                 return new JsonResult(new
                 {
                     commentId = comment.CommentId,
+                    userCommentId = comment.UserCommentId,
                     firstName = userCmt.FirstName,
                     lastName = userCmt.LastName,
                     createdAt = comment.CreatedDate.ToString("dd MMMM yyyy h:mm tt"),
@@ -136,6 +137,7 @@ namespace MyWeb.Pages.Posts
         /* JsonResult ({
          *      status: int,
          *      commentId: commentId,
+         *      userReplyId: userReplyId,
          *      firstName: firstName,
          *      lastName: lastName,
          *      createdAt: createdAt,
@@ -172,6 +174,7 @@ namespace MyWeb.Pages.Posts
                         {
                             status = 1,
                             commentId = commentId,
+                            userReplyId = cmtReply.UserReplyId,
                             firstName = user.FirstName,
                             lastName = user.LastName,
                             createdAt = cmtReply.CreatedDate.ToString("dd MMMM yyyy h:mm tt"),

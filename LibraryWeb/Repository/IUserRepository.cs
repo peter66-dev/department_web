@@ -1,6 +1,7 @@
 ﻿using LibraryWeb.Model;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace LibraryWeb.Repository
 {
@@ -12,5 +13,7 @@ namespace LibraryWeb.Repository
         User GetUserById(Guid userId);
         User CheckLogin(string email, string password);
         string CheckRole(User user);
+
+        Task<User> GetUserByIdAsync(Guid userId);
     }
 }

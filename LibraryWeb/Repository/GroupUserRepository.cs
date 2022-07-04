@@ -12,12 +12,15 @@ namespace LibraryWeb.Repository
             => GroupUserDAO.Instance.GetGroupUsers();
         public GroupUser GetGroupUserById(Guid groupUserId)
             => GroupUserDAO.Instance.GetGroupUserById(groupUserId);
-        public void DeleteGroupUserById(Guid groupUserId) 
+        public void DeleteGroupUserById(Guid groupUserId)
             => GroupUserDAO.Instance.DeleteGroupUserById(groupUserId);
-        public void CreateGroupUser(GroupUser groupUser) 
+        public void CreateGroupUser(GroupUser groupUser)
             => GroupUserDAO.Instance.CreateGroupUser(groupUser);
 
-        public async Task<IEnumerable<Group>> GetGroupsByUserId(Guid userid) 
+        public async Task<IEnumerable<Group>> GetGroupsByUserId(Guid userid)
             => await GroupUserDAO.Instance.GetGroupsByUserId(userid);
+
+        public async Task<IEnumerable<Group>> GetGroupsPublicByMemberID(Guid memberId)
+                => await GroupUserDAO.Instance.GetGroupsPublicByMemberID(memberId);
     }
 }

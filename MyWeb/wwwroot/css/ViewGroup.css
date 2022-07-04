@@ -100,6 +100,13 @@
             background-color: #007bffad;
         }
 /*======== public group content =========== */
+.not-found-item {
+    margin-top: 20px;
+    font-size: 20px;
+    font-weight: 800;
+    color: #191919;
+}
+
 .news {
     background-color: #fff;
     box-shadow: 0 0 0 1px rgba(23, 23, 23, 0.1);
