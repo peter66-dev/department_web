@@ -9,7 +9,7 @@
 
 <link rel="stylesheet" href="~/css/CRUD.css" />
 <script src="https://cdn.tiny.cloud/1/pyapdqq1dyb1bd234vpnlt6ssc4x4i0ii786ea6y1tz9wypw/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
-<script>tinymce.init({ selector: 'textarea' });</script>
+
 
 <div class="container-fluid">
 
@@ -19,13 +19,13 @@
             <div class="post-content-warpper">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group post-title">
-                    <input asp-for="Post.Title" class="ip-post-title" placeholder="New Post Title Here" />
+                    <input asp-for="Post.Title" class="ip-post-title" placeholder="New Post Title Here" onclick="handleInput(1)" />
                     <span asp-validation-for="Post.Title" class="text-danger"></span>
                 </div>
                 <div class="top-content">
 
                     @if (HttpContext.Session.GetString("ROLE") != null
-              && HttpContext.Session.GetString("ROLE").Equals("ADMIN"))
+            && HttpContext.Session.GetString("ROLE").Equals("ADMIN"))
                     {
                         <div class="form-group id-hide">
                             <select asp-for="Post.GroupPostId" class="form-control" asp-items="ViewBag.GroupPostId"></select>
@@ -41,7 +41,7 @@
                         </div>
                     }
                     <div class="form-group post-tags">
-                        <input asp-for="Post.Tags" class="ip-tags" placeholder="Add Tags: anounce notice..." />
+                        <input asp-for="Post.Tags" class="ip-tags" placeholder="Add Tags: anounce notice..." onclick="handleInput(2)" />
                         <span asp-validation-for="Post.Tags" class="text-danger"></span>
                     </div>
                     <div class="form-group id-hide">
@@ -74,11 +74,13 @@
             <p class="guide-title">
                 Writing a great Post Title
             </p>
-            <p class="guide-content">
-                Think of your post title as a short (but compelling) description - like
-                an overview of the actual post in one short sentence.
-                Use tags to help ensure people can easily find your post by search.
-            </p>
+            <ul class="guide-content">
+                <li>
+                    Think of your post title as a short (but compelling) description - like
+                    an overview of the actual post in one short sentence.
+                </li>
+                <li>Use keywords where appropriate to help ensure people can find your post by search.</li>
+            </ul>
         </div>
     </div>
     <div>
@@ -90,4 +92,64 @@
             await Html.RenderPartialAsync("_ValidationScriptsPartial");
         }
     }
+
+    <script>
+        const titleGuide = document.querySelector('.guide-title');
+        const contentGuide = document.querySelector('.guide-content');
+        const inputTextArea = document.querySelector('.post-description');
+
+        function handleInput(section) {
+            switch (section) {
+                case 1:
+                    contentGuide.innerHTML = "";
+                    titleGuide.innerHTML = 'Writing a great Post Title';
+                    var li1 = document.createElement("li");
+                    var li2 = document.createElement("li");
+                    li1.appendChild(document.createTextNode("Think of your post title as a short (but compelling) description - like an overview of the actual post in one short sentence."));
+                    li2.appendChild(document.createTextNode("Use keywords where appropriate to help ensure people can find your post by search."));
+                    contentGuide.appendChild(li1);
+                    contentGuide.appendChild(li2);
+                    break;
+                case 2:
+                    contentGuide.innerHTML = "";
+                    titleGuide.innerHTML = 'Tagging Guidelines';
+                    var li = document.createElement("li");
+                    var li2 = document.createElement("li");
+                    var li3 = document.createElement("li");
+                    var li4 = document.createElement("li");
+                    var li5 = document.createElement("li");
+                    li.appendChild(document.createTextNode("Tags help people find your post."));
+                    li2.appendChild(document.createTextNode("Think of tags as the topics or categories that best describe your post."));
+                    li3.appendChild(document.createTextNode("Add a space between tags. Combine tags to reach the appropriate subcommunities."));
+                    li4.appendChild(document.createTextNode("Use existing tags whenever possible."));
+                    li5.appendChild(document.createTextNode("Some tags, such as “help” or “healthydebate”, have special posting guidelines."));
+                    contentGuide.appendChild(li);
+                    contentGuide.appendChild(li2);
+                    contentGuide.appendChild(li3);
+                    contentGuide.appendChild(li4);
+                    contentGuide.appendChild(li5);
+                    break;
+                default:
+                    break;
+
+            }
+        }
+
+        tinymce.init({
+            selector: 'textarea',
+            setup: function (editor) {
+                editor.on("click", function () {
+                    contentGuide.innerHTML = "";
+                    titleGuide.innerHTML = 'Editor Basics';
+                    var li1 = document.createElement("li");
+                    var li2 = document.createElement("li");
+                    li1.appendChild(document.createTextNode("Type your post content here using our functional text editor."));
+                    li2.appendChild(document.createTextNode("In addition to images for the post's content, you can also drag and drop a cover image."));
+                    contentGuide.appendChild(li1);
+                    contentGuide.appendChild(li2);
+                });
+            }
+        });
+
+    </script>
 </div>
