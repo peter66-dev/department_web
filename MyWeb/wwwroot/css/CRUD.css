@@ -48,7 +48,13 @@ input::placeholder {
 
 .create-post-container, .edit-post-container {
     display: flex;
-    gap: 20px;
+    gap: 35px;
+}
+
+.user-guide {
+    position: sticky;
+    top: 10%;
+    align-self: start;
 }
 
 .guide-title {
@@ -64,13 +70,17 @@ input::placeholder {
     color: #7a7a7a;
 }
 
-.post-content-warpper {
-    margin-bottom: 20px;
-    background-color: #FFF;
-    padding: 30px 50px;
-    width: fit-content;
-    box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
-}
+    .guide-content li {
+        list-style-type: disc;
+    }
+
+    .post-content-warpper {
+        margin-bottom: 20px;
+        background-color: #FFF;
+        padding: 30px 50px;
+        width: fit-content;
+        box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
+    }
 
 .ip-post-title {
     border: none;
