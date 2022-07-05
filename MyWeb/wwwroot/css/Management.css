@@ -14,7 +14,7 @@
 
 .view-detail-btn {
     border: none;
-    padding: 10px;
+    padding: 8px 6px;
     border-radius: 5px;
     display: flex;
     align-items: center;
@@ -28,6 +28,37 @@
     .view-detail-btn:hover {
         background-color: #007bffad;
     }
+
+.approve-btn {
+    border: none;
+    padding: 8px 6px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: #fff;
+    font-weight: 700;
+    transition: 0.2s;
+    background-color: #0094ff;
+    margin-right: 10px;
+}
+
+    .approve-btn:hover {
+        background-color: #007bffad;
+    }
+
+.reject-btn {
+    border: none;
+    padding: 8px 6px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: #fff;
+    font-weight: 700;
+    transition: 0.2s;
+    background-color: #e74c3c;
+}
 
 .not-found-item {
     margin-top: 20px;

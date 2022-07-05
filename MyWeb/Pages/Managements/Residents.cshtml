@@ -61,11 +61,14 @@
                                 </td>
                                 <td>@gu.Group.GroupName</td>
                                 <td>@gu.Member.Address</td>
-                                <td>
-                                    <a asp-page="../Users/Details" asp-route-id="@gu.MemberId" class="view-detail-btn">
-                                        <ion-icon name="eye-outline">
-                                        </ion-icon>
-                                        View
+                                <td class="d-flex">
+                                    <a asp-page="../Users/Details" asp-route-id="@gu.MemberId" class="approve-btn">
+                                        <ion-icon name="checkmark-circle"></ion-icon>
+                                        Approve
+                                    </a>
+                                    <a asp-page="../Users/Details" asp-route-id="@gu.MemberId" class="reject-btn">
+                                        <ion-icon name="close-circle"></ion-icon>
+                                        Reject
                                     </a>
                                 </td>
                             </tr>
