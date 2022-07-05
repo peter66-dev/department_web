@@ -9,8 +9,11 @@ namespace LibraryWeb.Repository
     public class PostRepository : IPostRepository
     {
         public IEnumerable<Post> GetPosts() => PostDAO.Instance.GetPosts();
+
         public Post GetPostById(Guid postId) => PostDAO.Instance.GetPostById(postId);
+
         public void DeletePostById(Guid postId) => PostDAO.Instance.DeletePostById(postId);
+
         public bool CreatePost(Guid userid, string roleName, Guid grouppostid, string title, string tags, string content)
             => PostDAO.Instance.CreatePost(userid, roleName, grouppostid, title, tags, content);
 
@@ -39,5 +42,8 @@ namespace LibraryWeb.Repository
 
         public async Task<IEnumerable<Post>> GetPostsByGroupId(Guid groupId)
                 => await PostDAO.Instance.GetPostsByGroupId(groupId);
+
+        public async Task<IEnumerable<Post>> GetPostsForManagerApprove(Guid managerId)
+            => await PostDAO.Instance.GetPostsForManagerApprove(managerId);
     }
 }

@@ -22,5 +22,8 @@ namespace LibraryWeb.Repository
 
         public async Task<IEnumerable<Group>> GetGroupsPublicByMemberID(Guid memberId)
                 => await GroupUserDAO.Instance.GetGroupsPublicByMemberID(memberId);
+
+        public List<GroupUser> GetUsersPendingByManagerId(Guid managerId)
+            => GroupUserDAO.Instance.GetUsersPendingByManagerId(managerId);
     }
 }

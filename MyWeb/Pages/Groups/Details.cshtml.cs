@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using LibraryWeb.Model;
+using LibraryWeb.Repository;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
-using LibraryWeb.DataAccess;
-using LibraryWeb.Model;
-using LibraryWeb.Repository;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace MyWeb.Pages.Groups
 {

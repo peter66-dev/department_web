@@ -108,6 +108,14 @@ table {
     background-size: cover;
 }
 
+.post-resident-manage-icon {
+    width: 20px;
+    height: 20px;
+    background-image: url('../img/management.png');
+    background-position: center;
+    background-size: cover;
+}
+
 .left-content a {
     color: #000;
 }
@@ -190,7 +198,7 @@ table {
     }
 
         .news-body .react .likes,
-        .news-body .react .comments{
+        .news-body .react .comments {
             display: flex;
             gap: 5px;
             cursor: pointer;
@@ -210,11 +218,11 @@ table {
                 background-color: transparent;
             }
 
-            .news-body .react .likes:hover,
-            .news-body .react .comments:hover {
-                background-color: #e9e8e8;
-                border-radius: 5px;
-            }
+        .news-body .react .likes:hover,
+        .news-body .react .comments:hover {
+            background-color: #e9e8e8;
+            border-radius: 5px;
+        }
 
 
 .news .owner {

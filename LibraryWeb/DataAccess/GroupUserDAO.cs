@@ -59,7 +59,6 @@ namespace MyLibrary.DataAccess
                 {
                     list.Add(cur.Group);
                 }
-                Console.WriteLine($"Co {list.Count} groups with userid: " + userid);
             }
             catch (Exception ex)
             {
@@ -138,6 +137,25 @@ namespace MyLibrary.DataAccess
                 throw new Exception("Error at GetGroupsPublicByMemberID: " + ex.Message);
             }
             return list;
+        }
+
+        public List<GroupUser> GetUsersPendingByManagerId(Guid managerId)
+        {
+            IEnumerable<GroupUser> list = null;
+            try
+            {
+                var context = new department_dbContext();
+                list = context.GroupUsers
+                                    .Where(g => g.Status == 4
+                                        && g.Group.GroupOwnerId == managerId)
+                                    .Include(g => g.Group)
+                                    .Include(g => g.Member);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error at GetUsersPendingByManagerId: " + ex.Message);
+            }
+            return list.ToList();
         }
     }
 }

@@ -52,7 +52,10 @@ namespace MyLibrary.DataAccess
             try
             {
                 var context = new department_dbContext();
-                post = context.Posts.FirstOrDefault(p => p.PostId.Equals(postId));
+                post = context.Posts
+                                    .Where(p => p.PostId.Equals(postId))
+                                    .Include(p => p.UserPost)
+                                    .ToList()[0];
             }
             catch (Exception ex)
             {
@@ -101,12 +104,14 @@ namespace MyLibrary.DataAccess
                 {
                     post.GroupPostId = null;
                     post.PostTypeId = Guid.Parse("b7d8febc-f871-42ce-8164-f2e34e646cbf"); // Annoucement
+                    post.ApprovedDate = DateTime.Now;
                     post.Status = 7;
                 }
                 else if (roleName.Equals("MANAGER"))
                 {
                     post.GroupPostId = grouppostid;
                     post.PostTypeId = Guid.Parse("f0560405-3b2b-4173-bab8-ba41c2f549ed"); // News
+                    post.ApprovedDate = DateTime.Now;
                     post.Status = 5;
                 }
                 else if (roleName.Equals("RESIDENT"))
@@ -337,7 +342,7 @@ namespace MyLibrary.DataAccess
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error at SearchPostsByUserLogined: " + ex.Message); ;
+                Console.WriteLine("Error at GetPostsForUserLogined: " + ex.Message); ;
             }
             return list;
         }
@@ -354,7 +359,7 @@ namespace MyLibrary.DataAccess
                 if (user.Role.RoleName.Equals("ADMIN"))
                 {
                     list = await context.Posts
-                                    .Where(p => p.UserPostId == userDetailId 
+                                    .Where(p => p.UserPostId == userDetailId
                                                 && p.Status == 7) // Nếu nó là admin
                                     .Include(p => p.UserPost)
                                     .ToListAsync();
@@ -369,19 +374,26 @@ namespace MyLibrary.DataAccess
                 }
                 else        // RESIDENT
                 {
-                    IGroupUserRepository groupRepo = new GroupUserRepository();
-                    IEnumerable<Group> groups = await groupRepo.GetGroupsPublicByMemberID(userDetailId); // lấy ra groups (public) mà nó đang follow
-                    if (groups.ToList().Count > 0)
-                    {
-                        foreach (Group gr in groups)
-                        {
-                            IEnumerable<Post> tmp = await GetPostByGroupIdAndUserPostId(gr.GroupId, userDetailId);
-                            if (tmp.ToList().Count > 0)
-                            {
-                                list.AddRange(tmp);
-                            }
-                        }
-                    }
+                    //IGroupUserRepository groupRepo = new GroupUserRepository();
+                    //IEnumerable<Group> groups = await groupRepo.GetGroupsPublicByMemberID(userDetailId); // lấy ra groups (public) mà nó đang follow
+                    //if (groups.ToList().Count > 0)
+                    //{
+                    //    foreach (Group gr in groups)
+                    //    {
+                    //        IEnumerable<Post> tmp = await GetPostByGroupIdAndUserPostId(gr.GroupId, userDetailId);
+                    //        if (tmp.ToList().Count > 0)
+                    //        {
+                    //            list.AddRange(tmp);
+                    //        }
+                    //    }
+                    //}
+
+                    list = await context.Posts.Where(p => p.UserPostId == userDetailId // Bài của userDetailId
+                                                        && p.GroupPost.PublicStatus == 5
+                                                        && p.Status == 5) // group public mà userDetailId đang quản lý
+                                              .Include(p => p.UserPost)
+                                              .Include(p => p.GroupPost)
+                                              .ToListAsync();
                 }
             }
             catch (Exception ex)
@@ -426,6 +438,26 @@ namespace MyLibrary.DataAccess
             catch (Exception ex)
             {
                 throw new Exception("Error at GetPostsByGroupId: " + ex.Message);
+            }
+            return list;
+        }
+
+        public async Task<IEnumerable<Post>> GetPostsForManagerApprove(Guid managerId)
+        {
+            IEnumerable<Post> list = new List<Post>();
+            try
+            {
+                var context = new department_dbContext();
+                list = await context.Posts
+                                        .Where(p => p.GroupPost.GroupOwnerId == managerId 
+                                            && p.Status == 4)
+                                        .Include(p => p.UserPost)
+                                        .Include(p => p.GroupPost)
+                                        .OrderBy(p => p.CreatedDate).Reverse().ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error at GetPostsForManagerApprove: " + ex.Message);
             }
             return list;
         }

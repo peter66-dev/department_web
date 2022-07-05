@@ -51,6 +51,17 @@
                 </li>
                 </a>
             }
+
+            @if (Accessor.HttpContext.Session.GetString("ROLE") != null
+            && (Accessor.HttpContext.Session.GetString("ROLE").Equals("MANAGER")))
+            {
+                <a asp-area="" asp-page="../Managements/Posts">
+                <li class="d-flex align-items-center">
+                    <div class="post-manage-icon icon"></div>
+                    Management
+                </li>
+                </a>
+            }
         </ul>
 
         @if (Accessor.HttpContext.Session.GetString("ROLE") != null
@@ -119,15 +130,14 @@
                         </div>
                         <div class="flex-textt">
                             <p class="date">@p.CreatedDate.ToString("dddd, dd MMMM yyyy h:mm tt")</p>
-                            @if (@p.GroupPost != null
-                           && @p.GroupPost.PublicStatus == 6 && @p.Status != 7
-                           && !@p.PostType.PostTypeName.Equals("Announcement"))
+                            @if ((@p.GroupPost == null && @p.Status == 7)
+                                    || @p.GroupPost.PublicStatus == 5)
                             {
-                                <img src="~/img/lock.png" />
+                                <img src="~/img/earth.png" />
                             }
                             else
                             {
-                                <img src="~/img/earth.png" />
+                                <img src="~/img/lock.png" />
                             }
                         </div>
                     </div>

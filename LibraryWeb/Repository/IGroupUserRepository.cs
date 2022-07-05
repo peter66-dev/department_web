@@ -15,5 +15,6 @@ namespace LibraryWeb.Repository
         Task<IEnumerable<Group>> GetGroupsByUserId(Guid userid);
 
         Task<IEnumerable<Group>> GetGroupsPublicByMemberID(Guid memberId);
+        List<GroupUser> GetUsersPendingByManagerId(Guid managerId);
     }
 }

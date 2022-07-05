@@ -43,17 +43,17 @@
                     @{
                         if (Accessor.HttpContext.Session.GetString("ROLE") != null)
                         {
-                            string CURRENT_USER_ID = @Accessor.HttpContext.Session.GetString("CURRENT_USER_ID");
                             <li class="nav-item mr-2 d-flex align-items-center">
                                 <p class="nav-link text-dark">
                                     Welcome @Accessor.HttpContext.Session.GetString("ROLE").ToLower(),
-                                    <a asp-area="" asp-page="../Users/Details" asp-route-id="@CURRENT_USER_ID" class="text-info text-decoration-none">
+                                    <a asp-area="" asp-page="../Users/Details" asp-route-id="@Accessor.HttpContext.Session.GetString("CURRENT_USER_ID")" 
+                                        class="text-info text-decoration-none">
                                         @Accessor.HttpContext.Session.GetString("CURRENT_USER_FULLNAME")
                                     </a>
                                 </p>
                             </li>
                             <li class="nav-item mr-2 btn-logout">
-                                <a class="nav-link" asp-area="" asp-page-handler="Logout" asp-page="/Login">Log out</a>
+                                <a class="nav-link " asp-area="" asp-page-handler="Logout" asp-page="/Login">Log out</a>
                             </li>
                         }
                         else
@@ -82,6 +82,11 @@
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
     <script src="https://unpkg.com/@@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+
+    @* table script src *@
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap4.min.js"></script>
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>

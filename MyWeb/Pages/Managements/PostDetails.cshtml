@@ -1,0 +1,75 @@
+﻿@page
+@using System.Web
+@model MyWeb.Pages.Managements.PostDetailsModel
+@{
+    ViewData["Title"] = "Post Detail";
+    Layout = "_Layout_Managements";
+}
+
+<link rel="stylesheet" href="~/css/PostDetail.css" />
+
+<div class="container-fluid d-flex justify-content-center">
+    <div class="main-detail-container">
+        <div class="owner">
+            <img class="user-avatar" src="~/img/user.png" />
+            <div class="infos">
+                <a asp-area="" asp-page="../Users/Details" asp-route-id="@Model.Post.UserPostId" class="name text-decoration-none">
+                    @Model.Post.UserPost.FirstName @Model.Post.UserPost.LastName
+                </a>
+                <p class="date">@Model.Post.CreatedDate.ToString("dddd, dd MMMM yyyy h:mm tt")</p>
+            </div>
+        </div>
+        <div class="posts-body">
+            <div class="title">
+                <h1>@Model.Post.Title</h1>
+            </div>
+            <div class="tags">
+                @foreach (var item in @Model.Post.GetTagsList())
+                {
+                    <a class="tag text-dark text-decoration-none" asp-route-searchTag="@item" asp-area="" asp-page="../Posts/Index">
+                        #@item
+                    </a>
+                }
+            </div>
+            <div class="post-content">
+                @Html.Raw(HttpUtility.HtmlDecode(@Model.Post.PostContent))
+            </div>
+            <hr />
+            <div class="approve-confirm">
+                <p class="approve-title">Approve this post?</p>
+                <div class="btns">
+                    <a href="#" class="approve-btn text-decoration-none text-white">Approve</a>
+                    <button class="reject-btn" onclick="handleReject('Model.Post.PostId')">Reject</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.all.min.js"></script>
+<link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.min.css'>
+
+<script>
+    function handleReject(postid) {
+        Swal.fire({
+            title: 'Reason to reject this post',
+            input: 'text',
+            inputAttributes: {
+                autocapitalize: 'off'
+            },
+            showCancelButton: true,
+            confirmButtonText: 'Submit',
+            showLoaderOnConfirm: true,
+            preConfirm: (reason_reject) => {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Reject reason sent!',
+                })
+                //window.location.href = "Posts?postid=" + postid + "&reason_reject=" + reason_reject;
+            },
+            allowOutsideClick: () => !Swal.isLoading()
+        })
+    }
+</script>

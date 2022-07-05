@@ -85,7 +85,7 @@ namespace MyLibrary.DataAccess
             try
             {
                 var context = new department_dbContext();
-                tmp = context.Users.SingleOrDefault(u => u.Email.Equals(email) && u.Password.Equals(password)); 
+                tmp = context.Users.SingleOrDefault(u => u.Email.Equals(email) && u.Password.Equals(password) && u.Status == 1); 
             }
             catch (Exception ex)
             {

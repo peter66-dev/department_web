@@ -1,0 +1,92 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor Accessor
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - F.Department</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/PostDetail.css" />
+    <link rel="stylesheet" href="~/css/Index.css" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Style+Script&family=Work+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-md navbar-toggleable-md navbar-light bg-white border-bottom box-shadow mb-3 fixed-top">
+            <div class="container-fluid my-container">
+                <a class="navbar-brand font-weight-bold" asp-area="" asp-page="../Posts/Index">FDepartment</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                @* search form *@
+                <div class="navbar-collapse collapse d-md-inline-flex justify-content-between">
+                    <div class="navbar-nav my-search-input">
+                        <form asp-area="Posts" asp-page="Index" method="get" class="d-flex">
+                            <input type="text" name="SearchString" placeholder="Search..." />
+                            <button>
+                                <ion-icon name="search-outline" class="search-icon" />
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <ul class="navbar-nav float-right">
+                    @{
+                        if (Accessor.HttpContext.Session.GetString("ROLE") != null)
+                        {
+                            <li class="nav-item mr-2 d-flex align-items-center">
+                                <p class="nav-link text-dark">
+                                    Welcome @Accessor.HttpContext.Session.GetString("ROLE").ToLower(),
+                                    <a asp-area="" asp-page="../Users/Details" asp-route-id="@Accessor.HttpContext.Session.GetString("CURRENT_USER_ID")"
+                                            class="text-info text-decoration-none">
+                                        @Accessor.HttpContext.Session.GetString("CURRENT_USER_FULLNAME")
+                                    </a>
+                                </p>
+                            </li>
+                            <li class="nav-item mr-2 btn-logout">
+                                <a class="nav-link " asp-area="" asp-page-handler="Logout" asp-page="/Login">Log out</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item mr-2 btn-login">
+                                <a class="nav-link " asp-area="" asp-page="/Login">Log in</a>
+                            </li>
+                            <li class="nav-item btn-register">
+                                <a class="nav-link " asp-area="" asp-page="./Post/Index">Create account</a>
+                            </li>
+                        }
+                    }
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <div class="my-container container-fluid mb-5">
+        <main role="main" class="pb-3 my-body">
+            @RenderBody()
+        </main>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <script src="https://unpkg.com/@@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+
+    @* table script src *@
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap4.min.js"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
