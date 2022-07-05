@@ -85,34 +85,56 @@
             }
 
         </div>
-        <div class="group-infos">
-            <div class="group-info">
-                <p class="group-name">@Model.Group.GroupName</p>
-                <div class="group-status">
-                    @if (@Model.Group.PublicStatus == 5)
-                    {
-                        <img src="~/img/earth.png" />
-                        <p class="group-status-text">Public Group - @Model.TotalMembers members</p>
-                    }
-                    else
-                    {
-                        <img src="~/img/lock.png" />
-                        <p class="group-status-text">Private Group - @Model.TotalMembers members</p>
-                    }
+        <div style="width: 40%">
+            <p class="font-weight-bold mb-2" style="color: #f5f5f5">Gr info</p>
+            <div class="group-infos">
+                <div class="group-info flex-column align-items-start">
+                    <p class="group-name">@Model.Group.GroupName</p>
+                    <div class="group-status">
+                        @if (@Model.Group.PublicStatus == 5)
+                        {
+                            <img src="~/img/earth.png" />
+                            <p class="group-status-text">Public Group - @Model.TotalMembers members</p>
+                        }
+                        else
+                        {
+                            <img src="~/img/lock.png" />
+                            <p class="group-status-text">Private Group - @Model.TotalMembers members</p>
+                        }
+                    </div>
                 </div>
-            </div>
 
-            <div class="group-info">
-                <button class="join-btn">Join group</button>
-            </div>
+                <div class="group-info">
+                    <button class="join-btn">Join group</button>
+                </div>
+                <div class="group-info">
+                    <button class="asking-btn">Asking to join</button>
+                </div>
+                <div class="group-info">
+                    <button class="joined-btn">Joined</button>
+                </div>
 
-            <div class="group-info">
-                <p class="gr-info-title">Manager</p>
-                <p class="gr-info-content">@Model.Group.GroupOwner.FirstName @Model.Group.GroupOwner.LastName</p>
-            </div>
-            <div class="group-info">
-                <p class="gr-info-title">Created date</p>
-                <p class="gr-info-content">@Model.Group.CreatedDate.ToString("dddd, dd MMMM yyyy h:mm tt")</p>
+                <div class="group-info">
+                    <ion-icon name="person"></ion-icon>
+                    <div>
+                        <p class="gr-info-title">Manager</p>
+                        <p class="gr-info-content">@Model.Group.GroupOwner.FirstName @Model.Group.GroupOwner.LastName</p>
+                    </div>
+                </div>
+                <div class="group-info">
+                    <ion-icon name="timer"></ion-icon>
+                    <div>
+                        <p class="gr-info-title">Created date</p>
+                        <p class="gr-info-content">@Model.Group.CreatedDate.ToString("dddd, dd MMMM yyyy h:mm tt")</p>
+                    </div>
+                </div>
+                <div class="group-info">
+                    <ion-icon name="eye"></ion-icon>
+                    <div>
+                        <p class="gr-info-title">Visible</p>
+                        <p class="gr-info-content">Anyone can find this group</p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
