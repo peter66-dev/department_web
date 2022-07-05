@@ -1,4 +1,4 @@
-﻿*{
+﻿* {
     margin: 0;
     padding: 0;
 }
@@ -18,7 +18,7 @@
 }
 
 .group-infos {
-    width: 40%;
+    width: 100%;
     background-color: #fff;
     border-radius: 5px;
     box-shadow: 0 0 0 1px rgba(23, 23, 23, 0.1);
@@ -51,7 +51,14 @@
 
 .group-info {
     margin-bottom: 20px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
 }
+
+    .group-info ion-icon {
+        font-size: 20px;
+    }
 
 .gr-info-title {
     font-weight: 700;
@@ -68,7 +75,7 @@
     width: 25px;
 }
 
-.group-info .group-status{
+.group-info .group-status {
     display: flex;
     gap: 10px;
     align-items: center;
@@ -80,25 +87,37 @@
     margin-bottom: 10px;
 }
 
-.group-info .group-status-text{
+.group-info .group-status-text {
     font-size: 18px;
     font-weight: 500;
 }
 
-    .group-info .join-btn {
-        color: #fff;
-        width: 100%;
-        border: none;
-        padding: 14px;
-        border-radius: 5px;
-        background-color: #007bff;
-        font-weight: 600;
-        transition: 0.2s;
+.group-info .join-btn {
+    color: #fff;
+    width: 100%;
+    border: none;
+    padding: 14px;
+    border-radius: 5px;
+    background-color: #007bff;
+    font-weight: 600;
+    transition: 0.2s;
+}
+
+    .group-info .join-btn:hover {
+        background-color: #007bffad;
     }
 
-        .group-info .join-btn:hover {
-            background-color: #007bffad;
-        }
+.group-info .asking-btn, .group-info .joined-btn {
+    background-color: #2e4f71ad;
+    color: #fff;
+    width: 100%;
+    border: none;
+    padding: 14px;
+    border-radius: 5px;
+    font-weight: 600;
+    transition: 0.2s;
+    cursor: unset;
+}
 /*======== public group content =========== */
 .not-found-item {
     margin-top: 20px;
