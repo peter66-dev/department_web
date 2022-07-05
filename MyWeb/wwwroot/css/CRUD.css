@@ -125,7 +125,18 @@ input::placeholder {
 
 
 /*=========== Create Account ===============*/
+.register-container {
+    border-radius: 5px;
+    padding: 40px;
+    box-shadow: 0 0 0 1px rgba(23, 23, 23, 0.1);
+    background-color: white;
+}
 
-
+.normal-label {
+    font-size: 16px!important;
+    font-weight: normal!important;
+    color: #000!important;
+    
+}
 
 /*=========End Create Account =============*/

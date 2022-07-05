@@ -37,8 +37,8 @@ namespace MyWeb.Pages
                 return Page();
             }
 
-            _context.Users.Add(User);
-            await _context.SaveChangesAsync();
+            //_context.Users.Add(User);
+            //await _context.SaveChangesAsync();
 
             return RedirectToPage("./Index");
         }
