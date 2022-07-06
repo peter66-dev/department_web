@@ -19,16 +19,19 @@ namespace MyWeb.Pages.Posts
 
         public IUserRepository userRepo;
         public IPostRepository postRepo;
+        public IGroupRepository groupRepo;
         public IList<Post> Posts { get; set; }
         public IList<Post> HotNews { get; set; }
         public IList<GroupUser> GroupUsers { get; set; }
         public IList<Group> Groups { get; set; }
+        public IList<Group> OtherGroups { get; set; }
 
         public IndexModel(department_dbContext context)
         {
             this.context = context;
             userRepo = new UserRepository();
             postRepo = new PostRepository();
+            groupRepo = new GroupRepository();
         }
 
 
@@ -92,12 +95,17 @@ namespace MyWeb.Pages.Posts
                 { // Lấy ra những group mà nó đang follow
                     var groupUserContext = new department_dbContext();
                     GroupUsers = await groupUserContext.GroupUsers
-                                                    .Where(g => g.MemberId.ToString() == (current_user_id))
+                                                    .Where(g => g.MemberId.ToString() == (current_user_id) 
+                                                        && g.Status == 1)
                                                     .Include(p => p.Group)
                                                     .ToListAsync();
+
+                    // Discover other groups
+                    List<Group> allGroups = await groupRepo.GetGroupsAsync();
+                    OtherGroups = DiscoverGroups(allGroups, GroupUsers.ToList());
                 }
 
-                if (searchString != null && searchString.Trim().Length > 0) 
+                if (searchString != null && searchString.Trim().Length > 0)
                 {
                     Posts = await postRepo.SearchStringPostsByUserLogined(Guid.Parse(current_user_id), searchString);
                     searchString = null;
@@ -130,6 +138,34 @@ namespace MyWeb.Pages.Posts
         {
             string role = HttpContext.Session.GetString("ROLE");
             return role;
+        }
+
+        private List<Group> DiscoverGroups(List<Group> groups, List<GroupUser> followings)
+        {
+            List<Group> result = new List<Group>();
+            List<Group> tmp = new List<Group>();
+
+            // parse groupuser to groups
+            foreach (GroupUser gu in followings)
+            {
+                tmp.Add(gu.Group);
+            }
+            Console.WriteLine($"All groups are {groups.Count}!");
+            Console.WriteLine($"Following groups are {tmp.Count}!");
+            
+            int count = 0;
+            foreach (Group group in groups)
+            {
+                if (!tmp.Any(g => g.GroupId == group.GroupId))
+                {
+                    ++count;
+                    result.Add(group);
+                }
+            }
+
+            Console.WriteLine($"Discover groups are: {result.Count}!");
+
+            return result;
         }
     }
 }

@@ -24,6 +24,7 @@ namespace MyWeb.Pages.Groups
         }
 
         public int TotalMembers { get; set; }
+        public string Role { get; set; } = "";
         public int IsJoined { get; set; }
 
         public Group Group { get; set; }
@@ -40,18 +41,19 @@ namespace MyWeb.Pages.Groups
             Group = groupRepo.GetGroupById(id.Value);
 
             string CURRENT_USER_ID = HttpContext.Session.GetString("CURRENT_USER_ID");
+
             if (CURRENT_USER_ID != null)
             {
-                string role = HttpContext.Session.GetString("ROLE");
-                if (role.Equals("ADMIN"))
+                Role = HttpContext.Session.GetString("ROLE");
+                if (Role.Equals("ADMIN"))
                 {
                     IsJoined = 1; // ADMIN được phép coi tất cả group
-                }else if (role.Equals("MANAGER")) // -1: không cho join || 1: đang làm chủ group
+                }else if (Role.Equals("MANAGER")) // -1: không cho join || 1: đang làm chủ group
                 {
                     IsJoined = groupRepo.IsLeaderGroup(id.Value, Guid.Parse(CURRENT_USER_ID));
                 }
-                else
-                {
+                else     // RESIDENT
+                { 
                     IsJoined = groupUserRepo.IsJoinedGroup(id.Value, Guid.Parse(CURRENT_USER_ID));
                     if (IsJoined == 1) // active
                     {

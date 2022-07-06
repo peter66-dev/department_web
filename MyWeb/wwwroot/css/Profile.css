@@ -27,11 +27,16 @@
 }
 
     .name-ava .ava-bg {
+        width: 130px;
         position: absolute;
         top: -48%;
         padding: 8px;
         background-color: #000;
         border-radius: 50%;
+        height: 130px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
     .name-ava img {

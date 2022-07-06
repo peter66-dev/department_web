@@ -45,6 +45,21 @@ namespace MyLibrary.DataAccess
             return list;
         }
 
+        public async Task<List<Group>> GetGroupsAsync()
+        {
+            List<Group> list = new List<Group>();
+            try
+            {
+                var context = new department_dbContext();
+                list = await context.Groups.ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error at GetGroupsAsync: " + ex.Message);
+            }
+            return list;
+        }
+
         public Group GetGroupById(Guid groupId)
         {
             Group gr = new Group();
@@ -112,7 +127,7 @@ namespace MyLibrary.DataAccess
             {
                 var context = new department_dbContext();
                 list = await context.Groups
-                                        .Where(g => g.GroupOwnerId == leaderId 
+                                        .Where(g => g.GroupOwnerId == leaderId
                                             && g.PublicStatus == 5)
                                         .ToListAsync();
             }
@@ -145,7 +160,7 @@ namespace MyLibrary.DataAccess
          -1: không làm chủ group này
          1: đang làm chủ group này
          */
-        public int IsLeaderGroup(Guid groupid, Guid leaderid) 
+        public int IsLeaderGroup(Guid groupid, Guid leaderid)
         {
             int status = -1;
             try
@@ -153,7 +168,7 @@ namespace MyLibrary.DataAccess
                 var context = new department_dbContext();
                 Group gu = context.Groups
                         .FirstOrDefault(g => g.GroupOwnerId == leaderid
-                                            && g.GroupId == groupid 
+                                            && g.GroupId == groupid
                                             && g.Status == 1);
                 if (gu != null)
                 {

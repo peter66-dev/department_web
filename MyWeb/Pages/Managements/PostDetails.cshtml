@@ -11,7 +11,7 @@
 <div class="container-fluid d-flex justify-content-center">
     <div class="main-detail-container">
         <div class="owner">
-            <img class="user-avatar" src="~/img/user.png" />
+            <img class="user-avatar" src="~/img/@Model.Post.UserPost.Avatar" />
             <div class="infos">
                 <a asp-area="" asp-page="../Users/Details" asp-route-id="@Model.Post.UserPostId" class="name text-decoration-none">
                     @Model.Post.UserPost.FirstName @Model.Post.UserPost.LastName

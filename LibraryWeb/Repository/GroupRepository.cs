@@ -23,5 +23,8 @@ namespace LibraryWeb.Repository
 
         public int IsLeaderGroup(Guid groupid, Guid leaderid)
             => GroupDAO.Instance.IsLeaderGroup(groupid, leaderid);
+
+        public async Task<List<Group>> GetGroupsAsync()
+            => await GroupDAO.Instance.GetGroupsAsync();
     }
 }

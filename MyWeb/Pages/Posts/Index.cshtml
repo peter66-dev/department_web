@@ -114,11 +114,11 @@
         {
             <div class="news news1">
                 <div class="owner">
-                    <img src="~/img/user.png" />
+                    <img src="~/img/@p.UserPost.Avatar.ToString()" />
                     <div class="infos">
                         <div class="flex-text">
                             <a asp-area="" asp-page="../Users/Details" asp-route-id="@p.UserPostId" class="name text-dark text-decoration-none">
-                                (@p.UserPost.Role.RoleName.ToUpper()) @p.UserPost.FirstName @p.UserPost.LastName
+                                @p.UserPost.FirstName @p.UserPost.LastName
                             </a>
                             @if (@p.GroupPost != null)
                             {
@@ -195,6 +195,39 @@
                 </div>
             }
         </div>
+        @if (HttpContext.Session.GetString("ROLE") != null &&
+        HttpContext.Session.GetString("ROLE").Equals("RESIDENT")
+        && @Model.OtherGroups.Count > 0)
+        {
+            <div class="d-flex justify-content-between">
+                <p class="font-weight-bold mb-2 mt-4">Discover new groups</p>
+            </div>
+            <div class="list-body">
+                @foreach (Group group in @Model.OtherGroups)
+                {
+                    <div class="dis-group">
+                        <a asp-page="../Groups/Details" asp-route-id="@group.GroupId"
+                   class="dis-title text-decoration-none text-dark">
+                            @group.GroupName
+                        </a>
+                        @if (@group.PublicStatus == 5)
+                        {
+                            <div class="dis-status">
+                                <img src="~/img/earth.png" />
+                                <p>Public group</p>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="dis-status">
+                                <img src="~/img/lock.png" />
+                                <p>Private group</p>
+                            </div>
+                        }
+                    </div>
+                }
+            </div>
+        }
     </div>
 
 </div>

@@ -12,10 +12,11 @@
         <div class="bg-1">
             <div class="name-ava">
                 <div class="ava-bg">
-                    <img src="~/img/user.png" />
+                    <img src="~/img/@Model.User.Avatar" />
                 </div>
                 <p class="profile-name">@Model.User.FirstName @Model.User.LastName</p>
             </div>
+        </div>
         </div>
         <div class="personal-info-and-posts">
             <div class="personal-infos">
@@ -63,7 +64,7 @@
                     {
                         <div class="news">
                             <div class="owner">
-                                <img src="~/img/user.png" />
+                                <img src="~/img/@Model.User.Avatar" />
                                 <div class="infos">
                                     <div class="flex-text">
                                         <p class="name">@p.UserPost.FirstName @p.UserPost.LastName</p>

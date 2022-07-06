@@ -22,6 +22,7 @@ namespace MyWeb.Pages.Posts
 
         public bool IsLiked { get; set; } = false;
         public Post Post { get; set; }
+        public User CurrentUser{ get; set; }
 
         public string RepBtnId { get; set; }
 
@@ -64,6 +65,7 @@ namespace MyWeb.Pages.Posts
             string user_login_id = HttpContext.Session.GetString("CURRENT_USER_ID");
             if (user_login_id != null)
             {
+                CurrentUser = userRepo.GetUserById(Guid.Parse(user_login_id));
                 var context = new department_dbContext();
                 Like like = await context.Likes.FirstOrDefaultAsync(l =>
                                             l.PostId == id.Value
@@ -128,6 +130,7 @@ namespace MyWeb.Pages.Posts
                     userCommentId = comment.UserCommentId,
                     firstName = userCmt.FirstName,
                     lastName = userCmt.LastName,
+                    avatar = userCmt.Avatar,
                     createdAt = comment.CreatedDate.ToString("dd MMMM yyyy h:mm tt"),
                     commentsTotal = commentsTotal
                 });
@@ -177,6 +180,7 @@ namespace MyWeb.Pages.Posts
                             userReplyId = cmtReply.UserReplyId,
                             firstName = user.FirstName,
                             lastName = user.LastName,
+                            avatar = user.Avatar,
                             createdAt = cmtReply.CreatedDate.ToString("dd MMMM yyyy h:mm tt"),
                             commentsTotal = commentsTotal
                         });
