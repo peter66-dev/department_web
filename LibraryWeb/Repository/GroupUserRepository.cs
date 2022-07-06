@@ -10,10 +10,13 @@ namespace LibraryWeb.Repository
     {
         public IEnumerable<GroupUser> GetGroupUsers()
             => GroupUserDAO.Instance.GetGroupUsers();
+
         public GroupUser GetGroupUserById(Guid groupUserId)
             => GroupUserDAO.Instance.GetGroupUserById(groupUserId);
+
         public void DeleteGroupUserById(Guid groupUserId)
             => GroupUserDAO.Instance.DeleteGroupUserById(groupUserId);
+
         public void CreateGroupUser(GroupUser groupUser)
             => GroupUserDAO.Instance.CreateGroupUser(groupUser);
 
@@ -25,5 +28,14 @@ namespace LibraryWeb.Repository
 
         public List<GroupUser> GetUsersPendingByManagerId(Guid managerId)
             => GroupUserDAO.Instance.GetUsersPendingByManagerId(managerId);
+
+        public int IsJoinedGroup(Guid groupid, Guid memberid)
+            => GroupUserDAO.Instance.IsJoinedGroup(groupid, memberid);
+
+        public bool LetUserJoinGroup(Guid memberid, Guid groupid)
+            => GroupUserDAO.Instance.LetUserJoinGroup(memberid, groupid);
+
+        public bool LetUserLeaveGroup(Guid memberid, Guid groupid)
+            => GroupUserDAO.Instance.LetUserLeaveGroup(memberid, groupid);
     }
 }

@@ -8,7 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace MyWeb.Pages
+namespace MyWeb.Pages.Users
 {
     public class DetailsModel : PageModel
     {

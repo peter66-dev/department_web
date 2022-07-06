@@ -3,7 +3,7 @@ using LibraryWeb.Repository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using System.Threading.Tasks;
+using System;
 
 namespace MyWeb.Pages.Managements
 {
@@ -22,12 +22,41 @@ namespace MyWeb.Pages.Managements
             string managerId = HttpContext.Session.GetString("CURRENT_USER_ID");
             if (managerId != null)
             {
-                Post = postRepo.GetPostById(System.Guid.Parse(id));
+                Post = postRepo.GetPostById(Guid.Parse(id));
                 return Page();
             }
             else
             {
                 return new RedirectToPageResult("../Login");
+            }
+        }
+
+        public IActionResult OnGetApprove(string id)
+        {
+            Console.WriteLine("PostId: " + id);
+            if (postRepo.ApprovePost(Guid.Parse(id)))
+            {
+                return new RedirectToPageResult("./Posts");
+            }
+            else
+            {
+                Post = postRepo.GetPostById(Guid.Parse(id));
+                return Page();
+            }
+        }
+
+        public IActionResult OnGetReject(string postid, string reason_reject)
+        {
+            Console.WriteLine("Post id: " + postid);
+            Console.WriteLine("Reason reject: " + reason_reject);
+            if (postRepo.RejectPost(Guid.Parse(postid), reason_reject))
+            {
+                return new RedirectToPageResult("./Posts");
+            }
+            else
+            {
+                Post = postRepo.GetPostById(Guid.Parse(postid));
+                return Page();
             }
         }
     }

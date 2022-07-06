@@ -16,5 +16,8 @@ namespace LibraryWeb.Repository
 
         Task<IEnumerable<Group>> GetGroupsPublicByMemberID(Guid memberId);
         List<GroupUser> GetUsersPendingByManagerId(Guid managerId);
+        int IsJoinedGroup(Guid groupid, Guid memberid);
+        bool LetUserJoinGroup(Guid memberid, Guid groupid);
+        bool LetUserLeaveGroup(Guid memberid, Guid groupid);
     }
 }

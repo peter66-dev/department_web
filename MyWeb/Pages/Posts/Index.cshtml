@@ -57,7 +57,7 @@
             {
                 <a asp-area="" asp-page="../Managements/Posts">
                 <li class="d-flex align-items-center">
-                    <div class="post-manage-icon icon"></div>
+                    <div class="post-resident-manage-icon icon"></div>
                     Management
                 </li>
                 </a>
@@ -131,7 +131,7 @@
                         <div class="flex-textt">
                             <p class="date">@p.CreatedDate.ToString("dddd, dd MMMM yyyy h:mm tt")</p>
                             @if ((@p.GroupPost == null && @p.Status == 7)
-                                    || @p.GroupPost.PublicStatus == 5)
+                           || @p.GroupPost.PublicStatus == 5)
                             {
                                 <img src="~/img/earth.png" />
                             }
@@ -182,6 +182,11 @@
         <div class="list-body">
             @foreach (Post post in @Model.HotNews)
             {
+                int tmp = @Model.HotNews.IndexOf(post);
+                if (tmp == 6)
+                {
+                    break;
+                }
                 <div class="hotn hotn1">
                     <div class="title">
                         <a class="text-decoration-none" asp-page="./Details" asp-route-id="@post.PostId">@post.Title</a>

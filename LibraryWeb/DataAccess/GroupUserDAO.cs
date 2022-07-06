@@ -157,5 +157,96 @@ namespace MyLibrary.DataAccess
             }
             return list.ToList();
         }
+
+        public int IsJoinedGroup(Guid groupid, Guid memberid)
+        {
+            int status = 0;
+            try
+            {
+                var context = new department_dbContext();
+                GroupUser gu = context.GroupUsers
+                        .FirstOrDefault(g => g.MemberId == memberid && g.GroupId == groupid);
+                if (gu != null)
+                {
+                    status = gu.Status;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error at IsJoinedGroup: " + ex.Message);
+            }
+            return status;
+        }
+
+        private GroupUser CheckUserJoinGroup(Guid memberid, Guid groupid)
+        {
+            GroupUser gu = null;
+            try
+            {
+                var context = new department_dbContext();
+                gu = context.GroupUsers
+                                .FirstOrDefault(g => g.MemberId == memberid
+                                                    && g.GroupId == groupid);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error at CheckUserJoinGroup: " + ex.Message);
+            }
+            return gu;
+        }
+
+        public bool LetUserJoinGroup(Guid memberid, Guid groupid)
+        {
+            bool check = false;
+            try
+            {
+                var context = new department_dbContext();
+                GroupUser gu = context.GroupUsers
+                                                .SingleOrDefault(g => g.MemberId == memberid
+                                                        && g.GroupId == groupid);
+                if (gu == null)
+                {
+                    gu = new GroupUser();
+                    gu.GroupUserId = Guid.NewGuid();
+                    gu.GroupId = groupid;
+                    gu.MemberId = memberid;
+                    gu.Status = 4;
+                    context.GroupUsers.Add(gu);
+                    check = context.SaveChanges() > 0;
+                }
+                else
+                {
+                    gu.Status = 4; // let user join group
+                    context.Entry<GroupUser>(gu).State = EntityState.Modified;
+                    check = context.SaveChanges() > 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error at LetUserJoinGroup: " + ex.Message);
+            }
+            return check;
+        }
+
+        public bool LetUserLeaveGroup(Guid memberid, Guid groupid)
+        {
+            bool check = false;
+            try
+            {
+                var context = new department_dbContext();
+                GroupUser gu = context.GroupUsers
+                                                .SingleOrDefault(g => g.MemberId == memberid
+                                                        && g.GroupId == groupid);
+
+                gu.Status = 2; // let user quit group: Inactive
+                context.Entry<GroupUser>(gu).State = EntityState.Modified;
+                check = context.SaveChanges() > 0;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error at LetUserLeaveGroup: " + ex.Message);
+            }
+            return check;
+        }
     }
 }

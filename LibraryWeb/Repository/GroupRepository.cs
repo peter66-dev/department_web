@@ -20,5 +20,8 @@ namespace LibraryWeb.Repository
 
         public async Task<int> GetTotalMembersInGroupById(Guid groupId)
             => await GroupDAO.Instance.GetTotalMembersInGroupById(groupId);
+
+        public int IsLeaderGroup(Guid groupid, Guid leaderid)
+            => GroupDAO.Instance.IsLeaderGroup(groupid, leaderid);
     }
 }

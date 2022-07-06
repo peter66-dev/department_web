@@ -43,6 +43,7 @@ namespace MyLibrary.DataAccess
             }
             return list;
         }
+
         public Like GetLikeById(Guid likeId)
         {
             Like like = new Like();
@@ -57,6 +58,7 @@ namespace MyLibrary.DataAccess
             }
             return like;
         }
+
         public void DeleteLikeById(Guid likeId)
         {
             try
@@ -71,6 +73,7 @@ namespace MyLibrary.DataAccess
                 throw new Exception("Error at DeleteLikeById: " + ex.Message);
             }
         }
+
         public void CreateLike(Like like)
         {
             try

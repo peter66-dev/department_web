@@ -25,13 +25,7 @@
                 <div class="top-content">
 
                     @if (HttpContext.Session.GetString("ROLE") != null
-            && HttpContext.Session.GetString("ROLE").Equals("ADMIN"))
-                    {
-                        <div class="form-group id-hide">
-                            <select asp-for="Post.GroupPostId" class="form-control" asp-items="ViewBag.GroupPostId"></select>
-                        </div>
-                    }
-                    else
+                        && !HttpContext.Session.GetString("ROLE").Equals("ADMIN"))
                     {
                         <div class="d-flex align-items-center">
                             <span class="group-id-label">What group are you posting to: </span>

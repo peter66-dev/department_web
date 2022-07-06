@@ -218,8 +218,8 @@ namespace MyLibrary.DataAccess
                 foreach (Group gr in groups)
                 { // Lấy những bài mà resident đang follow
                     List<Post> tmp = new List<Post>();
-                    tmp = await context.Posts.Where(p => (p.Tags.Contains(searchString) && (p.GroupPost.PublicStatus == 5 || p.PostType.PostTypeName.Equals("Announcement") || p.GroupPost.GroupId == gr.GroupId))
-                                                        || (p.Title.Contains(searchString) && (p.GroupPost.PublicStatus == 5 || p.PostType.PostTypeName.Equals("Announcement") || p.GroupPost.GroupId == gr.GroupId)))
+                    tmp = await context.Posts.Where(p => (p.Tags.Contains(searchString) && ((p.GroupPost.PublicStatus == 5 && p.Status == 5) || p.PostType.PostTypeName.Equals("Announcement") || p.GroupPost.GroupId == gr.GroupId))
+                                                        || (p.Title.Contains(searchString) && ((p.GroupPost.PublicStatus == 5 && p.Status == 5) || p.PostType.PostTypeName.Equals("Announcement") || p.GroupPost.GroupId == gr.GroupId)))
                                                 .OrderBy(p => p.CreatedDate).Reverse()
                                                 .Include(p => p.GroupPost)
                                                 .Include(p => p.PostType)
@@ -233,8 +233,8 @@ namespace MyLibrary.DataAccess
                 foreach (Group gr in groups1)
                 { // Lấy những bài mà group của manager quản lý
                     List<Post> tmp = new List<Post>();
-                    tmp = await context.Posts.Where(p => (p.Tags.Contains(searchString) && (p.GroupPost.PublicStatus == 5 || p.PostType.PostTypeName.Equals("Announcement") || p.GroupPost.GroupId == gr.GroupId))
-                                                        || (p.Title.Contains(searchString) && (p.GroupPost.PublicStatus == 5 || p.PostType.PostTypeName.Equals("Announcement") || p.GroupPost.GroupId == gr.GroupId)))
+                    tmp = await context.Posts.Where(p => (p.Tags.Contains(searchString) && ((p.GroupPost.PublicStatus == 5 && p.Status == 5) || p.PostType.PostTypeName.Equals("Announcement") || p.GroupPost.GroupId == gr.GroupId))
+                                                        || (p.Title.Contains(searchString) && ((p.GroupPost.PublicStatus == 5 && p.Status == 5) || p.PostType.PostTypeName.Equals("Announcement") || p.GroupPost.GroupId == gr.GroupId)))
                                                 .OrderBy(p => p.CreatedDate).Reverse()
                                                 .Include(p => p.GroupPost)
                                                 .Include(p => p.PostType)
@@ -266,7 +266,7 @@ namespace MyLibrary.DataAccess
                 foreach (Group gr in groups)
                 { // Lấy những bài mà resident đang follow
                     List<Post> tmp = new List<Post>();
-                    tmp = await context.Posts.Where(p => (p.Tags.Contains(searchTags) && (p.GroupPost.PublicStatus == 5 || p.PostType.PostTypeName.Equals("Announcement") || p.GroupPostId == gr.GroupId)))
+                    tmp = await context.Posts.Where(p => (p.Tags.Contains(searchTags) && ((p.GroupPost.PublicStatus == 5 && p.Status == 5) || p.PostType.PostTypeName.Equals("Announcement") || p.GroupPostId == gr.GroupId)))
                                                 .OrderBy(p => p.CreatedDate).Reverse()
                                                 .Include(p => p.GroupPost)
                                                 .Include(p => p.PostType)
@@ -279,7 +279,7 @@ namespace MyLibrary.DataAccess
                 foreach (Group gr in groups1)
                 { // Lấy những bài mà group của manager quản lý
                     List<Post> tmp = new List<Post>();
-                    tmp = await context.Posts.Where(p => (p.Tags.Contains(searchTags) && (p.GroupPost.PublicStatus == 5 || p.PostType.PostTypeName.Equals("Announcement") || p.GroupPostId == gr.GroupId)))
+                    tmp = await context.Posts.Where(p => (p.Tags.Contains(searchTags) && ((p.GroupPost.PublicStatus == 5 && p.Status == 5) || p.PostType.PostTypeName.Equals("Announcement") && p.GroupPostId == gr.GroupId)))
                                                 .OrderBy(p => p.CreatedDate).Reverse()
                                                 .Include(p => p.GroupPost)
                                                 .Include(p => p.PostType)
@@ -311,9 +311,9 @@ namespace MyLibrary.DataAccess
                 foreach (Group gr in groups)
                 { // Lấy những bài mà resident đang follow
                     List<Post> tmp = new List<Post>();
-                    tmp = await context.Posts.Where(p => p.GroupPost.PublicStatus == 5
+                    tmp = await context.Posts.Where(p => (p.GroupPost.PublicStatus == 5 && p.Status == 5)
                                                         || p.PostType.PostTypeName.Equals("Announcement")
-                                                        || p.GroupPostId == gr.GroupId)
+                                                       || (p.GroupPostId == gr.GroupId && p.Status == 5))
                                                 .OrderBy(p => p.CreatedDate).Reverse()
                                                 .Include(p => p.GroupPost)
                                                 .Include(p => p.PostType)
@@ -327,9 +327,9 @@ namespace MyLibrary.DataAccess
                 foreach (Group gr in groups1)
                 { // Lấy những bài mà group của manager quản lý
                     List<Post> tmp = new List<Post>();
-                    tmp = await context.Posts.Where(p => p.GroupPost.PublicStatus == 5
+                    tmp = await context.Posts.Where(p => (p.GroupPost.PublicStatus == 5 && p.Status == 5)
                                                         || p.PostType.PostTypeName.Equals("Announcement")
-                                                        || p.GroupPostId == gr.GroupId)
+                                                        || (p.GroupPostId == gr.GroupId && p.Status == 5))
                                                 .OrderBy(p => p.CreatedDate).Reverse()
                                                 .Include(p => p.GroupPost)
                                                 .Include(p => p.PostType)
@@ -449,7 +449,7 @@ namespace MyLibrary.DataAccess
             {
                 var context = new department_dbContext();
                 list = await context.Posts
-                                        .Where(p => p.GroupPost.GroupOwnerId == managerId 
+                                        .Where(p => p.GroupPost.GroupOwnerId == managerId
                                             && p.Status == 4)
                                         .Include(p => p.UserPost)
                                         .Include(p => p.GroupPost)
@@ -460,6 +460,50 @@ namespace MyLibrary.DataAccess
                 throw new Exception("Error at GetPostsForManagerApprove: " + ex.Message);
             }
             return list;
+        }
+
+        public bool ApprovePost(Guid postid)
+        {
+            bool check = false;
+            try
+            {
+                var context = new department_dbContext();
+                Post post = GetPostById(postid);
+                if (post != null)
+                {
+                    post.ApprovedDate = DateTime.Now;
+                    post.Status = 5;
+                }
+                context.Entry(post).State = EntityState.Modified;
+                check = context.SaveChanges() > 0;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error at ApprovePost: " + ex.Message);
+            }
+            return check;
+        }
+
+        public bool RejectPost(Guid postid, string reason)
+        {
+            bool check = false;
+            try
+            {
+                var context = new department_dbContext();
+                Post post = GetPostById(postid);
+                if (post != null)
+                {
+                    post.Reason = reason;
+                    post.Status = 8;
+                }
+                context.Entry(post).State = EntityState.Modified;
+                check = context.SaveChanges() > 0;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error at RejectPost: " + ex.Message);
+            }
+            return check;
         }
     }
 }

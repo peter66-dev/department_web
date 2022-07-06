@@ -7,7 +7,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MyWeb.Pages
+namespace MyWeb.Pages.Users
 {
     public class EditModel : PageModel
     {

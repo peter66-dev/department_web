@@ -36,5 +36,9 @@ namespace LibraryWeb.Repository
 
         Task<IEnumerable<Post>> GetPostsForManagerApprove(Guid managerId);
 
+        bool ApprovePost(Guid postid);
+
+        bool RejectPost(Guid postid, string reason);
+
     }
 }

@@ -140,5 +140,32 @@ namespace MyLibrary.DataAccess
             }
             return total;
         }
+
+        /*
+         -1: không làm chủ group này
+         1: đang làm chủ group này
+         */
+        public int IsLeaderGroup(Guid groupid, Guid leaderid) 
+        {
+            int status = -1;
+            try
+            {
+                var context = new department_dbContext();
+                Group gu = context.Groups
+                        .FirstOrDefault(g => g.GroupOwnerId == leaderid
+                                            && g.GroupId == groupid 
+                                            && g.Status == 1);
+                if (gu != null)
+                {
+                    status = gu.Status;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error at IsLeaderGroup: " + ex.Message);
+            }
+            return status;
+        }
+
     }
 }

@@ -16,20 +16,35 @@ namespace MyWeb.Pages.Posts
     public class CreateModel : PageModel
     {
         private IGroupUserRepository groupUserRepo;
+        private IGroupRepository groupRepo;
         private IPostRepository postRepo;
 
         public CreateModel()
         {
             groupUserRepo = new GroupUserRepository();
             postRepo = new PostRepository();
+            groupRepo = new GroupRepository();
         }
 
         public async Task<IActionResult> OnGetAsync()
         {
             string userid = HttpContext.Session.GetString("CURRENT_USER_ID");
-            ViewData["GroupPostId"] = new SelectList(await groupUserRepo.GetGroupsByUserId(Guid.Parse(userid)),
-                                                        "GroupId",
-                                                        "GroupName");
+            string role = HttpContext.Session.GetString("ROLE");
+            if (role.Equals("RESIDENT"))
+            {
+                ViewData["GroupPostId"] = new SelectList(await groupUserRepo.GetGroupsByUserId(Guid.Parse(userid)),
+                                                            "GroupId",
+                                                            "GroupName");
+            }else if (role.Equals("MANAGER"))
+            {
+                ViewData["GroupPostId"] = new SelectList(await groupRepo.GetGroupsByLeaderId(Guid.Parse(userid)),
+                                                            "GroupId",
+                                                            "GroupName");
+            }
+            else
+            {
+                Console.WriteLine("[SYSTEM MESSAGE]: CHECK AGAIN LOGIC IN OnGetAsync-CREATE POST METHOD!");
+            }
             return Page();
         }
 

@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using LibraryWeb.DataAccess;
 using LibraryWeb.Model;
 
-namespace MyWeb.Pages
+namespace MyWeb.Pages.Users
 {
     public class DeleteModel : PageModel
     {

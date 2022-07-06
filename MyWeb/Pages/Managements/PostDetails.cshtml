@@ -38,8 +38,11 @@
             <div class="approve-confirm">
                 <p class="approve-title">Approve this post?</p>
                 <div class="btns">
-                    <a href="#" class="approve-btn text-decoration-none text-white">Approve</a>
-                    <button class="reject-btn" onclick="handleReject('Model.Post.PostId')">Reject</button>
+                    <a asp-page="PostDetails" asp-route-id="@Model.Post.PostId" asp-page-handler="Approve" 
+                        class="approve-btn text-decoration-none text-white">
+                        Approve
+                    </a>
+                    <button class="reject-btn" onclick="handleReject('@Model.Post.PostId')">Reject</button>
                 </div>
             </div>
         </div>
@@ -67,7 +70,7 @@
                     icon: 'success',
                     title: 'Reject reason sent!',
                 })
-                //window.location.href = "Posts?postid=" + postid + "&reason_reject=" + reason_reject;
+                window.location.href = "./PostDetails?handler=Reject&postid=" + postid + "&reason_reject=" + reason_reject;
             },
             allowOutsideClick: () => !Swal.isLoading()
         })

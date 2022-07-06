@@ -8,11 +8,14 @@ namespace LibraryWeb.Repository
 {
     public class PostRepository : IPostRepository
     {
-        public IEnumerable<Post> GetPosts() => PostDAO.Instance.GetPosts();
+        public IEnumerable<Post> GetPosts()
+            => PostDAO.Instance.GetPosts();
 
-        public Post GetPostById(Guid postId) => PostDAO.Instance.GetPostById(postId);
+        public Post GetPostById(Guid postId)
+            => PostDAO.Instance.GetPostById(postId);
 
-        public void DeletePostById(Guid postId) => PostDAO.Instance.DeletePostById(postId);
+        public void DeletePostById(Guid postId)
+            => PostDAO.Instance.DeletePostById(postId);
 
         public bool CreatePost(Guid userid, string roleName, Guid grouppostid, string title, string tags, string content)
             => PostDAO.Instance.CreatePost(userid, roleName, grouppostid, title, tags, content);
@@ -23,7 +26,8 @@ namespace LibraryWeb.Repository
         public int IncreaseLikesTotal(Guid postid)
             => PostDAO.Instance.IncreaseLikesTotal(postid);
 
-        public int IncreaseCommentsTotal(Guid postid) => PostDAO.Instance.IncreaseCommentsTotal(postid);
+        public int IncreaseCommentsTotal(Guid postid)
+            => PostDAO.Instance.IncreaseCommentsTotal(postid);
 
         public async Task<List<Post>> SearchStringPostsByUserLogined(Guid userid, string searchString)
              => await PostDAO.Instance.SearchStringPostsByUserLogined(userid, searchString);
@@ -45,5 +49,10 @@ namespace LibraryWeb.Repository
 
         public async Task<IEnumerable<Post>> GetPostsForManagerApprove(Guid managerId)
             => await PostDAO.Instance.GetPostsForManagerApprove(managerId);
+
+        public bool ApprovePost(Guid postid)
+            => PostDAO.Instance.ApprovePost(postid);
+        public bool RejectPost(Guid postid, string reason)
+            => PostDAO.Instance.RejectPost(postid, reason);
     }
 }

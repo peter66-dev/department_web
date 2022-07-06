@@ -58,6 +58,7 @@
 }
 
 .personal-infos {
+    word-break: break-all;
     width: 25%;
     height: fit-content;
     background-color: #fff;
