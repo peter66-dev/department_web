@@ -37,5 +37,11 @@ namespace LibraryWeb.Repository
 
         public bool LetUserLeaveGroup(Guid memberid, Guid groupid)
             => GroupUserDAO.Instance.LetUserLeaveGroup(memberid, groupid);
+
+        public bool ApproveResident(Guid userid, Guid groupid)
+             => GroupUserDAO.Instance.ApproveResident(userid, groupid);
+
+        public bool RejectResident(Guid userid, Guid groupid)
+            => GroupUserDAO.Instance.RejectResident(userid, groupid);
     }
 }

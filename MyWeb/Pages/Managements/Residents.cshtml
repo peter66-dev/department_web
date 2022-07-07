@@ -1,4 +1,5 @@
 ﻿@page
+@using Microsoft.AspNetCore.Http
 @using LibraryWeb.Model
 @model MyWeb.Pages.Managements.Residents
 @{
@@ -9,6 +10,20 @@
 <link rel="stylesheet" href="~/css/Management.css" />
 <link rel="stylesheet" href="~/css/site.css" />
 <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap4.min.css" />
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.all.min.js"></script>
+<link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.min.css'>
+
+@if (HttpContext.Session.GetString("PENDING_RESIDENT_MESSAGE") != null)
+{
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: 'Pending message',
+            text: '@HttpContext.Session.GetString("PENDING_RESIDENT_MESSAGE")'
+        });
+    </script>
+}
 
 <div class="container-fluid">
     <div class="management-container">
@@ -62,11 +77,11 @@
                                 <td>@gu.Group.GroupName</td>
                                 <td>@gu.Member.Address</td>
                                 <td class="d-flex">
-                                    <a asp-page="../Users/Details" asp-route-id="@gu.MemberId" class="approve-btn">
+                                    <a asp-page="Residents" asp-route-userid="@gu.MemberId" asp-route-groupid="@gu.GroupId" asp-page-handler="ApproveResident" class="approve-btn text-decoration-none">
                                         <ion-icon name="checkmark-circle"></ion-icon>
                                         Approve
                                     </a>
-                                    <a asp-page="../Users/Details" asp-route-id="@gu.MemberId" class="reject-btn">
+                                    <a asp-page="Residents" asp-route-userid="@gu.MemberId" asp-route-groupid="@gu.GroupId" asp-page-handler="RejectResident" class="reject-btn text-decoration-none">
                                         <ion-icon name="close-circle"></ion-icon>
                                         Reject
                                     </a>

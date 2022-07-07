@@ -31,13 +31,18 @@ namespace MyLibrary.DataAccess
             }
         }
 
-        public IEnumerable<Post> GetPosts()
+        public async Task<IEnumerable<Post>> GetPosts()
         {
             List<Post> list = new List<Post>();
             try
             {
                 var context = new department_dbContext();
-                context.Posts.ToList();
+                list = await context.Posts.Where(p => p.Status == 5 || p.Status == 7)
+                                                .Include(p => p.GroupPost)
+                                                .Include(p => p.PostType)
+                                                .Include(p => p.StatusNavigation)
+                                                .Include(p => p.UserPost)
+                                                .ThenInclude(u => u.Role).ToListAsync();
             }
             catch (Exception ex)
             {
@@ -343,6 +348,38 @@ namespace MyLibrary.DataAccess
             catch (Exception ex)
             {
                 Console.WriteLine("Error at GetPostsForUserLogined: " + ex.Message); ;
+            }
+            return list;
+        }
+
+        public async Task<IEnumerable<Post>> SearchStringByAdminRole(string searchString)
+        {
+            List<Post> list = new List<Post>();
+            try
+            {
+                var context = new department_dbContext();
+                list = await context.Posts.Where(p => (p.Status == 5 || p.Status == 7)
+                                && (p.Title.Contains(searchString) || p.Tags.Contains(searchString))).ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error at SearchStringByAdminRole: " + ex.Message); ;
+            }
+            return list;
+        }
+
+        public async Task<IEnumerable<Post>> SearchTagByAdminRole(string searchTag)
+        {
+            List<Post> list = new List<Post>();
+            try
+            {
+                var context = new department_dbContext();
+                list = await context.Posts.Where(p => (p.Status == 5 || p.Status == 7)
+                                && (p.Tags.Contains(searchTag))).ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error at SearchTagByAdminRole: " + ex.Message); ;
             }
             return list;
         }

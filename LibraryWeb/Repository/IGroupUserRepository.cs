@@ -19,5 +19,8 @@ namespace LibraryWeb.Repository
         int IsJoinedGroup(Guid groupid, Guid memberid);
         bool LetUserJoinGroup(Guid memberid, Guid groupid);
         bool LetUserLeaveGroup(Guid memberid, Guid groupid);
+
+        bool ApproveResident(Guid userid, Guid groupid);
+        bool RejectResident(Guid userid, Guid groupid);
     }
 }

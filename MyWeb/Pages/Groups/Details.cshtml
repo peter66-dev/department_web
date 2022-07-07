@@ -13,7 +13,7 @@
 <div class="container-fluid">
     <div class="view-group-container">
         <div class="group-content">
-            @if (@Model.Group.PublicStatus == 5 || @Model.IsJoined == 1)
+            @if (@Model.Group.PublicStatus == 5 || @Model.IsJoined == 1 || @Model.Role.Equals("ADMIN")) // chỉ được coi bài khi group public hoặc đã join hoặc là ADMIN
             {
                 <div class="public-group">
                     <p class="font-weight-bold mb-2">Latest</p>
@@ -107,30 +107,29 @@
 
                 @if (@Model.IsJoined == 1) // joined
                 {
-                    var role = HttpContext.Session.GetString("ROLE");
-                    if (role.Equals("MANAGER"))
+                    if (@Model.Role.Equals("MANAGER"))
                     {
                         <div class="group-info">
                             <button class="joined-btn" disabled>Leader</button>
                         </div>
                     }
-                    else if (role.Equals("RESIDENT"))
+                    else if (@Model.Role.Equals("RESIDENT"))
                     {
-                        <div onclick="handleChange('@Model.Role.ToString()')" class="group-info status-click">
+                        <div class="group-info status-click">
                             <button id="btnLeaveGroup" class="joined-btn">Joined</button>
                         </div>
                     }
                 }
-                else if (@Model.IsJoined == 0 || @Model.IsJoined == 2) // not join
+                else if ((@Model.IsJoined == 0 || @Model.IsJoined == 2) && @Model.Role.Equals("RESIDENT")) // not join
                 {
-                    <div onclick="handleChange('@Model.Role.ToString()')" class="group-info status-click">
+                    <div class="group-info status-click">
                         <button id="btnJoinGroup" class="join-btn">Join group</button>
                     </div>
                 }
-                else if (@Model.IsJoined == 4) // is pending
+                else if (@Model.IsJoined == 4 &&  @Model.Role.Equals("RESIDENT")) // is pending
                 {
-                    <div onclick="handleChange('@Model.Role.ToString()')" class="group-info status-click">
-                        <button id="btnCancelJoining" class="asking-btn">Asking to join</button>
+                    <div class="group-info status-click">
+                        <button id="btnCancelJoining" class="asking-btn">Pending ...</button>
                     </div>
                 }
 
@@ -160,45 +159,52 @@
     </div>
 </div>
 
-<script>
-    function handleChange(role) {
-        const btnLeave = document.querySelector('.joined-btn');
-        const btnJoin = document.querySelector('.join-btn');
-        const btnCancel = document.querySelector('.asking-btn');
-        const toChangeBtn = document.querySelector('.status-click');
+@*<script>
+function handleChange(role) {
+    const btnLeave = document.querySelector('.joined-btn');
+    const btnJoin = document.querySelector('.join-btn');
+    const btnCancel = document.querySelector('.asking-btn');
+    const toChangeBtn = document.querySelector('.status-click');
 
-        if (role == 'ADMIN' || role == 'MANAGER' || role == 'RESIDENT') {
-            console.log("Role is " + role);
-            if (btnJoin != null) {
-                console.log('btnJoin khac null');
-                toChangeBtn.innerHTML = "";
-                var btn = document.createElement("button");
-                btn.classList.add("asking-btn");
-                btn.innerHTML = "Asking to join"
-                toChangeBtn.appendChild(btn);
-            }
-            if (btnCancel != null) {
-                console.log('btnCancel khac null');
-                toChangeBtn.innerHTML = "";
-                var btn = document.createElement("button");
-                btn.classList.add("join-btn");
-                btn.innerHTML = "Join group"
-                toChangeBtn.appendChild(btn);
-            }
-            if (btnLeave != null) {
-                console.log('btnLeave khac null');
-                toChangeBtn.innerHTML = "";
-                var btn = document.createElement("button");
-                btn.classList.add("join-btn");
-                btn.innerHTML = "Join group"
-                toChangeBtn.appendChild(btn);
-            }
-        } else {
-            console.log("Role is empty!");
-            alert("You need to login before joining any group!");
-            window.location = "../Login";
+    if (role == 'RESIDENT') {
+        console.log("Role is " + role);
+        if (btnJoin != null) {
+            console.log('btnJoin khac null');
+            toChangeBtn.innerHTML = "";
+            var btn = document.createElement("button");
+            btn.classList.remove("joined-btn");
+            btn.classList.remove("join-btn");
+            btn.classList.add("asking-btn");
+            btn.innerHTML = "Pending ..."
+            toChangeBtn.appendChild(btn);
         }
-</script>
+        if (btnCancel != null) {
+            console.log('btnCancel khac null');
+            toChangeBtn.innerHTML = "";
+            var btn = document.createElement("button");
+            btn.classList.remove("joined-btn");
+            btn.classList.remove("asking-btn");
+            btn.classList.add("join-btn");
+            btn.innerHTML = "Join group"
+            toChangeBtn.appendChild(btn);
+        }
+        if (btnLeave != null) {
+            console.log('btnLeave khac null');
+            toChangeBtn.innerHTML = "";
+            var btn = document.createElement("button");
+            btn.classList.remove("asking-btn");
+            btn.classList.remove("joined-btn");
+            btn.classList.add("join-btn");
+            btn.innerHTML = "Join group"
+            toChangeBtn.appendChild(btn);
+        }
+    } else {
+        console.log("Role is empty!");
+        alert("You need to login before joining any group!");
+        window.location = "../Login";
+    }
+}
+</script>*@
 
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 @*
@@ -210,7 +216,8 @@
 <script>
     @*Join group action*@
         $(document).ready(function() {
-            $('.join-btn').click(function() {
+            $('.join-btn').click(function(e) {
+                e.preventDefault();
                 $.ajax({
                     type: 'GET',
                     url: '/Groups/Details?handler=JoinGroupAction&groupId=@Model.Group.GroupId.ToString()',
@@ -228,8 +235,8 @@
                             //}).then(value => {
                             //    window.location = "../Login";
                             //});
-                            alert('You need to login before joining any group!');
-                            window.location = "../Login";
+                            //alert('You need to login before joining any group!');
+                            //window.location = "../Login";
                         } else {
                             console.log('[SYSTEM MESSAGE]: CHECK LOGIC AGAIN PLEASE!');
                         }
@@ -240,7 +247,8 @@
 
     @*Reject joining request action*@
         $(document).ready(function() {
-            $('.asking-btn').click(function() {
+            $('.asking-btn').click(function(e) {
+                e.preventDefault();
                 $.ajax({
                     type: 'GET',
                     url: '/Groups/Details?handler=CancelGroupAction&groupId=@Model.Group.GroupId.ToString()',
@@ -260,7 +268,8 @@
 
     @*Leave group action*@
         $(document).ready(function() {
-            $('.joined-btn').click(function() {
+            $('.joined-btn').click(function(e) {
+                e.preventDefault();
                 $.ajax({
                     type: 'GET',
                     url: '/Groups/Details?handler=CancelGroupAction&groupId=@Model.Group.GroupId.ToString()',
@@ -278,6 +287,7 @@
             });
         });
 </script>
+
 
 
 

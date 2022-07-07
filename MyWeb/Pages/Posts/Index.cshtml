@@ -70,7 +70,7 @@
             <p class="font-weight-bold mb-2 mt-2">Groups</p>
             @if (@Model.Groups.Count > 0)
             {
-                @foreach (Group group in @Model.Groups)
+                @foreach (Group group in @Model.Groups.ToList())
                 {
                     <ul class="mb-3">
                         <a asp-area="" asp-page="../Groups/Details" asp-route-id="@group.GroupId">
@@ -86,9 +86,9 @@
         else if (Accessor.HttpContext.Session.GetString("ROLE") != null && Accessor.HttpContext.Session.GetString("ROLE").Equals("RESIDENT"))
         {
             <p class="font-weight-bold mb-2 mt-2">Groups</p>
-            @if (@Model.GroupUsers.Count > 0)
+            @if (@Model.GroupUsers.ToList().Count > 0)
             {
-                @foreach (GroupUser group in @Model.GroupUsers)
+                @foreach (GroupUser group in @Model.GroupUsers.ToList())
                 {
                     <ul class="mb-3">
                         <a asp-area="" asp-page="../Groups/Details" asp-route-id="@group.GroupId">
@@ -105,12 +105,12 @@
     </div>
     <div class="mid-content">
         <p class="font-weight-bold mb-2">Latest</p>
-        @if (@Model.Posts.Count == 0)
+        @if (@Model.Posts.ToList().Count == 0)
         {
             <p class="text-center not-found-item">Sorry, we can not find out any post you want!</p>
             <lottie-player src="https://assets10.lottiefiles.com/packages/lf20_etdc3qqu.json" background="transparent" speed="1" style="width: 80%; height: 80%;" loop autoplay></lottie-player>
         }
-        @foreach (Post p in @Model.Posts)
+        @foreach (Post p in @Model.Posts.ToList())
         {
             <div class="news news1">
                 <div class="owner">
@@ -180,7 +180,7 @@
             <p class="font-weight-bold mb-2">Hot News</p>
         </div>
         <div class="list-body">
-            @foreach (Post post in @Model.HotNews)
+            @foreach (Post post in @Model.HotNews.ToList())
             {
                 int tmp = @Model.HotNews.IndexOf(post);
                 if (tmp == 6)
@@ -197,13 +197,13 @@
         </div>
         @if (HttpContext.Session.GetString("ROLE") != null &&
         HttpContext.Session.GetString("ROLE").Equals("RESIDENT")
-        && @Model.OtherGroups.Count > 0)
+        && @Model.OtherGroups.ToList().Count > 0)
         {
             <div class="d-flex justify-content-between">
                 <p class="font-weight-bold mb-2 mt-4">Discover new groups</p>
             </div>
             <div class="list-body">
-                @foreach (Group group in @Model.OtherGroups)
+                @foreach (Group group in @Model.OtherGroups.ToList())
                 {
                     <div class="dis-group">
                         <a asp-page="../Groups/Details" asp-route-id="@group.GroupId"

@@ -20,11 +20,12 @@ namespace MyWeb.Pages.Posts
         public IUserRepository userRepo;
         public IPostRepository postRepo;
         public IGroupRepository groupRepo;
-        public IList<Post> Posts { get; set; }
+        public IGroupUserRepository guRepo;
+        public IEnumerable<Post> Posts { get; set; }
         public IList<Post> HotNews { get; set; }
-        public IList<GroupUser> GroupUsers { get; set; }
+        public IEnumerable<GroupUser> GroupUsers { get; set; }
         public IList<Group> Groups { get; set; }
-        public IList<Group> OtherGroups { get; set; }
+        public IEnumerable<Group> OtherGroups { get; set; }
 
         public IndexModel(department_dbContext context)
         {
@@ -32,6 +33,7 @@ namespace MyWeb.Pages.Posts
             userRepo = new UserRepository();
             postRepo = new PostRepository();
             groupRepo = new GroupRepository();
+            guRepo = new GroupUserRepository();
         }
 
 
@@ -42,6 +44,7 @@ namespace MyWeb.Pages.Posts
             {
                 if (searchString != null && searchString.Trim().Length > 0) // search by tag + title
                 {
+                    searchString = searchString.Trim();
                     Posts = await context.Posts.Where(p => (p.Tags.Contains(searchString) && (p.GroupPost.PublicStatus == 5 || p.PostType.PostTypeName.Equals("Announcement") || p.Status == 5)
                                                           || (p.Title.Contains(searchString) && (p.GroupPost.PublicStatus == 5 || p.PostType.PostTypeName.Equals("Announcement") || p.Status == 5))))
                                                 .OrderBy(p => p.CreatedDate).Reverse()
@@ -55,6 +58,7 @@ namespace MyWeb.Pages.Posts
                 }
                 else if (searchTag != null)                               // search by tag
                 {
+                    searchTag = searchTag.Trim();
                     Posts = await context.Posts.Where(p => p.Tags.Contains(searchTag) && (p.GroupPost.PublicStatus == 5 || p.PostType.PostTypeName.Equals("Announcement")) && p.Status == 5)
                                                .OrderBy(p => p.CreatedDate).Reverse()
                                                .Include(p => p.GroupPost)
@@ -95,31 +99,54 @@ namespace MyWeb.Pages.Posts
                 { // Lấy ra những group mà nó đang follow
                     var groupUserContext = new department_dbContext();
                     GroupUsers = await groupUserContext.GroupUsers
-                                                    .Where(g => g.MemberId.ToString() == (current_user_id) 
+                                                    .Where(g => g.MemberId.ToString() == (current_user_id)
                                                         && g.Status == 1)
                                                     .Include(p => p.Group)
                                                     .ToListAsync();
 
                     // Discover other groups
-                    List<Group> allGroups = await groupRepo.GetGroupsAsync();
+                    IEnumerable<Group> allGroups = await groupRepo.GetGroupsAsync();
                     OtherGroups = DiscoverGroups(allGroups, GroupUsers.ToList());
                 }
+                else
+                {
+                    Posts = await postRepo.GetPosts();
+                    OtherGroups = await groupRepo.GetGroupsAsync();
+                }
 
-                if (searchString != null && searchString.Trim().Length > 0)
+                if (role.Equals("ADMIN"))
                 {
-                    Posts = await postRepo.SearchStringPostsByUserLogined(Guid.Parse(current_user_id), searchString);
-                    searchString = null;
+                    if (searchString != null && searchString.Trim().Length > 0)
+                    {
+                        searchString = searchString.Trim();
+                        Posts = await postRepo.SearchStringByAdminRole(searchString);
+                        searchString = null;
+                    }
+                    else if (searchTag != null)
+                    {
+                        searchTag = searchTag.Trim();
+                        Posts = await postRepo.SearchTagByAdminRole(searchTag);
+                        searchTag = null;
+                    }
                 }
-                else if (searchTag != null)
+                else
                 {
-                    Posts = await postRepo.SearchTagsPostsByUserLogined(Guid.Parse(current_user_id), searchTag);
-                    searchTag = null;
-                }
-                else // OK
-                {
-                    Posts = await postRepo.GetPostsForUserLogined(Guid.Parse(current_user_id));
-                    searchString = null;
-                    searchTag = null;
+                    if (searchString != null && searchString.Trim().Length > 0)
+                    {
+                        Posts = await postRepo.SearchStringPostsByUserLogined(Guid.Parse(current_user_id), searchString.Trim());
+                        searchString = null;
+                    }
+                    else if (searchTag != null)
+                    {
+                        Posts = await postRepo.SearchTagsPostsByUserLogined(Guid.Parse(current_user_id), searchTag.Trim());
+                        searchTag = null;
+                    }
+                    else // OK
+                    {
+                        Posts = await postRepo.GetPostsForUserLogined(Guid.Parse(current_user_id));
+                        searchString = null;
+                        searchTag = null;
+                    }
                 }
             }
 
@@ -140,7 +167,7 @@ namespace MyWeb.Pages.Posts
             return role;
         }
 
-        private List<Group> DiscoverGroups(List<Group> groups, List<GroupUser> followings)
+        private List<Group> DiscoverGroups(IEnumerable<Group> groups, List<GroupUser> followings)
         {
             List<Group> result = new List<Group>();
             List<Group> tmp = new List<Group>();
@@ -150,11 +177,9 @@ namespace MyWeb.Pages.Posts
             {
                 tmp.Add(gu.Group);
             }
-            Console.WriteLine($"All groups are {groups.Count}!");
-            Console.WriteLine($"Following groups are {tmp.Count}!");
-            
+
             int count = 0;
-            foreach (Group group in groups)
+            foreach (Group group in groups.ToList())
             {
                 if (!tmp.Any(g => g.GroupId == group.GroupId))
                 {
@@ -162,8 +187,6 @@ namespace MyWeb.Pages.Posts
                     result.Add(group);
                 }
             }
-
-            Console.WriteLine($"Discover groups are: {result.Count}!");
 
             return result;
         }

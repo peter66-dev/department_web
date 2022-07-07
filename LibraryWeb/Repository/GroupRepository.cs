@@ -8,7 +8,7 @@ namespace LibraryWeb.Repository
 {
     public class GroupRepository : IGroupRepository
     {
-        public IEnumerable<Group> GetGroups() => GroupDAO.Instance.GetGroups();
+        public async Task<IEnumerable<Group>> GetGroupsAsync() => await GroupDAO.Instance.GetGroupsAsync();
         public Group GetGroupById(Guid groupId) => GroupDAO.Instance.GetGroupById(groupId);
         public void DeleteGroupById(Guid groupId) => GroupDAO.Instance.DeleteGroupById(groupId);
         public void CreateGroup(Group group) => GroupDAO.Instance.CreateGroup(group);
@@ -23,8 +23,5 @@ namespace LibraryWeb.Repository
 
         public int IsLeaderGroup(Guid groupid, Guid leaderid)
             => GroupDAO.Instance.IsLeaderGroup(groupid, leaderid);
-
-        public async Task<List<Group>> GetGroupsAsync()
-            => await GroupDAO.Instance.GetGroupsAsync();
     }
 }

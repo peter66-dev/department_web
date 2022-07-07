@@ -30,28 +30,13 @@ namespace MyLibrary.DataAccess
             }
         }
 
-        public IEnumerable<Group> GetGroups()
-        {
-            List<Group> list = new List<Group>();
-            try
-            {
-                var context = new department_dbContext();
-                context.Groups.ToList();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Error at GetGroups: " + ex.Message);
-            }
-            return list;
-        }
-
         public async Task<List<Group>> GetGroupsAsync()
         {
             List<Group> list = new List<Group>();
             try
             {
                 var context = new department_dbContext();
-                list = await context.Groups.ToListAsync();
+                list = await context.Groups.Where(g => g.Status == 1).ToListAsync();
             }
             catch (Exception ex)
             {

@@ -58,6 +58,7 @@ namespace MyWeb.Pages
             HttpContext.Session.Remove("CURRENT_USER_ID");
             HttpContext.Session.Remove("CURRENT_USER_FULLNAME");
             HttpContext.Session.Remove("ROLE");
+            HttpContext.Session.Remove("PENDING_RESIDENT_MESSAGE");
             HttpContext.Session.Clear();
             return Page();
         }

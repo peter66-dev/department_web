@@ -30,5 +30,41 @@ namespace MyWeb.Pages.Managements
                 return new RedirectToPageResult("../Login");
             }
         }
+
+        public IActionResult OnGetApproveResident(string userid, string groupid)
+        {
+            Console.WriteLine("Toi la OnGetApproveResident");
+            if (guRepo.ApproveResident(Guid.Parse(userid), Guid.Parse(groupid)))
+            {
+                Console.WriteLine("Approved resident successfully!");
+                HttpContext.Session.SetString("PENDING_RESIDENT_MESSAGE", "Approved resident successfully!");
+            }
+            else
+            {
+                Console.WriteLine("Approved resident failed!");
+            }
+
+            string managerId = HttpContext.Session.GetString("CURRENT_USER_ID");
+            GroupUsers = guRepo.GetUsersPendingByManagerId(Guid.Parse(managerId));
+            return Page();
+        }
+
+        public IActionResult OnGetRejectResident(string userid, string groupid)
+        {
+            Console.WriteLine("Toi la OnGetRejectResident");
+            if (guRepo.RejectResident(Guid.Parse(userid), Guid.Parse(groupid)))
+            {
+                Console.WriteLine("Reject resident successfully!");
+                HttpContext.Session.SetString("PENDING_RESIDENT_MESSAGE", "Reject resident successfully!");
+            }
+            else
+            {
+                Console.WriteLine("Reject resident failed!");
+            }
+
+            string managerId = HttpContext.Session.GetString("CURRENT_USER_ID");
+            GroupUsers = guRepo.GetUsersPendingByManagerId(Guid.Parse(managerId));
+            return Page();
+        }
     }
 }

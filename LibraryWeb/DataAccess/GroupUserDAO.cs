@@ -53,7 +53,7 @@ namespace MyLibrary.DataAccess
             {
                 var context = new department_dbContext();
                 var tmp = await context.GroupUsers
-                                .Where(gu => gu.MemberId == userid)
+                                .Where(gu => gu.MemberId == userid && gu.Status == 1)
                                 .Include(gu => gu.Group).ToListAsync();
                 foreach (var cur in tmp)
                 {
@@ -245,6 +245,48 @@ namespace MyLibrary.DataAccess
             catch (Exception ex)
             {
                 Console.WriteLine("Error at LetUserLeaveGroup: " + ex.Message);
+            }
+            return check;
+        }
+
+        public bool ApproveResident(Guid userid, Guid groupid)
+        {
+            bool check = false;
+            try
+            {
+                var context = new department_dbContext();
+                GroupUser gu = context.GroupUsers.FirstOrDefault(g => g.MemberId == userid && g.GroupId == groupid);
+                if (gu != null)
+                {
+                    gu.Status = 1;
+                }
+                context.Entry(gu).State = EntityState.Modified;
+                check = context.SaveChanges() > 0;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error at ApproveResident: " + ex.Message);
+            }
+            return check;
+        }
+
+        public bool RejectResident(Guid userid, Guid groupid)
+        {
+            bool check = false;
+            try
+            {
+                var context = new department_dbContext();
+                GroupUser gu = context.GroupUsers.FirstOrDefault(g => g.MemberId == userid && g.GroupId == groupid);
+                if (gu != null)
+                {
+                    gu.Status = 8;
+                }
+                context.Entry(gu).State = EntityState.Modified;
+                check = context.SaveChanges() > 0;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error at RejectResident: " + ex.Message);
             }
             return check;
         }

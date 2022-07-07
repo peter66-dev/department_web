@@ -163,16 +163,11 @@ namespace MyWeb.Pages.Posts
                 if (content != null && commentId != null && content.Trim().Length > 0)
                 {
                     User user = userRepo.GetUserById(Guid.Parse(userid));
-                    Console.WriteLine("Content: " + content);
-                    Console.WriteLine("comment Id: " + commentId);
                     CommentReply cmtReply = cmtReplyRepo.CreateCommentReply(Guid.Parse(userid), Guid.Parse(commentId), content);
                     if (cmtReply != null)
                     {
-                        Console.WriteLine("add comment reply thanh cong!");
-
                         // Tăng số lượng commentsTotal 
                         int commentsTotal = postRepo.IncreaseCommentsTotal(Guid.Parse(postid));
-                        Console.WriteLine("Comment totals => " + commentsTotal);
                         return new JsonResult(new
                         {
                             status = 1,

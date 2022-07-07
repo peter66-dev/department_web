@@ -104,7 +104,7 @@ namespace MyWeb.Pages.Groups
                 bool check = groupUserRepo.LetUserJoinGroup(Guid.Parse(CURRENT_USER_ID), Guid.Parse(groupId));
                 if (check)
                 {
-                    return new JsonResult(new { status = 1 });
+                    return new JsonResult(new { status = 1});
                 }
                 else
                 {

@@ -14,8 +14,6 @@ namespace LibraryWeb.Repository
 
         Post GetPostById(Guid postId);
 
-        IEnumerable<Post> GetPosts();
-
         int IncreaseLikesTotal(Guid postid);
 
         int DecreaseLikesTotal(Guid postid);
@@ -39,6 +37,11 @@ namespace LibraryWeb.Repository
         bool ApprovePost(Guid postid);
 
         bool RejectPost(Guid postid, string reason);
+
+        Task<IEnumerable<Post>> GetPosts();
+        Task<IEnumerable<Post>> SearchTagByAdminRole(string searchTag);
+        Task<IEnumerable<Post>> SearchStringByAdminRole(string searchString);
+
 
     }
 }

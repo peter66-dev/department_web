@@ -8,9 +8,6 @@ namespace LibraryWeb.Repository
 {
     public class PostRepository : IPostRepository
     {
-        public IEnumerable<Post> GetPosts()
-            => PostDAO.Instance.GetPosts();
-
         public Post GetPostById(Guid postId)
             => PostDAO.Instance.GetPostById(postId);
 
@@ -54,5 +51,15 @@ namespace LibraryWeb.Repository
             => PostDAO.Instance.ApprovePost(postid);
         public bool RejectPost(Guid postid, string reason)
             => PostDAO.Instance.RejectPost(postid, reason);
+
+        public async Task<IEnumerable<Post>> GetPosts()
+            => await PostDAO.Instance.GetPosts();
+
+        public async Task<IEnumerable<Post>> SearchTagByAdminRole(string searchTag)
+            => await PostDAO.Instance.SearchTagByAdminRole(searchTag);
+
+
+        public async Task<IEnumerable<Post>> SearchStringByAdminRole(string searchString)
+            => await PostDAO.Instance.SearchStringByAdminRole(searchString);
     }
 }

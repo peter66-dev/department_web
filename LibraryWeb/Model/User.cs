@@ -32,7 +32,6 @@ namespace LibraryWeb.Model
         [EmailAddress]
         public string Email { get; set; } // Phải check trùng
         public bool Gender { get; set; }
-        public string Username { get; set; }
         public string Avatar { get; set; }
         public int Status { get; set; }
 
