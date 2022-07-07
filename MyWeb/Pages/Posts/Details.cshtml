@@ -46,14 +46,14 @@
                     </a>
                     <div class="dropdown-group">
                         <div class="dropdown-items">
-                            <a class="edit-btn dropdown-item">
+                            <a asp-page="./Edit" asp-route-id="@Model.Post.PostId" class="edit-btn dropdown-item">
                                 <ion-icon name="create-outline"></ion-icon>
-                                <p>Edit</p>
+                                <p>Update</p>
                             </a>
-                            <a class="delete-btn dropdown-item">
+                            <button onclick="btnDeletePost()" class="delete-btn dropdown-item">
                                 <ion-icon name="trash-outline"></ion-icon>
                                 <p>Delete</p>
-                            </a>
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -239,6 +239,22 @@
 
     const dropdownMenu = document.querySelector('.dropdown-group');
     const menuBtn = document.querySelector('.menu-btn');
+
+    function btnDeletePost(){
+        Swal.fire({
+            title: 'Confirm message',
+            text: "Do you really want to delete this post?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, i want!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location = "./Delete?handler=DeletePost&id=@Model.Post.PostId";
+            }
+        });
+    }
 
     function toggleClass() {
         if (@Model.IsLiked == true) {

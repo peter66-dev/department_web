@@ -8,16 +8,20 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using LibraryWeb.DataAccess;
 using LibraryWeb.Model;
+using LibraryWeb.Repository;
+using Microsoft.AspNetCore.Http;
 
 namespace MyWeb.Pages.Posts
 {
     public class EditModel : PageModel
     {
         private readonly LibraryWeb.DataAccess.department_dbContext _context;
+        private IPostRepository postRepo;
 
         public EditModel(LibraryWeb.DataAccess.department_dbContext context)
         {
             _context = context;
+            postRepo = new PostRepository();
         }
 
         [BindProperty]
@@ -30,56 +34,41 @@ namespace MyWeb.Pages.Posts
                 return NotFound();
             }
 
-            Post = await _context.Posts
-                .Include(p => p.GroupPost)
-                .Include(p => p.PostType)
-                .Include(p => p.StatusNavigation)
-                .Include(p => p.UserPost).FirstOrDefaultAsync(m => m.PostId == id);
-
+            string CURRENT_USER_ID = HttpContext.Session.GetString("CURRENT_USER_ID");
+            Post = await postRepo.GetPostByIdAsync(id.Value);
             if (Post == null)
             {
                 return NotFound();
             }
-           ViewData["GroupPostId"] = new SelectList(_context.Groups, "GroupId", "GroupDescription");
-           ViewData["PostTypeId"] = new SelectList(_context.PostTypes, "PostTypeId", "PostTypeName");
-           ViewData["Status"] = new SelectList(_context.Statuses, "StatusId", "StatusName");
-           ViewData["UserPostId"] = new SelectList(_context.Users, "UserId", "Address");
+            if (Post.UserPostId != Guid.Parse(CURRENT_USER_ID))
+            {
+                return NotFound();
+            }
             return Page();
         }
 
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see https://aka.ms/RazorPagesCRUD.
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync() // update trực tiếp, ko cần manager duyệt
         {
             if (!ModelState.IsValid)
             {
                 return Page();
             }
-
-            _context.Attach(Post).State = EntityState.Modified;
-
-            try
+            Guid postid = Post.PostId;
+            string title = Post.Title;
+            string tags = Post.Tags.Trim();
+            string content = Post.PostContent;
+            bool check = await postRepo.UpdatePost(postid, title, tags, content);
+            if (check)
             {
-                await _context.SaveChangesAsync();
+                Console.WriteLine("Updated post successfully!");
+                return RedirectToPage("../Users/Details", "Get", new { id = Post.UserPostId });
             }
-            catch (DbUpdateConcurrencyException)
+            else // chỗ này dành cho trường hợp update bài khi đang còn trong trạng thái pending
             {
-                if (!PostExists(Post.PostId))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return RedirectToPage("./Index");
             }
-
-            return RedirectToPage("./Index");
-        }
-
-        private bool PostExists(Guid id)
-        {
-            return _context.Posts.Any(e => e.PostId == id);
         }
     }
 }

@@ -69,19 +69,41 @@ namespace MyLibrary.DataAccess
             return post;
         }
 
-        public void DeletePostById(Guid postId)
+        public async Task<Post> GetPostByIdAsync(Guid postId)
         {
+            Post post = new Post();
             try
             {
                 var context = new department_dbContext();
-                Post post = context.Posts.FirstOrDefault(p => p.PostId.Equals(postId));
-                post.Status = 6;
-                context.SaveChanges();
+                post = await context.Posts
+                                    .Include(p => p.GroupPost)
+                                    .Include(p => p.PostType)
+                                    .Include(p => p.StatusNavigation)
+                                    .Include(p => p.UserPost)
+                                    .FirstOrDefaultAsync(m => m.PostId == postId);
             }
             catch (Exception ex)
             {
-                throw new Exception("Error at DeletePostById: " + ex.Message);
+                throw new Exception("Error at GetPostByIdAsync: " + ex.Message);
             }
+            return post;
+        }
+
+        public async Task<bool> DeletePostByIdAsync(Guid postId)
+        {
+            bool check = false;
+            try
+            {
+                var context = new department_dbContext();
+                Post post = await context.Posts.FirstOrDefaultAsync(p => p.PostId == postId);
+                post.Status = 6;
+                check = context.SaveChanges() > 0;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error at DeletePostByIdAsync: " + ex.Message);
+            }
+            return check;
         }
 
         public bool CreatePost(Guid userid, string roleName, Guid grouppostid,
@@ -104,7 +126,6 @@ namespace MyLibrary.DataAccess
                 post.LastModified = null;
                 post.ApprovedDate = null;
                 post.Reason = null;
-                post.NewContent = null;
                 if (roleName.Equals("ADMIN"))
                 {
                     post.GroupPostId = null;
@@ -539,6 +560,27 @@ namespace MyLibrary.DataAccess
             catch (Exception ex)
             {
                 Console.WriteLine("Error at RejectPost: " + ex.Message);
+            }
+            return check;
+        }
+
+        public async Task<bool> UpdatePost(Guid postid, string title, string tags, string content)
+        {
+            bool check = false;
+            try
+            {
+                var context = new department_dbContext();
+                Post post = await context.Posts.FirstOrDefaultAsync(p => p.PostId == postid);
+                post.Title = title;
+                post.Tags = tags;
+                post.PostContent = content;
+                post.LastModified = DateTime.Now;
+                context.Entry(post).State = EntityState.Modified;
+                check = context.SaveChanges() > 0;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error at UpdatePost: " + ex.Message);
             }
             return check;
         }

@@ -7,16 +7,19 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using LibraryWeb.DataAccess;
 using LibraryWeb.Model;
+using LibraryWeb.Repository;
 
 namespace MyWeb.Pages.Posts
 {
     public class DeleteModel : PageModel
     {
         private readonly LibraryWeb.DataAccess.department_dbContext _context;
+        private IPostRepository postRepo;
 
         public DeleteModel(LibraryWeb.DataAccess.department_dbContext context)
         {
             _context = context;
+            postRepo = new PostRepository();
         }
 
         [BindProperty]
@@ -57,6 +60,16 @@ namespace MyWeb.Pages.Posts
                 await _context.SaveChangesAsync();
             }
 
+            return RedirectToPage("./Index");
+        }
+
+        public async Task<IActionResult> OnGetDeletePost(Guid id)
+        {
+            bool check = await postRepo.DeletePostByIdAsync(id);
+            if (check)
+            {
+                Console.WriteLine("Deleted post!");
+            }
             return RedirectToPage("./Index");
         }
     }

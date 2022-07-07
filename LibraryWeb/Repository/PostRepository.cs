@@ -11,8 +11,8 @@ namespace LibraryWeb.Repository
         public Post GetPostById(Guid postId)
             => PostDAO.Instance.GetPostById(postId);
 
-        public void DeletePostById(Guid postId)
-            => PostDAO.Instance.DeletePostById(postId);
+        public async Task<bool> DeletePostByIdAsync(Guid postId)
+            => await PostDAO.Instance.DeletePostByIdAsync(postId);
 
         public bool CreatePost(Guid userid, string roleName, Guid grouppostid, string title, string tags, string content)
             => PostDAO.Instance.CreatePost(userid, roleName, grouppostid, title, tags, content);
@@ -61,5 +61,11 @@ namespace LibraryWeb.Repository
 
         public async Task<IEnumerable<Post>> SearchStringByAdminRole(string searchString)
             => await PostDAO.Instance.SearchStringByAdminRole(searchString);
+
+        public async Task<Post> GetPostByIdAsync(Guid postId)
+            => await PostDAO.Instance.GetPostByIdAsync(postId);
+
+        public async Task<bool> UpdatePost(Guid postid, string title, string tags, string content)
+            => await PostDAO.Instance.UpdatePost(postid, title, tags, content);
     }
 }

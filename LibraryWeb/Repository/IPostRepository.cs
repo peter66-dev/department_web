@@ -10,7 +10,7 @@ namespace LibraryWeb.Repository
         bool CreatePost(Guid userid, string roleName, Guid grouppostid,
             string title, string tags, string content);
 
-        void DeletePostById(Guid postId);
+        Task<bool> DeletePostByIdAsync(Guid postId);
 
         Post GetPostById(Guid postId);
 
@@ -34,14 +34,20 @@ namespace LibraryWeb.Repository
 
         Task<IEnumerable<Post>> GetPostsForManagerApprove(Guid managerId);
 
+
         bool ApprovePost(Guid postid);
 
         bool RejectPost(Guid postid, string reason);
 
         Task<IEnumerable<Post>> GetPosts();
+
         Task<IEnumerable<Post>> SearchTagByAdminRole(string searchTag);
+
         Task<IEnumerable<Post>> SearchStringByAdminRole(string searchString);
 
 
+        Task<Post> GetPostByIdAsync(Guid postId);
+
+        Task<bool> UpdatePost(Guid postid, string title, string tags, string content);
     }
 }

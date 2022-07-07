@@ -40,7 +40,6 @@ namespace LibraryWeb.Model
         public DateTime? LastModified { get; set; }
         public DateTime? ApprovedDate { get; set; }
         public string Reason { get; set; }
-        public string NewContent { get; set; }
         public int Status { get; set; } // Status: 5 || 6 || 7
 
         public virtual Group GroupPost { get; set; }
