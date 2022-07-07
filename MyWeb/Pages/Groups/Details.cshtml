@@ -116,20 +116,20 @@
                     else if (@Model.Role.Equals("RESIDENT"))
                     {
                         <div class="group-info status-click">
-                            <button id="btnLeaveGroup" class="joined-btn">Joined</button>
+                            <button onclick="cancelGroup()" class="joined-btn">Joined</button>
                         </div>
                     }
                 }
                 else if ((@Model.IsJoined == 0 || @Model.IsJoined == 2) && @Model.Role.Equals("RESIDENT")) // not join
                 {
                     <div class="group-info status-click">
-                        <button id="btnJoinGroup" class="join-btn">Join group</button>
+                        <a asp-page="./Details" asp-route-groupId="@Model.Group.GroupId" asp-page-handler="JoinGroupAction" class="join-btn text-center text-decoration-none">Join group</a>
                     </div>
                 }
-                else if (@Model.IsJoined == 4 &&  @Model.Role.Equals("RESIDENT")) // is pending
+                else if (@Model.IsJoined == 4 && @Model.Role.Equals("RESIDENT")) // is pending
                 {
                     <div class="group-info status-click">
-                        <button id="btnCancelJoining" class="asking-btn">Pending ...</button>
+                        <button onclick="cancelGroup()" class="asking-btn">Pending ...</button>
                     </div>
                 }
 
@@ -159,136 +159,25 @@
     </div>
 </div>
 
-@*<script>
-function handleChange(role) {
-    const btnLeave = document.querySelector('.joined-btn');
-    const btnJoin = document.querySelector('.join-btn');
-    const btnCancel = document.querySelector('.asking-btn');
-    const toChangeBtn = document.querySelector('.status-click');
-
-    if (role == 'RESIDENT') {
-        console.log("Role is " + role);
-        if (btnJoin != null) {
-            console.log('btnJoin khac null');
-            toChangeBtn.innerHTML = "";
-            var btn = document.createElement("button");
-            btn.classList.remove("joined-btn");
-            btn.classList.remove("join-btn");
-            btn.classList.add("asking-btn");
-            btn.innerHTML = "Pending ..."
-            toChangeBtn.appendChild(btn);
-        }
-        if (btnCancel != null) {
-            console.log('btnCancel khac null');
-            toChangeBtn.innerHTML = "";
-            var btn = document.createElement("button");
-            btn.classList.remove("joined-btn");
-            btn.classList.remove("asking-btn");
-            btn.classList.add("join-btn");
-            btn.innerHTML = "Join group"
-            toChangeBtn.appendChild(btn);
-        }
-        if (btnLeave != null) {
-            console.log('btnLeave khac null');
-            toChangeBtn.innerHTML = "";
-            var btn = document.createElement("button");
-            btn.classList.remove("asking-btn");
-            btn.classList.remove("joined-btn");
-            btn.classList.add("join-btn");
-            btn.innerHTML = "Join group"
-            toChangeBtn.appendChild(btn);
-        }
-    } else {
-        console.log("Role is empty!");
-        alert("You need to login before joining any group!");
-        window.location = "../Login";
-    }
-}
-</script>*@
-
-<script src="~/lib/jquery/dist/jquery.min.js"></script>
-@*
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.all.min.js"></script>
 <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.min.css'>
-*@
-
 
 <script>
-    @*Join group action*@
-        $(document).ready(function() {
-            $('.join-btn').click(function(e) {
-                e.preventDefault();
-                $.ajax({
-                    type: 'GET',
-                    url: '/Groups/Details?handler=JoinGroupAction&groupId=@Model.Group.GroupId.ToString()',
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    success: function(result) {
-                        let status = result.status;
-                        if (status == 1) {
-                            console.log('Success');
-                        } else if (status == 2) {
-                            //Swal.fire({
-                            //    icon: 'warning',
-                            //    title: 'Hold up...',
-                            //    text: 'You need to login before joining any group!'
-                            //}).then(value => {
-                            //    window.location = "../Login";
-                            //});
-                            //alert('You need to login before joining any group!');
-                            //window.location = "../Login";
-                        } else {
-                            console.log('[SYSTEM MESSAGE]: CHECK LOGIC AGAIN PLEASE!');
-                        }
-                    }
-                });
-            });
+    function cancelGroup() {
+        Swal.fire({
+            title: 'Confirm message',
+            text: "Do you really want to leave this group?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, i want!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location = "./Details?handler=CancelGroupAction&groupId=@Model.Group.GroupId";
+            }
         });
-
-    @*Reject joining request action*@
-        $(document).ready(function() {
-            $('.asking-btn').click(function(e) {
-                e.preventDefault();
-                $.ajax({
-                    type: 'GET',
-                    url: '/Groups/Details?handler=CancelGroupAction&groupId=@Model.Group.GroupId.ToString()',
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    success: function(result) {
-                        let status = result.status;
-                        if (status == 1) {
-                            console.log('Success');
-                        } else {
-                            console.log('[SYSTEM MESSAGE]: CHECK LOGIC AGAIN PLEASE!');
-                        }
-                    }
-                });
-            });
-        });
-
-    @*Leave group action*@
-        $(document).ready(function() {
-            $('.joined-btn').click(function(e) {
-                e.preventDefault();
-                $.ajax({
-                    type: 'GET',
-                    url: '/Groups/Details?handler=CancelGroupAction&groupId=@Model.Group.GroupId.ToString()',
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    success: function(result) {
-                        let status = result.status;
-                        if (status == 1) {
-                            console.log('Success');
-                        } else {
-                            console.log('[SYSTEM MESSAGE]: CHECK LOGIC AGAIN PLEASE!');
-                        }
-                    }
-                });
-            });
-        });
+    }
 </script>
-
-
-
 
 

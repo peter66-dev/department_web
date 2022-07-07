@@ -48,12 +48,13 @@ namespace MyWeb.Pages.Groups
                 if (Role.Equals("ADMIN"))
                 {
                     IsJoined = 1; // ADMIN được phép coi tất cả group
-                }else if (Role.Equals("MANAGER")) // -1: không cho join || 1: đang làm chủ group
+                }
+                else if (Role.Equals("MANAGER")) // -1: không cho join || 1: đang làm chủ group
                 {
                     IsJoined = groupRepo.IsLeaderGroup(id.Value, Guid.Parse(CURRENT_USER_ID));
                 }
                 else     // RESIDENT
-                { 
+                {
                     IsJoined = groupUserRepo.IsJoinedGroup(id.Value, Guid.Parse(CURRENT_USER_ID));
                     if (IsJoined == 1) // active
                     {
@@ -86,38 +87,29 @@ namespace MyWeb.Pages.Groups
             return Page();
         }
 
-        /* {status}    
-            1: success
-            2: not login
-            3: failed
-         */
-        public JsonResult OnGetJoinGroupAction(string groupId)
+
+        public async Task<IActionResult> OnGetJoinGroupActionAsync(string groupId)
         {
             string CURRENT_USER_ID = HttpContext.Session.GetString("CURRENT_USER_ID");
 
-            if (CURRENT_USER_ID == null) // not login
+            bool check = groupUserRepo.LetUserJoinGroup(Guid.Parse(CURRENT_USER_ID), Guid.Parse(groupId));
+            if (check)
             {
-                return new JsonResult(new { status = 2 });
+                Console.WriteLine("Pending successfully!");
             }
-            else
+            IsJoined = 4;
+            Role = "RESIDENT";
+            TotalMembers = await groupRepo.GetTotalMembersInGroupById(Guid.Parse(groupId));
+            Group = groupRepo.GetGroupById(Guid.Parse(groupId));
+            if (Group.PublicStatus == 5)
             {
-                bool check = groupUserRepo.LetUserJoinGroup(Guid.Parse(CURRENT_USER_ID), Guid.Parse(groupId));
-                if (check)
-                {
-                    return new JsonResult(new { status = 1});
-                }
-                else
-                {
-                    return new JsonResult(new { status = 3 });
-                }
+                Posts = await postRepo.GetPostsByGroupId(Guid.Parse(groupId));
             }
+            return Page();
+
         }
 
-        /* {status}    
-           1: success
-           2: failed
-        */
-        public JsonResult OnGetCancelGroupAction(string groupId) // default: đã login
+        public async Task<IActionResult> OnGetCancelGroupActionAsync(string groupId) // default: đã login
         {
             Console.WriteLine("Tui la OnGetCancelGroupAction");
             string CURRENT_USER_ID = HttpContext.Session.GetString("CURRENT_USER_ID");
@@ -125,13 +117,17 @@ namespace MyWeb.Pages.Groups
             bool check = groupUserRepo.LetUserLeaveGroup(Guid.Parse(CURRENT_USER_ID), Guid.Parse(groupId));
             if (check)
             {
-                return new JsonResult(new { status = 1 });
+                Console.WriteLine("Cancel pending successfully!");
             }
-            else
+            IsJoined = 2;
+            Role = "RESIDENT";
+            TotalMembers = await groupRepo.GetTotalMembersInGroupById(Guid.Parse(groupId));
+            Group = groupRepo.GetGroupById(Guid.Parse(groupId));
+            if (Group.PublicStatus == 5)
             {
-                Console.WriteLine("[SYSTEM MESSAGE]: CHECK LOGIC CODE AGAIN PLEASE! OnGetCancelGroupAction");
-                return new JsonResult(new { status = 2 });
+                Posts = await postRepo.GetPostsByGroupId(Guid.Parse(groupId));
             }
+            return Page();
         }
     }
 }
