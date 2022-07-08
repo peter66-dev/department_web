@@ -12,71 +12,78 @@
 
 
 <div class="container-fluid">
+    @if (!@Model.IsAllowCreated)
+    {
+        // message here > Mày chưa có group target nào để đăng dô
+        <p>Bạn không có group nào để đăng bài cả!</p>
+    }
+    else
+    {
+        <div class="create-post-container">
 
-    <div class="create-post-container">
+            <form method="post" id="createPost" class="create-post">
+                <div class="post-content-warpper">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group post-title">
+                        <input asp-for="Post.Title" class="ip-post-title" placeholder="New Post Title Here" onclick="handleInput(1)" />
+                        <span asp-validation-for="Post.Title" class="text-danger"></span>
+                    </div>
+                    <div class="top-content">
 
-        <form method="post" id="createPost" class="create-post">
-            <div class="post-content-warpper">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <div class="form-group post-title">
-                    <input asp-for="Post.Title" class="ip-post-title" placeholder="New Post Title Here" onclick="handleInput(1)" />
-                    <span asp-validation-for="Post.Title" class="text-danger"></span>
-                </div>
-                <div class="top-content">
-
-                    @if (HttpContext.Session.GetString("ROLE") != null
-                        && !HttpContext.Session.GetString("ROLE").Equals("ADMIN"))
-                    {
-                        <div class="d-flex align-items-center">
-                            <span class="group-id-label">What group are you posting to: </span>
-                            <div class="group-name-select">
-                                <select asp-for="Post.GroupPostId" class="form-control" asp-items="ViewBag.GroupPostId"></select>
+                        @if (HttpContext.Session.GetString("ROLE") != null
+                       && !HttpContext.Session.GetString("ROLE").Equals("ADMIN"))
+                        {
+                            <div class="d-flex align-items-center">
+                                <span class="group-id-label">What group are you posting to: </span>
+                                <div class="group-name-select">
+                                    <select asp-for="Post.GroupPostId" class="form-control" asp-items="ViewBag.GroupPostId"></select>
+                                </div>
                             </div>
+                        }
+                        <div class="form-group post-tags">
+                            <input asp-for="Post.Tags" class="ip-tags" placeholder="Add Tags: anounce notice..." onclick="handleInput(2)" />
+                            <span asp-validation-for="Post.Tags" class="text-danger"></span>
                         </div>
-                    }
-                    <div class="form-group post-tags">
-                        <input asp-for="Post.Tags" class="ip-tags" placeholder="Add Tags: anounce notice..." onclick="handleInput(2)" />
-                        <span asp-validation-for="Post.Tags" class="text-danger"></span>
+                        <div class="form-group id-hide">
+                            <label asp-for="Post.PostTypeId" class="control-label"></label>
+                            <select asp-for="Post.PostTypeId" class="form-control" asp-items="ViewBag.PostTypeId"></select>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group post-description">
+                        @*<label asp-for="Post.PostContent" class="control-label"></label>*@
+                        <textarea name="@Html.NameFor(m => m.Post.PostContent)" class="textarea" cols="40" rows="40" form="createPost"></textarea>
+                        <span asp-validation-for="Post.PostContent" class="text-danger"></span>
                     </div>
                     <div class="form-group id-hide">
-                        <label asp-for="Post.PostTypeId" class="control-label"></label>
-                        <select asp-for="Post.PostTypeId" class="form-control" asp-items="ViewBag.PostTypeId"></select>
+                        <label asp-for="Post.Status" class="control-label"></label>
+                        <select asp-for="Post.Status" class="form-control" asp-items="ViewBag.Status"></select>
                     </div>
+
                 </div>
 
 
-                <div class="form-group post-description">
-                    @*<label asp-for="Post.PostContent" class="control-label"></label>*@
-                    <textarea name="@Html.NameFor(m => m.Post.PostContent)" class="textarea" cols="40" rows="40" form="createPost"></textarea>
-                    <span asp-validation-for="Post.PostContent" class="text-danger"></span>
+                @* submit btn *@
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
                 </div>
-                <div class="form-group id-hide">
-                    <label asp-for="Post.Status" class="control-label"></label>
-                    <select asp-for="Post.Status" class="form-control" asp-items="ViewBag.Status"></select>
-                </div>
+            </form>
 
+            <div class="user-guide">
+                <p class="guide-title">
+                    Writing a great News Title
+                </p>
+                <ul class="guide-content">
+                    <li>
+                        Think of your post title as a short (but compelling) description - like
+                        an overview of the actual post in one short sentence.
+                    </li>
+                    <li>Use keywords where appropriate to help ensure people can find your post by search.</li>
+                </ul>
             </div>
-
-
-            @* submit btn *@
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
-
-        <div class="user-guide">
-            <p class="guide-title">
-                Writing a great News Title
-            </p>
-            <ul class="guide-content">
-                <li>
-                    Think of your post title as a short (but compelling) description - like
-                    an overview of the actual post in one short sentence.
-                </li>
-                <li>Use keywords where appropriate to help ensure people can find your post by search.</li>
-            </ul>
         </div>
-    </div>
+    }
     <div>
         <a asp-page="Index"><ion-icon name="arrow-back-outline"></ion-icon> Back to home page</a>
     </div>
@@ -87,63 +94,63 @@
         }
     }
 
-    <script>
-        const titleGuide = document.querySelector('.guide-title');
-        const contentGuide = document.querySelector('.guide-content');
-        const inputTextArea = document.querySelector('.post-description');
+        <script>
+            const titleGuide = document.querySelector('.guide-title');
+            const contentGuide = document.querySelector('.guide-content');
+            const inputTextArea = document.querySelector('.post-description');
 
-        function handleInput(section) {
-            switch (section) {
-                case 1:
-                    contentGuide.innerHTML = "";
-                    titleGuide.innerHTML = 'Writing a great Post Title';
-                    var li1 = document.createElement("li");
-                    var li2 = document.createElement("li");
-                    li1.appendChild(document.createTextNode("Think of your post title as a short (but compelling) description - like an overview of the actual post in one short sentence."));
-                    li2.appendChild(document.createTextNode("Use keywords where appropriate to help ensure people can find your post by search."));
-                    contentGuide.appendChild(li1);
-                    contentGuide.appendChild(li2);
-                    break;
-                case 2:
-                    contentGuide.innerHTML = "";
-                    titleGuide.innerHTML = 'Tagging Guidelines';
-                    var li = document.createElement("li");
-                    var li2 = document.createElement("li");
-                    var li3 = document.createElement("li");
-                    var li4 = document.createElement("li");
-                    var li5 = document.createElement("li");
-                    li.appendChild(document.createTextNode("Tags help people find your post."));
-                    li2.appendChild(document.createTextNode("Think of tags as the topics or categories that best describe your post."));
-                    li3.appendChild(document.createTextNode("Add a space between tags. Combine tags to reach the appropriate subcommunities."));
-                    li4.appendChild(document.createTextNode("Use existing tags whenever possible."));
-                    li5.appendChild(document.createTextNode("Some tags, such as “help” or “healthydebate”, have special posting guidelines."));
-                    contentGuide.appendChild(li);
-                    contentGuide.appendChild(li2);
-                    contentGuide.appendChild(li3);
-                    contentGuide.appendChild(li4);
-                    contentGuide.appendChild(li5);
-                    break;
-                default:
-                    break;
+            function handleInput(section) {
+                switch (section) {
+                    case 1:
+                        contentGuide.innerHTML = "";
+                        titleGuide.innerHTML = 'Writing a great Post Title';
+                        var li1 = document.createElement("li");
+                        var li2 = document.createElement("li");
+                        li1.appendChild(document.createTextNode("Think of your post title as a short (but compelling) description - like an overview of the actual post in one short sentence."));
+                        li2.appendChild(document.createTextNode("Use keywords where appropriate to help ensure people can find your post by search."));
+                        contentGuide.appendChild(li1);
+                        contentGuide.appendChild(li2);
+                        break;
+                    case 2:
+                        contentGuide.innerHTML = "";
+                        titleGuide.innerHTML = 'Tagging Guidelines';
+                        var li = document.createElement("li");
+                        var li2 = document.createElement("li");
+                        var li3 = document.createElement("li");
+                        var li4 = document.createElement("li");
+                        var li5 = document.createElement("li");
+                        li.appendChild(document.createTextNode("Tags help people find your post."));
+                        li2.appendChild(document.createTextNode("Think of tags as the topics or categories that best describe your post."));
+                        li3.appendChild(document.createTextNode("Add a space between tags. Combine tags to reach the appropriate subcommunities."));
+                        li4.appendChild(document.createTextNode("Use existing tags whenever possible."));
+                        li5.appendChild(document.createTextNode("Some tags, such as “help” or “healthydebate”, have special posting guidelines."));
+                        contentGuide.appendChild(li);
+                        contentGuide.appendChild(li2);
+                        contentGuide.appendChild(li3);
+                        contentGuide.appendChild(li4);
+                        contentGuide.appendChild(li5);
+                        break;
+                    default:
+                        break;
 
+                }
             }
-        }
 
-        tinymce.init({
-            selector: 'textarea',
-            setup: function (editor) {
-                editor.on("click", function () {
-                    contentGuide.innerHTML = "";
-                    titleGuide.innerHTML = 'Editor Basics';
-                    var li1 = document.createElement("li");
-                    var li2 = document.createElement("li");
-                    li1.appendChild(document.createTextNode("Type your post content here using our functional text editor."));
-                    li2.appendChild(document.createTextNode("In addition to images for the post's content, you can also drag and drop a cover image."));
-                    contentGuide.appendChild(li1);
-                    contentGuide.appendChild(li2);
-                });
-            }
-        });
+            tinymce.init({
+                selector: 'textarea',
+                setup: function(editor) {
+                    editor.on("click", function() {
+                        contentGuide.innerHTML = "";
+                        titleGuide.innerHTML = 'Editor Basics';
+                        var li1 = document.createElement("li");
+                        var li2 = document.createElement("li");
+                        li1.appendChild(document.createTextNode("Type your post content here using our functional text editor."));
+                        li2.appendChild(document.createTextNode("In addition to images for the post's content, you can also drag and drop a cover image."));
+                        contentGuide.appendChild(li1);
+                        contentGuide.appendChild(li2);
+                    });
+                }
+            });
 
-    </script>
-</div>
+        </script>
+    </div>

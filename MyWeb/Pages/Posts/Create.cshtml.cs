@@ -19,6 +19,8 @@ namespace MyWeb.Pages.Posts
         private IGroupRepository groupRepo;
         private IPostRepository postRepo;
 
+        public bool IsAllowCreated { get; set; } = true;
+
         public CreateModel()
         {
             groupUserRepo = new GroupUserRepository();
@@ -32,11 +34,22 @@ namespace MyWeb.Pages.Posts
             string role = HttpContext.Session.GetString("ROLE");
             if (role.Equals("RESIDENT"))
             {
+                IEnumerable<Group> list = await groupUserRepo.GetGroupsByUserId(Guid.Parse(userid));
+                if (list.ToList().Count == 0)
+                {
+                    IsAllowCreated = false;
+                }
                 ViewData["GroupPostId"] = new SelectList(await groupUserRepo.GetGroupsByUserId(Guid.Parse(userid)),
                                                             "GroupId",
                                                             "GroupName");
-            }else if (role.Equals("MANAGER"))
+            }
+            else if (role.Equals("MANAGER"))
             {
+                IEnumerable<Group> list = await groupRepo.GetGroupsByLeaderId(Guid.Parse(userid));
+                if (list.ToList().Count == 0)
+                {
+                    IsAllowCreated = false;
+                }
                 ViewData["GroupPostId"] = new SelectList(await groupRepo.GetGroupsByLeaderId(Guid.Parse(userid)),
                                                             "GroupId",
                                                             "GroupName");
@@ -66,7 +79,14 @@ namespace MyWeb.Pages.Posts
             {
                 Console.WriteLine("Good information");
                 string roleName = HttpContext.Session.GetString("ROLE");
-                postRepo.CreatePost(Guid.Parse(userid), roleName, Post.GroupPostId.Value, Post.Title, Post.Tags, Post.PostContent);
+                if (roleName.Equals("ADMIN"))
+                {
+                    postRepo.CreatePost(Guid.Parse(userid), roleName, Guid.Parse(userid), Post.Title, Post.Tags, Post.PostContent); // truyền tạm grouppostid là userpostid
+                }
+                else
+                {
+                    postRepo.CreatePost(Guid.Parse(userid), roleName, Post.GroupPostId.Value, Post.Title, Post.Tags, Post.PostContent);
+                }
                 return RedirectToPage("./Index");
             }
 

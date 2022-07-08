@@ -81,6 +81,8 @@ namespace MyLibrary.DataAccess
                                     .Include(p => p.StatusNavigation)
                                     .Include(p => p.UserPost)
                                     .Where(m => m.UserPostId == userid && (m.Status == 5 || m.Status == 7))
+                                    .OrderBy(p => p.CreatedDate)
+                                    .Reverse()
                                     .ToListAsync();
             }
             catch (Exception ex)
@@ -122,11 +124,11 @@ namespace MyLibrary.DataAccess
                 IEnumerable<Group> groups = await repo.GetGroupsByUserId(userid);
                 IEnumerable<Group> groups1 = await groupRepo.GetGroupsByLeaderId(userid);
                 foreach (Group gr in groups)
-                { // Lấy những bài mà resident đang follow
+                {               // Lấy những bài mà resident đang follow
                     List<Post> tmp = new List<Post>();
                     tmp = await context.Posts.Where(p => (p.GroupPost.PublicStatus == 5 && p.Status == 5)
-                                                        || p.PostType.PostTypeName.Equals("Announcement")
-                                                       || (p.GroupPostId == gr.GroupId && p.Status == 5))
+                                                       || (p.GroupPostId == gr.GroupId && p.Status == 5)
+                                                       || (p.Status == 7))
                                                 .OrderBy(p => p.CreatedDate).Reverse()
                                                 .Include(p => p.GroupPost)
                                                 .Include(p => p.PostType)
@@ -141,7 +143,7 @@ namespace MyLibrary.DataAccess
                 { // Lấy những bài mà group của manager quản lý
                     List<Post> tmp = new List<Post>();
                     tmp = await context.Posts.Where(p => (p.GroupPost.PublicStatus == 5 && p.Status == 5)
-                                                        || p.PostType.PostTypeName.Equals("Announcement")
+                                                        || p.Status == 7
                                                         || (p.GroupPostId == gr.GroupId && p.Status == 5))
                                                 .OrderBy(p => p.CreatedDate).Reverse()
                                                 .Include(p => p.GroupPost)
@@ -152,6 +154,17 @@ namespace MyLibrary.DataAccess
                                                 .ToListAsync();
                     list.AddRange(tmp);
                 }
+                List<Post> tmp1 = new List<Post>();
+                tmp1 = await context.Posts.Where(p => p.Status == 7 
+                                                    || (p.GroupPost.PublicStatus == 5 && p.Status == 5))
+                                              .OrderBy(p => p.CreatedDate).Reverse()
+                                              .Include(p => p.GroupPost)
+                                                .Include(p => p.PostType)
+                                                .Include(p => p.StatusNavigation)
+                                                .Include(p => p.UserPost)
+                                                .ThenInclude(u => u.Role)
+                                            .ToListAsync();
+                list.AddRange(tmp1);
             }
             catch (Exception ex)
             {
@@ -183,6 +196,7 @@ namespace MyLibrary.DataAccess
                                                         && p.GroupPost.PublicStatus == 5) // group public mà userDetailId đang quản lý
                                               .Include(p => p.UserPost)
                                               .Include(p => p.GroupPost)
+                                              .OrderBy(p => p.CreatedDate).Reverse()
                                               .ToListAsync();
                 }
                 else        // RESIDENT
@@ -192,6 +206,7 @@ namespace MyLibrary.DataAccess
                                                         && p.Status == 5) // group public mà userDetailId đang quản lý
                                               .Include(p => p.UserPost)
                                               .Include(p => p.GroupPost)
+                                              .OrderBy(p => p.CreatedDate).Reverse()
                                               .ToListAsync();
                 }
             }
@@ -213,6 +228,7 @@ namespace MyLibrary.DataAccess
                                                     && p.UserPostId == userPostId)
                                               .Include(p => p.UserPost)
                                               .Include(p => p.GroupPost)
+                                              .OrderBy(p => p.CreatedDate).Reverse()
                                               .ToListAsync();
             }
             catch (Exception ex)
@@ -232,6 +248,7 @@ namespace MyLibrary.DataAccess
                                                     && p.Status == 5)
                                               .Include(p => p.UserPost)
                                               .Include(p => p.GroupPost)
+                                              .OrderBy(p => p.CreatedDate).Reverse()
                                               .ToListAsync();
             }
             catch (Exception ex)
@@ -502,7 +519,8 @@ namespace MyLibrary.DataAccess
             {
                 var context = new department_dbContext();
                 list = await context.Posts.Where(p => (p.Status == 5 || p.Status == 7)
-                                && (p.Title.Contains(searchString) || p.Tags.Contains(searchString))).ToListAsync();
+                                && (p.Title.Contains(searchString) || p.Tags.Contains(searchString)))
+                                .OrderBy(p => p.CreatedDate).Reverse().ToListAsync();
             }
             catch (Exception ex)
             {
@@ -518,7 +536,8 @@ namespace MyLibrary.DataAccess
             {
                 var context = new department_dbContext();
                 list = await context.Posts.Where(p => (p.Status == 5 || p.Status == 7)
-                                && (p.Tags.Contains(searchTag))).ToListAsync();
+                                && (p.Tags.Contains(searchTag)))
+                                .OrderBy(p => p.CreatedDate).Reverse().ToListAsync();
             }
             catch (Exception ex)
             {
