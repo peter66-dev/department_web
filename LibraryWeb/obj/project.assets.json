@@ -6651,19 +6651,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\vanph\\.nuget\\packages\\": {}
+    "C:\\Users\\USER\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\Chuyen_nganh_7\\PRN221\\group_normal\\department_web\\LibraryWeb\\LibraryWeb.csproj",
+      "projectUniqueName": "D:\\department_web\\LibraryWeb\\LibraryWeb.csproj",
       "projectName": "LibraryWeb",
-      "projectPath": "E:\\Chuyen_nganh_7\\PRN221\\group_normal\\department_web\\LibraryWeb\\LibraryWeb.csproj",
-      "packagesPath": "C:\\Users\\vanph\\.nuget\\packages\\",
-      "outputPath": "E:\\Chuyen_nganh_7\\PRN221\\group_normal\\department_web\\LibraryWeb\\obj\\",
+      "projectPath": "D:\\department_web\\LibraryWeb\\LibraryWeb.csproj",
+      "packagesPath": "C:\\Users\\USER\\.nuget\\packages\\",
+      "outputPath": "D:\\department_web\\LibraryWeb\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\vanph\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\USER\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -6723,7 +6723,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.300\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.407\\RuntimeIdentifierGraph.json"
       }
     }
   },

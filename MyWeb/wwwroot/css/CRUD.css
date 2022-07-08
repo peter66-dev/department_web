@@ -85,7 +85,7 @@ input::placeholder {
 .ip-post-title {
     border: none;
     height: 60px;
-    width: 100%;
+    width: 50vw;
     font-size: 50px;
     font-weight: 800;
     color: #969696;
@@ -139,3 +139,25 @@ input::placeholder {
 }
 
 /*=========End Create Account =============*/
+
+
+.create-post-empty {
+    padding: 0 10%;
+
+}
+
+    .create-post-empty .empty-post-alert {
+        font-size: 20px;
+        font-weight: 800;
+        color: #171717;
+        margin: 10px 0;
+    }
+
+    .create-post-empty .join-now-btn {
+        text-decoration: none;
+        color: #fff;
+        padding: 8px 10px;
+        border-radius: 5px;
+        background-color: #f84d35;
+        font-weight: 600;
+    }

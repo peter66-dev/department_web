@@ -46,8 +46,10 @@
         </div>
         @if (@Model.GroupUsers.Count == 0)
         {
-            <p class="text-center not-found-item">Sorry, your groups don't have any resident's' request!</p>
-            <lottie-player src="https://assets10.lottiefiles.com/packages/lf20_etdc3qqu.json" background="transparent" speed="1" style="width: 80%; height: 80%;" loop autoplay></lottie-player>
+            <div class="table-container d-flex align-items-center flex-column">
+                <p class="text-center not-found-item">No resident's request at the moment...</p>
+                <lottie-player src="https://assets10.lottiefiles.com/packages/lf20_etdc3qqu.json" background="transparent" speed="1" style="width: 50%; height: 50%;" loop autoplay></lottie-player>
+            </div>
         }
         else
         {
@@ -98,7 +100,7 @@
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 
 <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
         $('#resident-management').DataTable();
     });
 </script>

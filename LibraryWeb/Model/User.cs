@@ -23,39 +23,39 @@ namespace LibraryWeb.Model
 
         public Guid RoleId { get; set; }
 
-        [Required(ErrorMessage = "First name is required field!")]
+        [Required(ErrorMessage = "First name is required")]
         [Display(Name ="First name")]
         [FirstNameValidation]
         public string FirstName { get; set; }
 
-        [Required(ErrorMessage = "Last name is required field!")]
+        [Required(ErrorMessage = "Last name is required")]
         [Display(Name ="Last name")]
         [LastNameValidation]
         public string LastName { get; set; }
 
 
-        [Required(ErrorMessage = "Password is required field!")]
+        [Required(ErrorMessage = "Password is required")]
         [PasswordValidation]
         public string Password { get; set; }
 
-        [Required(ErrorMessage = "Phone number is required field!")]
+        [Required(ErrorMessage = "Phone number is required")]
         [Display(Name ="Phone number")]
         [PhoneValidation]
         public string PhoneNumber { get; set; }
 
-        [Required(ErrorMessage = "Email is required field!")]
+        [Required(ErrorMessage = "Email is required")]
         [AddressValidation]
         public string Address { get; set; }
 
 
-        [Required(ErrorMessage = "Email is required field!")]
+        [Required(ErrorMessage = "Email is required")]
         [EmailAddress]
         public string Email { get; set; } // Phải check trùng
 
-        [Required(ErrorMessage = "Email is required field!")]
+        [Required(ErrorMessage = "Email is required")]
         public bool Gender { get; set; }
 
-        [Required(ErrorMessage = "Confirm password is required field!")]
+        [Required(ErrorMessage = "Confirm is required")]
         public string Avatar { get; set; }
 
         public int Status { get; set; }

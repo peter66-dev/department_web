@@ -42,12 +42,12 @@ namespace MyWeb.Pages.Users
             {
                 Console.WriteLine("Password: " + User.Password);
                 Console.WriteLine("Confirm password: " + User.Avatar);
-                ViewData["ConfirmPasswordMessage"] = "Password and confirm password are not matched!";
+                ViewData["ConfirmPasswordMessage"] = "Password didn't match!";
                 return Page();
             }
             else if (userRepo.CheckEmail(User.Email.Trim()))
             {
-                ViewData["EmailMessage"] = "Sorry, this email has existed in system!";
+                ViewData["EmailMessage"] = "Email existed in system!";
                 Console.WriteLine("This email has existed in system!");
                 return Page();
             }

@@ -24,7 +24,7 @@
             </a>
 
             @if (Accessor.HttpContext.Session.GetString("ROLE") != null
-            && Accessor.HttpContext.Session.GetString("ROLE").Equals("ADMIN"))
+           && Accessor.HttpContext.Session.GetString("ROLE").Equals("ADMIN"))
             {
                 <a asp-page="Create">
                 <li class="d-flex align-items-center">
@@ -41,8 +41,8 @@
             }
 
             @if (Accessor.HttpContext.Session.GetString("ROLE") != null
-            && (Accessor.HttpContext.Session.GetString("ROLE").Equals("MANAGER") ||
-            Accessor.HttpContext.Session.GetString("ROLE").Equals("RESIDENT")))
+           && (Accessor.HttpContext.Session.GetString("ROLE").Equals("MANAGER") ||
+           Accessor.HttpContext.Session.GetString("ROLE").Equals("RESIDENT")))
             {
                 <a asp-page="Create">
                 <li class="d-flex align-items-center">
@@ -53,7 +53,7 @@
             }
 
             @if (Accessor.HttpContext.Session.GetString("ROLE") != null
-            && (Accessor.HttpContext.Session.GetString("ROLE").Equals("MANAGER")))
+           && (Accessor.HttpContext.Session.GetString("ROLE").Equals("MANAGER")))
             {
                 <a asp-area="" asp-page="../Managements/Posts">
                 <li class="d-flex align-items-center">
@@ -65,7 +65,7 @@
         </ul>
 
         @if (Accessor.HttpContext.Session.GetString("ROLE") != null
-        && Accessor.HttpContext.Session.GetString("ROLE").Equals("MANAGER"))
+       && Accessor.HttpContext.Session.GetString("ROLE").Equals("MANAGER"))
         {
             <p class="font-weight-bold mb-2 mt-2">Groups</p>
             @if (@Model.Groups.Count > 0)
@@ -76,7 +76,7 @@
                         <a asp-area="" asp-page="../Groups/Details" asp-route-id="@group.GroupId">
                         <li class="d-flex align-items-center">
                             <div class="group-icon icon"></div>
-                                @group.GroupName
+                            @group.GroupName
                         </li>
                         </a>
                     </ul>
@@ -94,7 +94,7 @@
                         <a asp-area="" asp-page="../Groups/Details" asp-route-id="@group.GroupId">
                         <li class="d-flex align-items-center">
                             <div class="group-icon icon"></div>
-                                @group.Group.GroupName
+                            @group.Group.GroupName
                         </li>
                         </a>
                     </ul>
@@ -107,8 +107,10 @@
         <p class="font-weight-bold mb-2">Latest</p>
         @if (@Model.Posts.ToList().Count == 0)
         {
-            <p class="text-center not-found-item">Sorry, we can not find out any post you want!</p>
-            <lottie-player src="https://assets10.lottiefiles.com/packages/lf20_etdc3qqu.json" background="transparent" speed="1" style="width: 80%; height: 80%;" loop autoplay></lottie-player>
+            <div class="d-flex align-items-center flex-column">
+                <p class="text-center not-found-item">Sorry, we can not find out any post you want!</p>
+                <lottie-player src="https://assets10.lottiefiles.com/packages/lf20_etdc3qqu.json" background="transparent" speed="1" style="width: 50%; height: 50%;" loop autoplay></lottie-player>
+            </div>
         }
         @foreach (Post p in @Model.Posts.ToList())
         {
@@ -131,7 +133,7 @@
                         <div class="flex-textt">
                             <p class="date">@p.CreatedDate.ToString("dddd, dd MMMM yyyy h:mm tt")</p>
                             @if ((@p.GroupPost == null && @p.Status == 7)
-                           || @p.GroupPost.PublicStatus == 5)
+                          || @p.GroupPost.PublicStatus == 5)
                             {
                                 <img src="~/img/earth.png" />
                             }
@@ -196,8 +198,8 @@
             }
         </div>
         @if (HttpContext.Session.GetString("ROLE") != null &&
-        HttpContext.Session.GetString("ROLE").Equals("RESIDENT")
-        && @Model.OtherGroups.ToList().Count > 0)
+       HttpContext.Session.GetString("ROLE").Equals("RESIDENT")
+       && @Model.OtherGroups.ToList().Count > 0)
         {
             <div class="d-flex justify-content-between">
                 <p class="font-weight-bold mb-2 mt-4">Discover new groups</p>
@@ -207,7 +209,7 @@
                 {
                     <div class="dis-group">
                         <a asp-page="../Groups/Details" asp-route-id="@group.GroupId"
-                   class="dis-title text-decoration-none text-dark">
+                           class="dis-title text-decoration-none text-dark">
                             @group.GroupName
                         </a>
                         @if (@group.PublicStatus == 5)

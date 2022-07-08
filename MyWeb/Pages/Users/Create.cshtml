@@ -17,29 +17,29 @@
     <form method="post">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="d-flex justify-content-between">
-            <div class="form-group">
+            <div class="form-group d-flex flex-column">
                 <label asp-for="User.FirstName" class="control-label mb-2 normal-label"></label>
-                <span asp-validation-for="User.FirstName" class="text-danger"></span>
+                <span asp-validation-for="User.FirstName" class="text-danger mb-2"></span>
                 <input asp-for="User.FirstName" class="form-control" />
             </div>
-            <div class="form-group">
+            <div class="form-group d-flex flex-column">
                 <label asp-for="User.LastName" class="control-label mb-2 normal-label"></label>
-                <span asp-validation-for="User.LastName" class="text-danger"></span>
+                <span asp-validation-for="User.LastName" class="text-danger mb-2"></span>
                 <input asp-for="User.LastName" class="form-control" />
             </div>
         </div>
         <div class="d-flex justify-content-between">
-            <div class="form-group">
+            <div class="form-group d-flex flex-column">
                 <label asp-for="User.Password" class="control-label mb-2 normal-label"></label>
-                <span asp-validation-for="User.Password" class="text-danger"></span>
+                <span asp-validation-for="User.Password" class="text-danger mb-2"></span>
                 <input asp-for="User.Password" class="form-control" type="password" />
             </div>
-            <div class="form-group">
+            <div class="form-group d-flex flex-column">
                 <label class="control-label mb-2 normal-label">Confirm password</label>
-                <span asp-validation-for="User.Avatar" class="text-danger"></span>
+                <span asp-validation-for="User.Avatar" class="text-danger mb-2"></span>
                 @if (@ViewData["ConfirmPasswordMessage"] != null)
                 {
-                    <span class="text-danger">
+                    <span class="text-danger mb-2">
                         @ViewData["ConfirmPasswordMessage"]
                     </span>
                 }
@@ -47,14 +47,14 @@
             </div>
         </div>
         <div class="d-flex justify-content-between">
-            <div class="form-group">
+            <div class="form-group d-flex flex-column">
                 <label asp-for="User.PhoneNumber" class="control-label mb-2 normal-label"></label>
-                <span asp-validation-for="User.PhoneNumber" class="text-danger"></span>
+                <span asp-validation-for="User.PhoneNumber" class="text-danger mb-2"></span>
                 <input asp-for="User.PhoneNumber" class="form-control" />
             </div>
-            <div class="form-group">
+            <div class="form-group d-flex flex-column">
                 <label asp-for="User.Address" class="control-label mb-2 normal-label"></label>
-                <span asp-validation-for="User.Address" class="text-danger"></span>
+                <span asp-validation-for="User.Address" class="text-danger mb-2"></span>
                 <input asp-for="User.Address" class="form-control" />
             </div>
         </div>
@@ -70,12 +70,12 @@
                     </option>
                 </select>
             </div>
-            <div class="form-group">
+            <div class="form-group d-flex flex-column">
                 <label asp-for="User.Email" class="control-label mb-2 normal-label"></label>
-                <span asp-validation-for="User.Email" class="text-danger"></span>
+                <span asp-validation-for="User.Email" class="text-danger mb-2"></span>
                 @if (@ViewData["EmailMessage"] != null)
                 {
-                    <span class="text-danger">
+                    <span class="text-danger mb-2">
                         @ViewData["EmailMessage"]
                     </span>
                 }
