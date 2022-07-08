@@ -7,7 +7,26 @@
         outline: 0 !important;
     }
 
+.stat-active {
+    color: #3eea2d;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.stat-pending {
+    color: #908f8f;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.stat-rejected {
+    color: #e74c3c;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
 .management-container {
+    margin-top: 8%;
     display: flex;
     gap: 20px;
 }
@@ -19,10 +38,12 @@
     display: flex;
     align-items: center;
     gap: 5px;
-    color: #fff;
+    color: #fff!important;
     font-weight: 700;
     background-color: #0094ff;
     transition: 0.2s;
+    text-decoration: none;
+    cursor: pointer;
 }
 
     .view-detail-btn:hover {
@@ -36,15 +57,17 @@
     display: flex;
     align-items: center;
     gap: 5px;
-    color: #fff;
+    color: #fff!important;
     font-weight: 700;
     transition: 0.2s;
     background-color: #0094ff;
     margin-right: 10px;
+    text-decoration: none;
+    cursor: pointer;
 }
 
     .approve-btn:hover {
-        background-color: #007bffad;
+        background-color: #007bffad!important;
     }
 
 .reject-btn {
@@ -54,10 +77,55 @@
     display: flex;
     align-items: center;
     gap: 5px;
-    color: #fff;
+    color: #fff!important;
     font-weight: 700;
     transition: 0.2s;
     background-color: #e74c3c;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.add-btn {
+    border: none;
+    padding: 8px 6px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: #fff !important;
+    font-weight: 700;
+    transition: 0.2s;
+    background-color: #2ecc71;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.reason-btn {
+    border: none;
+    padding: 8px 6px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: #fff !important;
+    font-weight: 700;
+    transition: 0.2s;
+    background-color: #5d5b5b;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.create-group-btn {
+    height: fit-content;
+    padding: 10px;
+    color: #fff !important;
+    font-weight: 600;
+    font-size: 16px;
+    text-decoration: none;
+    background-color: #2ecc71;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.2s;
 }
 
 .not-found-item {

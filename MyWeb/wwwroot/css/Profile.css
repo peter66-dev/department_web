@@ -15,16 +15,38 @@
     position: relative;
 }
 
-.name-ava {
-    height: 22vh;
-    background-color: #fff;
-    border-radius: 5px;
-    /*box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;*/
-    box-shadow: 0 0 0 1px rgba(23, 23, 23, 0.1);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.edit-profile {
+    position: absolute;
+    top: 2vw;
+    right: 10vw;
 }
+
+    .edit-profile .edit-btn {
+        padding: 10px;
+        color: #fff;
+        font-weight: 600;
+        font-size: 16px;
+        text-decoration: none;
+        background-color: #3b49df;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+
+        .edit-profile .edit-btn:hover {
+            background-color: #1c28a2;
+        }
+
+        .name-ava {
+            height: 22vh;
+            background-color: #fff;
+            border-radius: 5px;
+            /*box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;*/
+            box-shadow: 0 0 0 1px rgba(23, 23, 23, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
 
     .name-ava .ava-bg {
         width: 130px;
@@ -228,3 +250,4 @@
     }
 
 /*========== end post css ========== */
+

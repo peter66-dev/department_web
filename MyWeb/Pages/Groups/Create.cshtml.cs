@@ -21,9 +21,9 @@ namespace MyWeb.Pages.Groups
 
         public IActionResult OnGet()
         {
-        ViewData["GroupOwnerId"] = new SelectList(_context.Users, "UserId", "Address");
-        ViewData["PublicStatus"] = new SelectList(_context.Statuses, "StatusId", "StatusName");
-        ViewData["Status"] = new SelectList(_context.Statuses, "StatusId", "StatusName");
+            ViewData["GroupOwnerId"] = new SelectList(_context.Users.Where(u => u.Role.RoleName.Equals("MANAGER")), "Email", "Email");
+            ViewData["PublicStatus"] = new SelectList(_context.Statuses, "StatusId", "StatusName");
+            ViewData["Status"] = new SelectList(_context.Statuses, "StatusId", "StatusName");
             return Page();
         }
 

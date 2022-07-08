@@ -24,7 +24,7 @@
             </a>
 
             @if (Accessor.HttpContext.Session.GetString("ROLE") != null
-           && Accessor.HttpContext.Session.GetString("ROLE").Equals("ADMIN"))
+        && Accessor.HttpContext.Session.GetString("ROLE").Equals("ADMIN"))
             {
                 <a asp-page="Create">
                 <li class="d-flex align-items-center">
@@ -32,17 +32,17 @@
                     Create Anouncement
                 </li>
                 </a>
-                <a asp-page="Index">
+                <a asp-area="" asp-page="../Managements/Posts">
                 <li class="d-flex align-items-center">
-                    <div class="user-manage-icon icon"></div>
-                    User Managament
+                    <div class="post-resident-manage-icon icon"></div>
+                    Management
                 </li>
                 </a>
             }
 
             @if (Accessor.HttpContext.Session.GetString("ROLE") != null
-           && (Accessor.HttpContext.Session.GetString("ROLE").Equals("MANAGER") ||
-           Accessor.HttpContext.Session.GetString("ROLE").Equals("RESIDENT")))
+        && (Accessor.HttpContext.Session.GetString("ROLE").Equals("MANAGER") ||
+        Accessor.HttpContext.Session.GetString("ROLE").Equals("RESIDENT")))
             {
                 <a asp-page="Create">
                 <li class="d-flex align-items-center">
@@ -50,10 +50,19 @@
                     Create News
                 </li>
                 </a>
+                @if (Accessor.HttpContext.Session.GetString("ROLE").Equals("RESIDENT"))
+                {
+                    <a asp-page="Create">
+                    <li class="d-flex align-items-center">
+                        <div class="my-news-icon icon"></div>
+                        My news
+                    </li>
+                    </a>
+                }
             }
 
             @if (Accessor.HttpContext.Session.GetString("ROLE") != null
-           && (Accessor.HttpContext.Session.GetString("ROLE").Equals("MANAGER")))
+        && (Accessor.HttpContext.Session.GetString("ROLE").Equals("MANAGER")))
             {
                 <a asp-area="" asp-page="../Managements/Posts">
                 <li class="d-flex align-items-center">

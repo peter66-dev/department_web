@@ -113,6 +113,22 @@ table {
     background-size: cover;
 }
 
+.group-manage-icon {
+    width: 20px;
+    height: 20px;
+    background-position: center;
+    background-size: cover;
+    background-image: url('../img/group-management.png')
+}
+
+.my-news-icon {
+    width: 20px;
+    height: 20px;
+    background-image: url('../img/post-management.png');
+    background-position: center;
+    background-size: cover;
+}
+
 .left-content a {
     color: #000;
 }

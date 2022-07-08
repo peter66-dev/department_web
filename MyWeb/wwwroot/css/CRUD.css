@@ -15,11 +15,11 @@
 h1 {
     font-size: 30px;
     font-weight: 700;
-    color: #6C6C6C;
+    color: #2e2e2e;
 }
 
 label {
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 700;
     color: #6C6C6C;
     margin-bottom: 10px;
@@ -161,3 +161,51 @@ input::placeholder {
         background-color: #f84d35;
         font-weight: 600;
     }
+
+
+/*========== edit profile css ===========*/
+
+.edit-profile-container {
+    padding: 0 20%;
+}
+
+    .edit-profile-container .profile-name {
+        color: #3b49df;
+    }
+
+    .edit-profile-container .edit-fields {
+        margin-top: 20px;
+    }
+
+    .edit-profile-container .edit-field {
+        background-color: #fff;
+        box-shadow: 0 0 0 1px rgba(23, 23, 23, 0.1);
+        padding: 25px;
+        border-radius: 5px;
+        margin-bottom: 20px;
+    }
+
+        .edit-profile-container .edit-field h2 {
+            font-size: 28px;
+            font-weight: 700;
+            color: #2e2e2e;
+            margin-bottom: 20px;
+        }
+
+
+/*========= end edit profile css =============*/
+
+/*========== create group css ===============*/
+.create-group-container {
+    padding: 0 15%;
+    
+}
+
+.create-group-wrapper {
+    border-radius: 5px;
+    padding: 40px;
+    box-shadow: 0 0 0 1px rgba(23, 23, 23, 0.1);
+    background-color: white;
+}
+
+/*========= end create group css ============*/
