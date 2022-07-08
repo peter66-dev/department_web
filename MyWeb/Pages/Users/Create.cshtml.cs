@@ -7,22 +7,23 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using LibraryWeb.DataAccess;
 using LibraryWeb.Model;
+using LibraryWeb.Repository;
 
 namespace MyWeb.Pages.Users
 {
     public class CreateModel : PageModel
     {
         private readonly LibraryWeb.DataAccess.department_dbContext _context;
+        private IUserRepository userRepo;
 
         public CreateModel(LibraryWeb.DataAccess.department_dbContext context)
         {
             _context = context;
+            userRepo = new UserRepository();
         }
 
         public IActionResult OnGet()
         {
-        ViewData["RoleId"] = new SelectList(_context.Roles, "RoleId", "RoleName");
-        ViewData["Status"] = new SelectList(_context.Statuses, "StatusId", "StatusName");
             return Page();
         }
 
@@ -30,17 +31,31 @@ namespace MyWeb.Pages.Users
         public User User { get; set; }
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
-        public async Task<IActionResult> OnPostAsync()
+        public IActionResult OnPostAsync()
         {
             if (!ModelState.IsValid)
             {
                 return Page();
             }
 
-            _context.Users.Add(User);
-            await _context.SaveChangesAsync();
-
-            return RedirectToPage("./Index");
+            if (!User.Password.Equals(User.Avatar))
+            {
+                Console.WriteLine("Password: " + User.Password);
+                Console.WriteLine("Confirm password: " + User.Avatar);
+                ViewData["ConfirmPasswordMessage"] = "Password and confirm password are not matched!";
+                return Page();
+            }
+            else if (userRepo.CheckEmail(User.Email.Trim()))
+            {
+                ViewData["EmailMessage"] = "Sorry, this email has existed in system!";
+                Console.WriteLine("This email has existed in system!");
+                return Page();
+            }
+            else
+            {
+                userRepo.CreateUser(User.FirstName.Trim(), User.LastName.Trim(), User.Email.Trim(), User.Password.Trim(), User.Gender, User.PhoneNumber.Trim(), User.Address.Trim());
+                return RedirectToPage("../Posts/Index");
+            }
         }
     }
 }

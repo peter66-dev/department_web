@@ -7,16 +7,16 @@ using System.Threading.Tasks;
 
 namespace LibraryWeb.Validation
 {
-    public class TitleValidation : ValidationAttribute
+    public class PhoneValidation : ValidationAttribute
     {
-        public TitleValidation()
+        public PhoneValidation()
         {
-            ErrorMessage = "*** Sorry, the title is not long enough. Title has at least 10 characters, please!";
+            ErrorMessage = "*** Sorry, your phone number must be between 10-12 characters, please!";
         }
 
         public override bool IsValid(object value)
         {
-            return value != null && value.ToString().Trim().Length >= 10;
+            return value != null && value.ToString().Trim().Length >= 10 && value.ToString().Trim().Length <= 12;
         }
     }
 }

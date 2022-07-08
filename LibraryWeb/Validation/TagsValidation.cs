@@ -6,7 +6,7 @@ namespace LibraryWeb.Validation
     {
         public TagsValidation()
         {
-            ErrorMessage = "Sorry, Tags is not valid! Ex: party home tonight";
+            ErrorMessage = "*** Sorry, Tags is not valid! Ex: party home tonight";
         }
 
         public override bool IsValid(object value)

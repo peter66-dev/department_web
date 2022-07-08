@@ -7,7 +7,6 @@ namespace LibraryWeb.Repository
 {
     public interface IUserRepository
     {
-        void CreateUser(User user);
         void DeleteUserById(Guid userId);
         List<User> GetAllUsers();
         User GetUserById(Guid userId);
@@ -15,5 +14,8 @@ namespace LibraryWeb.Repository
         string CheckRole(User user);
 
         Task<User> GetUserByIdAsync(Guid userId);
+
+        bool CheckEmail(string email);
+        void CreateUser(string firstname, string lastname, string email, string pass, bool gender, string phone, string address);
     }
 }

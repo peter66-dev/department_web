@@ -16,49 +16,46 @@
     <p class="text-center" style="font-size: 20px; margin-bottom: 40px">A trustworthy place to manage <span class="text-primary">News</span> and <span class="text-primary">Posts</span></p>
     <form method="post">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <div class="form-group id-hide">
-            <label asp-for="User.UserId" class="control-label"></label>
-            <input asp-for="User.UserId" class="form-control" />
-            <span asp-validation-for="User.UserId" class="text-danger"></span>
-        </div>
-        <div class="form-group id-hide">
-            <label asp-for="User.RoleId" class="control-label"></label>
-            <select asp-for="User.RoleId" class="form-control" asp-items="ViewBag.RoleId"></select>
-        </div>
         <div class="d-flex justify-content-between">
             <div class="form-group">
                 <label asp-for="User.FirstName" class="control-label mb-2 normal-label"></label>
-                <input asp-for="User.FirstName" class="form-control" />
                 <span asp-validation-for="User.FirstName" class="text-danger"></span>
+                <input asp-for="User.FirstName" class="form-control" />
             </div>
             <div class="form-group">
                 <label asp-for="User.LastName" class="control-label mb-2 normal-label"></label>
-                <input asp-for="User.LastName" class="form-control" />
                 <span asp-validation-for="User.LastName" class="text-danger"></span>
+                <input asp-for="User.LastName" class="form-control" />
             </div>
         </div>
         <div class="d-flex justify-content-between">
             <div class="form-group">
                 <label asp-for="User.Password" class="control-label mb-2 normal-label"></label>
-                <input asp-for="User.Password" class="form-control" type="password" />
                 <span asp-validation-for="User.Password" class="text-danger"></span>
+                <input asp-for="User.Password" class="form-control" type="password" />
             </div>
             <div class="form-group">
                 <label class="control-label mb-2 normal-label">Confirm password</label>
-                <input asp-for="User.Password" class="form-control" type="password" />
-                <span asp-validation-for="User.Password" class="text-danger"></span>
+                <span asp-validation-for="User.Avatar" class="text-danger"></span>
+                @if (@ViewData["ConfirmPasswordMessage"] != null)
+                {
+                    <span class="text-danger">
+                        @ViewData["ConfirmPasswordMessage"]
+                    </span>
+                }
+                <input asp-for="User.Avatar" class="form-control" type="password" />
             </div>
         </div>
         <div class="d-flex justify-content-between">
             <div class="form-group">
                 <label asp-for="User.PhoneNumber" class="control-label mb-2 normal-label"></label>
-                <input asp-for="User.PhoneNumber" class="form-control" />
                 <span asp-validation-for="User.PhoneNumber" class="text-danger"></span>
+                <input asp-for="User.PhoneNumber" class="form-control" />
             </div>
             <div class="form-group">
                 <label asp-for="User.Address" class="control-label mb-2 normal-label"></label>
-                <input asp-for="User.Address" class="form-control" />
                 <span asp-validation-for="User.Address" class="text-danger"></span>
+                <input asp-for="User.Address" class="form-control" />
             </div>
         </div>
         <div class="d-flex justify-content-between">
@@ -75,15 +72,17 @@
             </div>
             <div class="form-group">
                 <label asp-for="User.Email" class="control-label mb-2 normal-label"></label>
-                <input asp-for="User.Email" class="form-control" />
                 <span asp-validation-for="User.Email" class="text-danger"></span>
+                @if (@ViewData["EmailMessage"] != null)
+                {
+                    <span class="text-danger">
+                        @ViewData["EmailMessage"]
+                    </span>
+                }
+                <input asp-for="User.Email" class="form-control" />
             </div>
         </div>
 
-        <div class="form-group id-hide">
-            <label asp-for="User.Status" class="control-label"></label>
-            <select asp-for="User.Status" class="form-control" asp-items="ViewBag.Status"></select>
-        </div>
         <div class="form-group">
             <input type="submit" value="Create account" class="btn btn-primary w-100 p-2 mt-3" />
         </div>
@@ -92,5 +91,7 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }

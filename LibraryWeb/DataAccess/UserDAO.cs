@@ -12,7 +12,7 @@ namespace MyLibrary.DataAccess
     {
         private static UserDAO instance = null;
         private static readonly object instanceLock = new object();
-        private UserDAO() {}
+        private UserDAO() { }
 
         public static UserDAO Instance
         {
@@ -43,7 +43,7 @@ namespace MyLibrary.DataAccess
             }
             return roles;
         }
-        
+
         public User GetUserById(Guid userId)
         {
             User tmp = new User();
@@ -85,7 +85,7 @@ namespace MyLibrary.DataAccess
             try
             {
                 var context = new department_dbContext();
-                tmp = context.Users.SingleOrDefault(u => u.Email.Equals(email) && u.Password.Equals(password) && u.Status == 1); 
+                tmp = context.Users.SingleOrDefault(u => u.Email.Equals(email) && u.Password.Equals(password) && u.Status == 1);
             }
             catch (Exception ex)
             {
@@ -124,18 +124,51 @@ namespace MyLibrary.DataAccess
                 throw new Exception("Error at DeleteUserById: " + ex.Message);
             }
         }
-        public void CreateUser(User user)
+        public void CreateUser(string firstname, string lastname, string email, string pass, bool gender, string phone, string address)
         {
             try
             {
+                User user = new User()
+                {
+                    UserId = Guid.NewGuid(),
+                    RoleId = Guid.Parse("4CC4C088-1456-4F80-91BA-204AFE6AF69C"), //resident
+                    FirstName = firstname.Trim(),
+                    LastName = lastname.Trim(),
+                    Email = email.Trim(),
+                    Password = pass.Trim(),
+                    PhoneNumber = phone.Trim(),
+                    Address = address.Trim(),
+                    Gender = gender,
+                    Avatar = "resident_avatar.png",
+                    Status = 1
+                };
                 var context = new department_dbContext();
                 context.Users.Add(user);
-                context.SaveChanges();
+                if(context.SaveChanges() > 0)
+                {
+                    Console.WriteLine("Created account successfully!");
+                }
             }
             catch (Exception ex)
             {
                 throw new Exception("Error at CreateUser: " + ex.Message);
             }
+        }
+
+        public bool CheckEmail(string email)
+        {
+            bool check = false;
+            try
+            {
+                var context = new department_dbContext();
+                User tmp = context.Users.FirstOrDefault(u => u.Email.Equals(email));
+                check = tmp != null;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error at CheckEmail: " + ex.Message);
+            }
+            return check;
         }
     }
 }
