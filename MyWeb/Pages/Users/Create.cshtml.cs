@@ -54,7 +54,7 @@ namespace MyWeb.Pages.Users
             else
             {
                 userRepo.CreateUser(User.FirstName.Trim(), User.LastName.Trim(), User.Email.Trim(), User.Password.Trim(), User.Gender, User.PhoneNumber.Trim(), User.Address.Trim());
-                return RedirectToPage("../Posts/Index");
+                return RedirectToPage("../Login");
             }
         }
     }
