@@ -1,5 +1,6 @@
 ﻿@page
 @using Microsoft.AspNetCore.Http
+@using System.Web
 @inject IHttpContextAccessor Accessor
 @model MyWeb.Pages.Posts.EditModel
 
@@ -42,7 +43,9 @@
 
 
                 <div class="form-group post-description">
-                    <textarea asp-for="Post.PostContent" class="textarea" cols="40" rows="40" form="createPost"></textarea>
+                    <textarea asp-for="Post.PostContent" class="textarea" cols="40" rows="40" form="createPost">
+                        @Html.Raw(HttpUtility.HtmlDecode(@Model.Post.PostContent))
+                    </textarea>
                     <span asp-validation-for="Post.PostContent" class="text-danger"></span>
                 </div>
             </div>

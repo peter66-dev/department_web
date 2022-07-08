@@ -11,8 +11,11 @@ namespace LibraryWeb.Repository
         public Post GetPostById(Guid postId)
             => PostDAO.Instance.GetPostById(postId);
 
+
         public async Task<bool> DeletePostByIdAsync(Guid postId)
             => await PostDAO.Instance.DeletePostByIdAsync(postId);
+        public async Task<IEnumerable<Post>> GetPostByUserIdAsync(Guid userid)
+            => await PostDAO.Instance.GetPostByUserIdAsync(userid);
 
         public bool CreatePost(Guid userid, string roleName, Guid grouppostid, string title, string tags, string content)
             => PostDAO.Instance.CreatePost(userid, roleName, grouppostid, title, tags, content);

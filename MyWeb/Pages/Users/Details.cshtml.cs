@@ -21,7 +21,7 @@ namespace MyWeb.Pages.Users
         }
 
         public User User { get; set; }
-        public IList<Post> Posts { get; set; }
+        public IEnumerable<Post> Posts { get; set; }
 
         public async Task<IActionResult> OnGetAsync(Guid? id)
         {
@@ -30,12 +30,16 @@ namespace MyWeb.Pages.Users
                 return NotFound();
             }
 
-            User = await userRepo.GetUserByIdAsync(id.Value);
-            Posts = await postRepo.GetPostsInUserDetailsWithoutLogin(id.Value);
 
-            if (User == null)
+            User = await userRepo.GetUserByIdAsync(id.Value);
+            string CURRENT_USER_ID = HttpContext.Session.GetString("CURRENT_USER_ID");
+            if (CURRENT_USER_ID == null || id.Value != Guid.Parse(CURRENT_USER_ID))
             {
-                return NotFound();
+                Posts = await postRepo.GetPostsInUserDetailsWithoutLogin(id.Value);
+            }
+            else if (id.Value == Guid.Parse(CURRENT_USER_ID)) // vào xem profile chính mình
+            {
+                Posts = await postRepo.GetPostByUserIdAsync(id.Value);
             }
             return Page();
         }

@@ -14,6 +14,8 @@ namespace LibraryWeb.Repository
 
         Post GetPostById(Guid postId);
 
+        Task<IEnumerable<Post>> GetPostByUserIdAsync(Guid userid);
+
         int IncreaseLikesTotal(Guid postid);
 
         int DecreaseLikesTotal(Guid postid);

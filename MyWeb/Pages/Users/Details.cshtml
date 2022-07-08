@@ -50,7 +50,7 @@
                 </div>
             </div>
             <div class="personal-posts">
-                @if (@Model.Posts.Count == 0)
+                @if (@Model.Posts.ToList().Count == 0)
                 {
                     <div class="empty-posts">
                         <p class="empty-post-alert">
@@ -60,7 +60,7 @@
                 }
                 else
                 {
-                    @foreach (Post p in @Model.Posts)
+                    @foreach (Post p in @Model.Posts.ToList())
                     {
                         <div class="news">
                             <div class="owner">
