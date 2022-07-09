@@ -1,5 +1,7 @@
-﻿using System;
+﻿using LibraryWeb.Validation;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 #nullable disable
 
@@ -15,7 +17,14 @@ namespace LibraryWeb.Model
 
         public Guid GroupId { get; set; }
         public Guid GroupOwnerId { get; set; }
+
+        [Required]
+        [GroupNameValidation]
         public string GroupName { get; set; } // Phải check trùng
+
+
+        [Required]
+        [GroupDescriptionValidation]
         public string GroupDescription { get; set; }
         public DateTime CreatedDate { get; set; }
         public int PublicStatus { get; set; }// Status: 5 || 6

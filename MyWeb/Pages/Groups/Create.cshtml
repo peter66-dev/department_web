@@ -11,16 +11,16 @@
 <div class="container-fluid">
     <div class="create-group-container">
         <div class="create-group-wrapper">
-            <form method="post">
+            <form asp-page="./Create" method="post">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <div class="form-group id-hide">
-                    <label asp-for="Group.GroupId" class="control-label"></label>
-                    <input asp-for="Group.GroupId" class="form-control" />
-                    <span asp-validation-for="Group.GroupId" class="text-danger"></span>
-                </div>
+
                 <div class="form-group post-title mb-2">
-                    <input asp-for="Group.GroupName" class="ip-post-title" placeholder="Group Name Goes Here" />
+                    <input asp-for="Group.GroupName" class="ip-post-title" placeholder="Group name goes here" />
                     <span asp-validation-for="Group.GroupName" class="text-danger"></span>
+                    @if (ViewData["GroupNameMessage"] != null)
+                    {
+                        <span class="text-danger">@ViewData["GroupNameMessage"]</span>
+                    }
                 </div>
                 <div class="d-flex align-items-center mb-3">
                     <span class="group-id-label">Pick a manager to lead this group: </span>
@@ -32,10 +32,10 @@
                     <span class="group-id-label">Is this group public to everyone: </span>
                     <div class="group-name-select">
                         <select asp-for="Group.PublicStatus" class="form-control">
-                            <option value="true">
+                            <option value="5">
                                 Public
                             </option>
-                            <option value="false">
+                            <option value="6">
                                 Private
                             </option>
                         </select>
@@ -43,28 +43,23 @@
                 </div>
                 <div class="form-group">
                     <label class="control-label">Group Description</label>
-                    <textarea asp-for="Group.GroupDescription" class="form-control"></textarea>
                     <span asp-validation-for="Group.GroupDescription" class="text-danger"></span>
-                </div>
-                <div class="form-group id-hide">
-                    <label asp-for="Group.CreatedDate" class="control-label"></label>
-                    <input asp-for="Group.CreatedDate" class="form-control" />
-                    <span asp-validation-for="Group.CreatedDate" class="text-danger"></span>
+                    <textarea asp-for="Group.GroupDescription" class="form-control"></textarea>
                 </div>
 
-                <div class="form-group id-hide">
-                    <label asp-for="Group.Status" class="control-label"></label>
-                    <select asp-for="Group.Status" class="form-control" asp-items="ViewBag.Status"></select>
-                </div>
                 <div class="form-group">
                     <input type="submit" value="Create" class="btn btn-primary" />
                 </div>
             </form>
+            <div class="mt-3">
+                <a asp-page="../Managements/Groups"><ion-icon name="arrow-back-outline"></ion-icon> Back to group management</a>
+            </div>
         </div>
-
     </div>
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }

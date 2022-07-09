@@ -1,24 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using LibraryWeb.Model;
+using LibraryWeb.Repository;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using LibraryWeb.DataAccess;
-using LibraryWeb.Model;
-using Microsoft.AspNetCore.Http;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace MyWeb.Pages.Groups
 {
     public class EditModel : PageModel
     {
         private readonly LibraryWeb.DataAccess.department_dbContext _context;
+        private IGroupRepository groupRepo;
 
         public EditModel(LibraryWeb.DataAccess.department_dbContext context)
         {
             _context = context;
+            groupRepo = new GroupRepository();
         }
 
         [BindProperty]
@@ -38,17 +39,18 @@ namespace MyWeb.Pages.Groups
             }
 
             Group = await _context.Groups
-                .Include(a => a.GroupOwner)
-                .Include(a => a.PublicStatusNavigation)
-                .Include(a => a.StatusNavigation).FirstOrDefaultAsync(m => m.GroupId == id);
+                                    .Include(a => a.GroupOwner)
+                                    .Include(a => a.PublicStatusNavigation)
+                                    .Include(a => a.StatusNavigation)
+                                    .FirstOrDefaultAsync(m => m.GroupId == id);
 
             if (Group == null)
             {
                 return NotFound();
             }
-           ViewData["GroupOwnerId"] = new SelectList(_context.Users, "UserId", "Address");
-           ViewData["PublicStatus"] = new SelectList(_context.Statuses, "StatusId", "StatusName");
-           ViewData["Status"] = new SelectList(_context.Statuses, "StatusId", "StatusName");
+            ViewData["GroupOwnerId"] = new SelectList(_context.Users.Where(u => u.Role.RoleName.Equals("MANAGER")), "UserId", "Email");
+            ViewData["PublicStatus"] = new SelectList(_context.Statuses, "StatusId", "StatusName");
+            ViewData["Status"] = new SelectList(_context.Statuses, "StatusId", "StatusName");
             return Page();
         }
 
@@ -56,35 +58,31 @@ namespace MyWeb.Pages.Groups
         // For more details, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
         {
-            if (!ModelState.IsValid)
+            bool check = groupRepo.CheckGroupNameExistedForUpdate(Group.GroupId, Group.GroupName.Trim());
+            if (!ModelState.IsValid || check)
             {
+                Group = await _context.Groups
+                                    .Include(a => a.GroupOwner)
+                                    .Include(a => a.PublicStatusNavigation)
+                                    .Include(a => a.StatusNavigation)
+                                    .FirstOrDefaultAsync(m => m.GroupId == Group.GroupId);
+                ViewData["GroupOwnerId"] = new SelectList(_context.Users.Where(u => u.Role.RoleName.Equals("MANAGER")), "UserId", "Email");
+                ViewData["PublicStatus"] = new SelectList(_context.Statuses, "StatusId", "StatusName");
+                ViewData["Status"] = new SelectList(_context.Statuses, "StatusId", "StatusName");
+                if (check)
+                {
+                    ViewData["GroupNameMessage"] = "*** Sorry, this group name has existed in system!";
+                }
                 return Page();
             }
-
-            _context.Attach(Group).State = EntityState.Modified;
-
-            try
+            else
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!GroupExists(Group.GroupId))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                groupRepo.UpdateGroup(Group.GroupId, Group.GroupName.Trim(), Group.PublicStatus, Group.GroupDescription.Trim());
+                return RedirectToPage("../Managements/Groups");
             }
 
-            return RedirectToPage("./Index");
-        }
 
-        private bool GroupExists(Guid id)
-        {
-            return _context.Groups.Any(e => e.GroupId == id);
+
         }
     }
 }

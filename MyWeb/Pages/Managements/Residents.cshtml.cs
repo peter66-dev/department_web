@@ -18,6 +18,7 @@ namespace MyWeb.Pages.Managements
         }
         public IActionResult OnGet()
         {
+            HttpContext.Session.Remove("PENDING_RESIDENT_MESSAGE");
             string role = HttpContext.Session.GetString("ROLE");
             if (role == null || !role.Equals("MANAGER"))
             {

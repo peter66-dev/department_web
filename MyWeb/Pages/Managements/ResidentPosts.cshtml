@@ -1,5 +1,6 @@
 ﻿@page
 @using LibraryWeb.Model
+@using Microsoft.AspNetCore.Http
 @model MyWeb.Pages.Managements.ResidentPosts
 @{
     ViewData["Title"] = "Personal Post-Management";
@@ -13,6 +14,19 @@
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.all.min.js"></script>
 <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.min.css'>
+
+@if (HttpContext.Session.GetString("DELETE_NEWS_MESSAGE") != null)
+{
+    <script>
+        Swal.fire({
+            position: 'top-end',
+            icon: 'success',
+            title: '@HttpContext.Session.GetString("DELETE_NEWS_MESSAGE")',
+            showConfirmButton: false,
+            timer: 1200
+        });
+    </script>
+}
 
 <div class="container-fluid d-flex flex-column align-items-center">
     @*====== khi resident chưa đăng bài nào ========*@
@@ -82,10 +96,10 @@
                                 </a>
                                 @if (@post.Status == 5 || @post.Status == 4)
                                 {
-                                    <a asp-page="ResidentPosts" asp-route-id="@post.PostId" asp-page-handler="DeleteMyPost" class="reject-btn">
+                                    <button onclick="deleteNews('@post.PostId','@post.Title')" class="reject-btn">
                                         <ion-icon name="trash"></ion-icon>
                                         Delete
-                                    </a>
+                                    </button>
                                 }
                                 else if (@post.Status == 8)
                                 {
@@ -113,6 +127,22 @@
             icon: 'error',
             title: 'REASON REJECT',
             text: reason
+        });
+    }
+
+    function deleteNews(id, title){
+        Swal.fire({
+            title: 'Confirm message',
+            text: 'Are you sure to delete news: ' + title,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location = './ResidentPosts?handler=DeleteMyPost&id=' + id;
+            }
         });
     }
 

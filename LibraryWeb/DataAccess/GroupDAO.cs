@@ -30,13 +30,18 @@ namespace MyLibrary.DataAccess
             }
         }
 
-        public async Task<List<Group>> GetGroupsAsync()
+        public async Task<IEnumerable<Group>> GetGroupsAsync()
         {
             List<Group> list = new List<Group>();
             try
             {
                 var context = new department_dbContext();
-                list = await context.Groups.Where(g => g.Status == 1).ToListAsync();
+                list = await context.Groups
+                    .Where(g => g.Status == 1)
+                    .Include(g => g.GroupOwner)
+                    .OrderBy(g => g.CreatedDate)
+                    .Reverse()
+                    .ToListAsync();
             }
             catch (Exception ex)
             {
@@ -61,26 +66,38 @@ namespace MyLibrary.DataAccess
             }
             return gr;
         }
-        public void DeleteGroupById(Guid groupId)
+        public async Task DeleteGroupByIdAsync(Guid groupId)
         {
             try
             {
                 var context = new department_dbContext();
-                Group gr = context.Groups.FirstOrDefault(g => g.GroupId.Equals(groupId));
+                Group gr = await context.Groups.FirstOrDefaultAsync(g => g.GroupId == groupId);
                 gr.Status = 2;
 
                 context.SaveChanges();
             }
             catch (Exception ex)
             {
-                throw new Exception("Error at DeleteGroupById: " + ex.Message);
+                throw new Exception("Error at DeleteGroupByIdAsync: " + ex.Message);
             }
         }
-        public void CreateGroup(Group group)
+        public void CreateGroup(string name, Guid ownerId, int publicStatus, string description)
         {
             try
             {
                 var context = new department_dbContext();
+
+                Group group = new Group()
+                {
+                    GroupId = Guid.NewGuid(),
+                    GroupOwnerId = ownerId,
+                    GroupName = name.Trim(),
+                    GroupDescription = description.Trim(),
+                    CreatedDate = DateTime.Now,
+                    PublicStatus = publicStatus,
+                    Status = 1
+                };
+
                 context.Groups.Add(group);
                 context.SaveChanges();
             }
@@ -167,5 +184,54 @@ namespace MyLibrary.DataAccess
             return status;
         }
 
+        public bool CheckGroupNameExisted(string groupName)
+        {
+            bool status = false;
+            try
+            {
+                var context = new department_dbContext();
+                Group g = context.Groups.FirstOrDefault(gr => gr.GroupName.Equals(groupName));
+                status = g != null;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error at CheckGroupNameExisted: " + ex.Message);
+            }
+            return status;
+        }
+
+        public bool CheckGroupNameExistedForUpdate(Guid groupid, string groupName)
+        {
+            bool status = false;
+            try
+            {
+                var context = new department_dbContext();
+                Group g = context.Groups.FirstOrDefault(gr => gr.GroupName.Equals(groupName) && gr.GroupId != groupid);
+                status = g != null;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error at CheckGroupNameExistedForUpdate: " + ex.Message);
+            }
+            return status;
+        }
+
+        public void UpdateGroup(Guid groupid, string groupName, int publicStatus, string description)
+        {
+            try
+            {
+                var context = new department_dbContext();
+                Group g = context.Groups.FirstOrDefault(gr => gr.GroupId == groupid);
+                g.GroupName = groupName;
+                g.PublicStatus = publicStatus;
+                g.GroupDescription = description;
+                context.Entry(g).State = EntityState.Modified;
+                context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error at UpdateGroup: " + ex.Message);
+            }
+        }
     }
 }

@@ -30,6 +30,7 @@ namespace MyWeb.Pages.Managements
             }
             else
             {
+                HttpContext.Session.Remove("DELETE_NEWS_MESSAGE");
                 Posts = postRepo.GetPostByUserId(Guid.Parse(CURRENT_USER_ID));
             }
             return Page();
@@ -39,6 +40,7 @@ namespace MyWeb.Pages.Managements
         {
             string CURRENT_USER_ID = HttpContext.Session.GetString("CURRENT_USER_ID");
             postRepo.DeleteMyPost(Guid.Parse(id));
+            HttpContext.Session.SetString("DELETE_NEWS_MESSAGE", "Deleted successfully!");
             Posts = postRepo.GetPostByUserId(Guid.Parse(CURRENT_USER_ID));
             return Page();
         }

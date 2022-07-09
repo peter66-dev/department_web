@@ -7,8 +7,8 @@ namespace LibraryWeb.Repository
 {
     public interface IGroupRepository
     {
-        void CreateGroup(Group group);
-        void DeleteGroupById(Guid groupId);
+        void CreateGroup(string name, Guid ownerId, int publicStatus, string description);
+        Task DeleteGroupByIdAsync(Guid groupId);
         Group GetGroupById(Guid groupId);
         Task<IEnumerable<Group>> GetGroupsByLeaderId(Guid leaderId);
         Task<IEnumerable<Group>> GetGroupsPublicByLeaderId(Guid leaderId);
@@ -16,5 +16,10 @@ namespace LibraryWeb.Repository
         int IsLeaderGroup(Guid groupid, Guid leaderid);
 
         Task<IEnumerable<Group>> GetGroupsAsync();
+
+        bool CheckGroupNameExisted(string groupName);
+        bool CheckGroupNameExistedForUpdate(Guid groupid, string groupName);
+
+        void UpdateGroup(Guid groupid, string groupName, int publicStatus, string description);
     }
 }

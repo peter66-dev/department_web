@@ -10,8 +10,10 @@ namespace LibraryWeb.Repository
     {
         public async Task<IEnumerable<Group>> GetGroupsAsync() => await GroupDAO.Instance.GetGroupsAsync();
         public Group GetGroupById(Guid groupId) => GroupDAO.Instance.GetGroupById(groupId);
-        public void DeleteGroupById(Guid groupId) => GroupDAO.Instance.DeleteGroupById(groupId);
-        public void CreateGroup(Group group) => GroupDAO.Instance.CreateGroup(group);
+        public async Task DeleteGroupByIdAsync(Guid groupId)
+            => await GroupDAO.Instance.DeleteGroupByIdAsync(groupId);
+        public void CreateGroup(string name, Guid ownerId, int publicStatus, string description)
+            => GroupDAO.Instance.CreateGroup(name, ownerId, publicStatus, description);
 
         public async Task<IEnumerable<Group>> GetGroupsByLeaderId(Guid leaderId)
             => await GroupDAO.Instance.GetGroupsByLeaderId(leaderId);
@@ -23,5 +25,14 @@ namespace LibraryWeb.Repository
 
         public int IsLeaderGroup(Guid groupid, Guid leaderid)
             => GroupDAO.Instance.IsLeaderGroup(groupid, leaderid);
+
+        public bool CheckGroupNameExisted(string groupName)
+            => GroupDAO.Instance.CheckGroupNameExisted(groupName);
+
+        public bool CheckGroupNameExistedForUpdate(Guid groupid, string groupName)
+            => GroupDAO.Instance.CheckGroupNameExistedForUpdate(groupid, groupName);
+
+        public void UpdateGroup(Guid groupid, string groupName, int publicStatus, string description)
+            => GroupDAO.Instance.UpdateGroup(groupid, groupName, publicStatus, description);
     }
 }
