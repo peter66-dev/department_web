@@ -69,6 +69,29 @@ namespace MyLibrary.DataAccess
             return post;
         }
 
+        public IEnumerable<Post> GetPostByUserId(Guid userid)
+        {
+            IEnumerable<Post> list = null;
+            try
+            {
+                var context = new department_dbContext();
+                list = context.Posts
+                                    .Include(p => p.GroupPost)
+                                    .Include(p => p.PostType)
+                                    .Include(p => p.StatusNavigation)
+                                    .Include(p => p.UserPost)
+                                    .Where(m => m.UserPostId == userid && m.Status != 9)
+                                    .OrderBy(p => p.CreatedDate)
+                                    .Reverse()
+                                    .ToList();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error at GetPostByUserId: " + ex.Message);
+            }
+            return list;
+        }
+
         public async Task<IEnumerable<Post>> GetPostByUserIdAsync(Guid userid)
         {
             IEnumerable<Post> list = null;
@@ -155,7 +178,7 @@ namespace MyLibrary.DataAccess
                     list.AddRange(tmp);
                 }
                 List<Post> tmp1 = new List<Post>();
-                tmp1 = await context.Posts.Where(p => p.Status == 7 
+                tmp1 = await context.Posts.Where(p => p.Status == 7
                                                     || (p.GroupPost.PublicStatus == 5 && p.Status == 5))
                                               .OrderBy(p => p.CreatedDate).Reverse()
                                               .Include(p => p.GroupPost)
@@ -295,6 +318,21 @@ namespace MyLibrary.DataAccess
             return check;
         }
 
+        private Guid GetPostTypeId(string name)
+        {
+            PostType pt = null;
+            try
+            {
+                var context = new department_dbContext();
+                pt = context.PostTypes.SingleOrDefault(p => p.PostTypeName.Equals(name));
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error at GetPostTypeId: " + ex.Message);
+            }
+            return pt.PostTypeId;
+        }
+
         public bool CreatePost(Guid userid, string roleName, Guid grouppostid,
             string title, string tags, string content)
         {
@@ -318,21 +356,21 @@ namespace MyLibrary.DataAccess
                 if (roleName.Equals("ADMIN"))
                 {
                     post.GroupPostId = null;
-                    post.PostTypeId = Guid.Parse("b7d8febc-f871-42ce-8164-f2e34e646cbf"); // Annoucement
+                    post.PostTypeId = GetPostTypeId("Annoucement"); // Annoucement
                     post.ApprovedDate = DateTime.Now;
                     post.Status = 7;
                 }
                 else if (roleName.Equals("MANAGER"))
                 {
                     post.GroupPostId = grouppostid;
-                    post.PostTypeId = Guid.Parse("f0560405-3b2b-4173-bab8-ba41c2f549ed"); // News
+                    post.PostTypeId = GetPostTypeId("News"); // News
                     post.ApprovedDate = DateTime.Now;
                     post.Status = 5;
                 }
                 else if (roleName.Equals("RESIDENT"))
                 {
                     post.GroupPostId = grouppostid;
-                    post.PostTypeId = Guid.Parse("f0560405-3b2b-4173-bab8-ba41c2f549ed"); // News
+                    post.PostTypeId = GetPostTypeId("News"); // News
                     post.Status = 4; // pending and waiting for manager's approval
                 }
                 else
@@ -355,7 +393,7 @@ namespace MyLibrary.DataAccess
             try
             {
                 var context = new department_dbContext();
-                Post post = context.Posts.SingleOrDefault(p => p.PostId.Equals(postid));
+                Post post = context.Posts.FirstOrDefault(p => p.PostId.Equals(postid));
                 ++post.Views;
                 context.SaveChanges();
             }
@@ -371,7 +409,7 @@ namespace MyLibrary.DataAccess
             try
             {
                 var context = new department_dbContext();
-                Post post = context.Posts.SingleOrDefault(p => p.PostId.Equals(postid));
+                Post post = context.Posts.FirstOrDefault(p => p.PostId.Equals(postid));
                 ++post.CommentsTotal;
                 result = post.CommentsTotal;
                 context.SaveChanges();
@@ -389,7 +427,7 @@ namespace MyLibrary.DataAccess
             try
             {
                 var context = new department_dbContext();
-                Post post = context.Posts.SingleOrDefault(p => p.PostId.Equals(postid));
+                Post post = context.Posts.FirstOrDefault(p => p.PostId.Equals(postid));
                 ++post.LikesTotal;
                 result = post.LikesTotal;
                 context.SaveChanges();
@@ -407,7 +445,7 @@ namespace MyLibrary.DataAccess
             try
             {
                 var context = new department_dbContext();
-                Post post = context.Posts.SingleOrDefault(p => p.PostId.Equals(postid));
+                Post post = context.Posts.FirstOrDefault(p => p.PostId.Equals(postid));
                 --post.LikesTotal;
                 result = post.LikesTotal;
                 context.SaveChanges();
@@ -612,6 +650,20 @@ namespace MyLibrary.DataAccess
             return check;
         }
 
-
+        public void DeleteMyPost(Guid postid)
+        {
+            try
+            {
+                var context = new department_dbContext();
+                Post post = context.Posts.FirstOrDefault(p => p.PostId == postid);
+                post.Status = 9;
+                context.Entry(post).State = EntityState.Modified;
+                context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error at DeleteMyPost: " + ex.Message);
+            }
+        }
     }
 }

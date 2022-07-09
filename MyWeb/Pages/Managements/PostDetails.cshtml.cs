@@ -19,16 +19,15 @@ namespace MyWeb.Pages.Managements
 
         public IActionResult OnGet(string id)
         {
+            string role = HttpContext.Session.GetString("ROLE");
+            if (role == null || !role.Equals("MANAGER"))
+            {
+                return RedirectToPage("../Login");
+            }
+
             string managerId = HttpContext.Session.GetString("CURRENT_USER_ID");
-            if (managerId != null)
-            {
-                Post = postRepo.GetPostById(Guid.Parse(id));
-                return Page();
-            }
-            else
-            {
-                return new RedirectToPageResult("../Login");
-            }
+            Post = postRepo.GetPostById(Guid.Parse(id));
+            return Page();
         }
 
         public IActionResult OnGetApprove(string id)

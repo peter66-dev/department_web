@@ -22,6 +22,11 @@ namespace MyWeb.Pages.Managements
         }
         public async Task<IActionResult> OnGet()
         {
+            string role = HttpContext.Session.GetString("ROLE");
+            if (role == null || !role.Equals("MANAGER"))
+            {
+                return RedirectToPage("../Login");
+            }
             string managerId = HttpContext.Session.GetString("CURRENT_USER_ID");
             if (managerId != null)
             {

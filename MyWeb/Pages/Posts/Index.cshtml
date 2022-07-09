@@ -32,7 +32,7 @@
                     Create Anouncement
                 </li>
                 </a>
-                <a asp-area="" asp-page="../Managements/Posts">
+                <a asp-area="" asp-page="../Managements/Groups">
                 <li class="d-flex align-items-center">
                     <div class="post-resident-manage-icon icon"></div>
                     Management
@@ -52,7 +52,7 @@
                 </a>
                 @if (Accessor.HttpContext.Session.GetString("ROLE").Equals("RESIDENT"))
                 {
-                    <a asp-page="Create">
+                    <a asp-page="../Managements/ResidentPosts">
                     <li class="d-flex align-items-center">
                         <div class="my-news-icon icon"></div>
                         My news

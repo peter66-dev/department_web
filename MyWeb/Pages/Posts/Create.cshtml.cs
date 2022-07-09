@@ -30,8 +30,12 @@ namespace MyWeb.Pages.Posts
 
         public async Task<IActionResult> OnGetAsync()
         {
-            string userid = HttpContext.Session.GetString("CURRENT_USER_ID");
             string role = HttpContext.Session.GetString("ROLE");
+            if (role == null)
+            {
+                return RedirectToPage("../Login");
+            }
+            string userid = HttpContext.Session.GetString("CURRENT_USER_ID");
             if (role.Equals("RESIDENT"))
             {
                 IEnumerable<Group> list = await groupUserRepo.GetGroupsByUserId(Guid.Parse(userid));

@@ -202,7 +202,7 @@ namespace MyLibrary.DataAccess
             {
                 var context = new department_dbContext();
                 GroupUser gu = context.GroupUsers
-                                                .SingleOrDefault(g => g.MemberId == memberid
+                                                .FirstOrDefault(g => g.MemberId == memberid
                                                         && g.GroupId == groupid);
                 if (gu == null)
                 {
@@ -235,7 +235,7 @@ namespace MyLibrary.DataAccess
             {
                 var context = new department_dbContext();
                 GroupUser gu = context.GroupUsers
-                                                .SingleOrDefault(g => g.MemberId == memberid
+                                                .FirstOrDefault(g => g.MemberId == memberid
                                                         && g.GroupId == groupid);
 
                 gu.Status = 2; // let user quit group: Inactive

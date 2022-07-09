@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using LibraryWeb.DataAccess;
 using LibraryWeb.Model;
+using Microsoft.AspNetCore.Http;
 
 namespace MyWeb.Pages.Groups
 {
@@ -28,6 +29,12 @@ namespace MyWeb.Pages.Groups
             if (id == null)
             {
                 return NotFound();
+            }
+
+            string role = HttpContext.Session.GetString("ROLE");
+            if (role == null || !role.Equals("ADMIN"))
+            {
+                return RedirectToPage("../Login");
             }
 
             Group = await _context.Groups

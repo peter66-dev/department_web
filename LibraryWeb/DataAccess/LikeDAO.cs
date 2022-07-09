@@ -94,7 +94,7 @@ namespace MyLibrary.DataAccess
             try
             {
                 var context = new department_dbContext();
-                like = context.Likes.SingleOrDefault(l => l.UserId.ToString().Equals(userid) && l.PostId.ToString().Equals(postid));
+                like = context.Likes.FirstOrDefault(l => l.UserId.ToString().Equals(userid) && l.PostId.ToString().Equals(postid));
             }
             catch (Exception ex)
             {

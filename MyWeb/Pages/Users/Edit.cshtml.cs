@@ -1,4 +1,6 @@
 ﻿using LibraryWeb.Model;
+using LibraryWeb.Repository;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -12,10 +14,12 @@ namespace MyWeb.Pages.Users
     public class EditModel : PageModel
     {
         private readonly LibraryWeb.DataAccess.department_dbContext _context;
+        private IUserRepository userRepo;
 
         public EditModel(LibraryWeb.DataAccess.department_dbContext context)
         {
             _context = context;
+            userRepo = new UserRepository();
         }
 
         [BindProperty]
@@ -28,16 +32,23 @@ namespace MyWeb.Pages.Users
                 return NotFound();
             }
 
+            string role = HttpContext.Session.GetString("ROLE");
+            string CURRENT_USER_ID = HttpContext.Session.GetString("CURRENT_USER_ID");
+            if (role == null)
+            {
+                return RedirectToPage("../Login");
+            }
+
             User = await _context.Users
                 .Include(u => u.Role)
                 .Include(u => u.StatusNavigation).FirstOrDefaultAsync(m => m.UserId == id);
 
-            if (User == null)
+            if (User == null || id.Value != Guid.Parse(CURRENT_USER_ID))
             {
                 return NotFound();
             }
-           ViewData["RoleId"] = new SelectList(_context.Roles, "RoleId", "RoleName");
-           ViewData["Status"] = new SelectList(_context.Statuses, "StatusId", "StatusName");
+            ViewData["RoleId"] = new SelectList(_context.Roles, "RoleId", "RoleName");
+            ViewData["Status"] = new SelectList(_context.Statuses, "StatusId", "StatusName");
             return Page();
         }
 
@@ -49,31 +60,31 @@ namespace MyWeb.Pages.Users
             {
                 return Page();
             }
-
-            _context.Attach(User).State = EntityState.Modified;
-
-            try
+            if (!User.Password.Equals(User.Avatar))
             {
-                await _context.SaveChangesAsync();
+                Console.WriteLine("Password: " + User.Password);
+                Console.WriteLine("Confirm password: " + User.Avatar);
+                ViewData["PasswordMessage"] = "***Password didn't match!";
+                return Page();
             }
-            catch (DbUpdateConcurrencyException)
+            else if (userRepo.CheckEmailUpdate(User.Email.Trim(), User.UserId))
             {
-                if (!UserExists(User.UserId))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                ViewData["EmailMessage"] = "***This email has existed in system!";
+                Console.WriteLine("This email has existed in system!");
+                return Page();
+            }
+            else if (userRepo.CheckPhoneNumberUpdate(User.PhoneNumber, User.UserId))
+            {
+                ViewData["PhoneMessage"] = "***This phone number has existed in system!";
+                Console.WriteLine("This phone number has existed in system!");
+                return Page();
+            }
+            else
+            {
+                userRepo.UpdateUser(User.UserId, User.FirstName, User.LastName, User.Email, User.PhoneNumber, User.Address, User.Password, User.Gender);
+                return RedirectToPage("./Details", new { id = User.UserId });
             }
 
-            return RedirectToPage("./Index");
-        }
-
-        private bool UserExists(Guid id)
-        {
-            return _context.Users.Any(e => e.UserId == id);
         }
     }
 }

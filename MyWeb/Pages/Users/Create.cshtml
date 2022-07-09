@@ -50,6 +50,10 @@
             <div class="form-group d-flex flex-column">
                 <label asp-for="User.PhoneNumber" class="control-label mb-2 normal-label"></label>
                 <span asp-validation-for="User.PhoneNumber" class="text-danger mb-2"></span>
+                @if (@ViewData["PhoneMessage"] != null)
+                {
+                    <span class="text-danger">@ViewData["PhoneMessage"]</span>
+                }
                 <input asp-for="User.PhoneNumber" class="form-control" />
             </div>
             <div class="form-group d-flex flex-column">

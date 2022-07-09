@@ -70,5 +70,10 @@ namespace LibraryWeb.Repository
 
         public async Task<bool> UpdatePost(Guid postid, string title, string tags, string content)
             => await PostDAO.Instance.UpdatePost(postid, title, tags, content);
+        public IEnumerable<Post> GetPostByUserId(Guid userid)
+            => PostDAO.Instance.GetPostByUserId(userid);
+
+        public void DeleteMyPost(Guid postid)
+            => PostDAO.Instance.DeleteMyPost(postid);
     }
 }

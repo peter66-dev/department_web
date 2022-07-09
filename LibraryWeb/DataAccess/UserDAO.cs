@@ -29,6 +29,28 @@ namespace MyLibrary.DataAccess
             }
         }
 
+        public void UpdateUser(Guid id, string fname, string lname, string email, string phone, string address, string password, bool gender)
+        {
+            try
+            {
+                var context = new department_dbContext();
+                User user = context.Users.FirstOrDefault(u => u.UserId == id);
+                user.FirstName = fname.Trim();
+                user.LastName = lname.Trim();
+                user.Email = email.Trim();
+                user.PhoneNumber = phone.Trim();
+                user.Address = address.Trim();
+                user.Password = password.Trim();
+                user.Gender = gender;
+                context.Entry(user).State = EntityState.Modified;
+                context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error at UpdateUser: " + ex.Message);
+            }
+        }
+
         public List<User> GetAllUsers()
         {
             List<User> roles = new List<User>();
@@ -52,7 +74,7 @@ namespace MyLibrary.DataAccess
                 var context = new department_dbContext();
                 tmp = context.Users.Include(u => u.Role)
                                     .Include(u => u.StatusNavigation)
-                                    .SingleOrDefault(u => u.UserId.Equals(userId));
+                                    .FirstOrDefault(u => u.UserId.Equals(userId));
             }
             catch (Exception ex)
             {
@@ -85,7 +107,7 @@ namespace MyLibrary.DataAccess
             try
             {
                 var context = new department_dbContext();
-                tmp = context.Users.SingleOrDefault(u => u.Email.Equals(email) && u.Password.Equals(password) && u.Status == 1);
+                tmp = context.Users.FirstOrDefault(u => u.Email.Equals(email) && u.Password.Equals(password) && u.Status == 1);
             }
             catch (Exception ex)
             {
@@ -101,7 +123,7 @@ namespace MyLibrary.DataAccess
             {
                 var contextUser = new department_dbContext();
                 var contextRole = new department_dbContext();
-                str = contextRole.Roles.SingleOrDefault(r => r.RoleId.Equals(user.RoleId)).RoleName.ToString();
+                str = contextRole.Roles.FirstOrDefault(r => r.RoleId.Equals(user.RoleId)).RoleName.ToString();
             }
             catch (Exception ex)
             {
@@ -115,7 +137,7 @@ namespace MyLibrary.DataAccess
             try
             {
                 var context = new department_dbContext();
-                User user = context.Users.SingleOrDefault(u => u.UserId.Equals(userId));
+                User user = context.Users.FirstOrDefault(u => u.UserId.Equals(userId));
                 user.Status = 6;
                 context.SaveChanges();
             }
@@ -144,7 +166,7 @@ namespace MyLibrary.DataAccess
                 };
                 var context = new department_dbContext();
                 context.Users.Add(user);
-                if(context.SaveChanges() > 0)
+                if (context.SaveChanges() > 0)
                 {
                     Console.WriteLine("Created account successfully!");
                 }
@@ -167,6 +189,38 @@ namespace MyLibrary.DataAccess
             catch (Exception ex)
             {
                 throw new Exception("Error at CheckEmail: " + ex.Message);
+            }
+            return check;
+        }
+
+        public bool CheckEmailUpdate(string email, Guid userid)
+        {
+            bool check = false;
+            try
+            {
+                var context = new department_dbContext();
+                User tmp = context.Users.FirstOrDefault(u => u.Email.Equals(email) && u.UserId != userid);
+                check = tmp != null;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error at CheckEmailUpdate: " + ex.Message);
+            }
+            return check;
+        }
+
+        public bool CheckPhoneNumberUpdate(string phonenumber, Guid userid)
+        {
+            bool check = false;
+            try
+            {
+                var context = new department_dbContext();
+                User tmp = context.Users.FirstOrDefault(u => u.PhoneNumber.Equals(phonenumber.Trim()) && u.UserId != userid);
+                check = tmp != null;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error at CheckPhoneNumberUpdate: " + ex.Message);
             }
             return check;
         }

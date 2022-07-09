@@ -18,17 +18,14 @@ namespace MyWeb.Pages.Managements
         }
         public IActionResult OnGet()
         {
-            string managerId = HttpContext.Session.GetString("CURRENT_USER_ID");
             string role = HttpContext.Session.GetString("ROLE");
-            if (managerId != null && role.Equals("MANAGER"))
+            if (role == null || !role.Equals("MANAGER"))
             {
-                GroupUsers = guRepo.GetUsersPendingByManagerId(Guid.Parse(managerId));
-                return Page();
+                return RedirectToPage("../Login");
             }
-            else
-            {
-                return new RedirectToPageResult("../Login");
-            }
+            string managerId = HttpContext.Session.GetString("CURRENT_USER_ID");
+            GroupUsers = guRepo.GetUsersPendingByManagerId(Guid.Parse(managerId));
+            return Page();
         }
 
         public IActionResult OnGetApproveResident(string userid, string groupid)

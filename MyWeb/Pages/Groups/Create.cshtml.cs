@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using LibraryWeb.DataAccess;
 using LibraryWeb.Model;
+using Microsoft.AspNetCore.Http;
 
 namespace MyWeb.Pages.Groups
 {
@@ -21,6 +22,11 @@ namespace MyWeb.Pages.Groups
 
         public IActionResult OnGet()
         {
+            string role = HttpContext.Session.GetString("ROLE");
+            if (role == null || !role.Equals("ADMIN"))
+            {
+                return RedirectToPage("../Login");
+            }
             ViewData["GroupOwnerId"] = new SelectList(_context.Users.Where(u => u.Role.RoleName.Equals("MANAGER")), "Email", "Email");
             ViewData["PublicStatus"] = new SelectList(_context.Statuses, "StatusId", "StatusName");
             ViewData["Status"] = new SelectList(_context.Statuses, "StatusId", "StatusName");

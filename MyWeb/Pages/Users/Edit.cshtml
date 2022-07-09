@@ -9,24 +9,19 @@
 
 <div class="container-fluid">
     <div class="edit-profile-container">
-        <h1>Edit profile of <span class="profile-name">minh nhut</span></h1>
+        <h1>Edit profile of <span class="profile-name">@Model.User.FirstName @Model.User.LastName</span></h1>
 
         <div class="edit-fields">
             <form method="post">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <input type="hidden" asp-for="User.UserId" />
-                <div class="form-group id-hide">
-                    <label asp-for="User.RoleId" class="control-label"></label>
-                    <select asp-for="User.RoleId" class="form-control" asp-items="ViewBag.RoleId"></select>
-                    <span asp-validation-for="User.RoleId" class="text-danger"></span>
-                </div>
 
                 <div class="edit-field">
                     <h2>Basic Info</h2>
                     <div class="form-group">
                         <label asp-for="User.FirstName" class="control-label"></label>
-                        <input asp-for="User.FirstName" class="form-control" />
                         <span asp-validation-for="User.FirstName" class="text-danger"></span>
+                        <input asp-for="User.FirstName" class="form-control" />
                     </div>
                     <div class="form-group">
                         <label asp-for="User.LastName" class="control-label"></label>
@@ -35,45 +30,60 @@
                     </div>
                     <div class="form-group">
                         <label asp-for="User.Email" class="control-label"></label>
-                        <input asp-for="User.Email" class="form-control" />
                         <span asp-validation-for="User.Email" class="text-danger"></span>
+                        @if (@ViewData["EmailMessage"] != null)
+                        {
+                            <span class="text-danger">@ViewData["EmailMessage"]</span>
+                        }
+                        <input asp-for="User.Email" class="form-control" />
                     </div>
                     <div class="form-group">
                         <label asp-for="User.PhoneNumber" class="control-label"></label>
-                        <input asp-for="User.PhoneNumber" class="form-control" />
                         <span asp-validation-for="User.PhoneNumber" class="text-danger"></span>
+                        @if (@ViewData["PhoneMessage"] != null)
+                        {
+                            <span class="text-danger">@ViewData["PhoneMessage"]</span>
+                        }
+                        <input asp-for="User.PhoneNumber" class="form-control" />
                     </div>
                     <div class="form-group">
                         <label asp-for="User.Address" class="control-label"></label>
-                        <input asp-for="User.Address" class="form-control" />
                         <span asp-validation-for="User.Address" class="text-danger"></span>
+                        <input asp-for="User.Address" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="User.Gender" class="control-label"></label>
+                        <div class="group-name-select">
+                            <select asp-for="User.Gender" class="form-control">
+                                <option value="true">
+                                    Male
+                                </option>
+                                <option value="false">
+                                    Female
+                                </option>
+                            </select>
+                        </div>
                     </div>
                 </div>
                 <div class="edit-field">
                     <h2>Security</h2>
                     <div class="form-group">
                         <label asp-for="User.Password" class="control-label"></label>
-                        <input asp-for="User.Password" class="form-control" />
                         <span asp-validation-for="User.Password" class="text-danger"></span>
+                        @if (@ViewData["PasswordMessage"] != null)
+                        {
+                            <span class="text-danger">@ViewData["PasswordMessage"]</span>
+                        }
+                        <input asp-for="User.Password" class="form-control" type="password"/>
                     </div>
                     <div class="form-group">
                         <label class="control-label">Confirm password</label>
-                        <input class="form-control" />
-                        <span class="text-danger"></span>
+                        <input asp-for="User.Avatar" class="form-control" type="password"/>
                     </div>
                 </div>
-                
-                
-                <div class="form-group form-check id-hide">
-                    <label class="form-check-label">
-                        <input class="form-check-input" asp-for="User.Gender" /> @Html.DisplayNameFor(model => model.User.Gender)
-                    </label>
-                </div>
-                <div class="form-group id-hide">
-                    <label asp-for="User.Status" class="control-label"></label>
-                    <select asp-for="User.Status" class="form-control" asp-items="ViewBag.Status"></select>
-                    <span asp-validation-for="User.Status" class="text-danger"></span>
-                </div>
+
+
+
                 <div class="form-group edit-field">
                     <input type="submit" value="Save Profile Information" class="btn btn-primary w-100" />
                 </div>
@@ -85,5 +95,7 @@
 
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }

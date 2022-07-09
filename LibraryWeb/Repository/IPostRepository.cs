@@ -47,9 +47,12 @@ namespace LibraryWeb.Repository
 
         Task<IEnumerable<Post>> SearchStringByAdminRole(string searchString);
 
-
         Task<Post> GetPostByIdAsync(Guid postId);
 
         Task<bool> UpdatePost(Guid postid, string title, string tags, string content);
+
+        IEnumerable<Post> GetPostByUserId(Guid userid);
+
+        void DeleteMyPost(Guid postid);
     }
 }

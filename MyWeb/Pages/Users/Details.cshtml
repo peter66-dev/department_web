@@ -1,5 +1,6 @@
 ﻿@page
 @using LibraryWeb.Model
+@using Microsoft.AspNetCore.Http
 @model MyWeb.Pages.Users.DetailsModel
 @{
     ViewData["Title"] = "Profile";
@@ -16,9 +17,15 @@
                 </div>
                 <p class="profile-name">@Model.User.FirstName @Model.User.LastName</p>
             </div>
-            <div class="edit-profile">
-                <a class="edit-btn text-white">Edit profile</a>
-            </div>
+            @{
+                string CURRENT_USER_ID = HttpContext.Session.GetString("CURRENT_USER_ID");
+                if (CURRENT_USER_ID != null && Guid.Parse(CURRENT_USER_ID) == @Model.User.UserId)
+                {
+                    <div class="edit-profile">
+                        <a asp-area="" asp-page="./Edit" asp-route-id="@Model.User.UserId" class="edit-btn text-white">Update profile</a>
+                    </div>
+                }
+            }
         </div>
     </div>
     <div class="personal-info-and-posts">

@@ -42,13 +42,19 @@ namespace MyWeb.Pages.Users
             {
                 Console.WriteLine("Password: " + User.Password);
                 Console.WriteLine("Confirm password: " + User.Avatar);
-                ViewData["ConfirmPasswordMessage"] = "Password didn't match!";
+                ViewData["ConfirmPasswordMessage"] = "***Password didn't match!";
                 return Page();
             }
             else if (userRepo.CheckEmail(User.Email.Trim()))
             {
-                ViewData["EmailMessage"] = "Email existed in system!";
+                ViewData["EmailMessage"] = "***This email has existed in system!";
                 Console.WriteLine("This email has existed in system!");
+                return Page();
+            }
+            else if (userRepo.CheckPhoneNumberUpdate(User.PhoneNumber, User.UserId))
+            {
+                ViewData["PhoneMessage"] = "***This phone number has existed in system!";
+                Console.WriteLine("This phone number has existed in system!");
                 return Page();
             }
             else

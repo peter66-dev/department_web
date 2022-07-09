@@ -33,14 +33,16 @@ namespace MyWeb.Pages.Posts
             {
                 return NotFound();
             }
+            string role = HttpContext.Session.GetString("ROLE");
+            if (role == null)
+            {
+                return RedirectToPage("../Login");
+            }
 
             string CURRENT_USER_ID = HttpContext.Session.GetString("CURRENT_USER_ID");
             Post = await postRepo.GetPostByIdAsync(id.Value);
-            if (Post == null)
-            {
-                return NotFound();
-            }
-            if (Post.UserPostId != Guid.Parse(CURRENT_USER_ID))
+
+            if (Post == null || Post.UserPostId != Guid.Parse(CURRENT_USER_ID))
             {
                 return NotFound();
             }
