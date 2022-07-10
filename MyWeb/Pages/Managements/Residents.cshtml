@@ -70,15 +70,15 @@
                         {
                             int tmp = @Model.GroupUsers.ToList().IndexOf(gu) + 1;
                             <tr>
-                                <td>@tmp</td>
-                                <td>
+                                <td class="align-middle">@tmp</td>
+                                <td class="align-middle">
                                     <a asp-page="../Users/Details" asp-route-id="@gu.MemberId" class="text-info text-decoration-none">
                                         @gu.Member.FirstName @gu.Member.LastName
                                     </a>
                                 </td>
-                                <td>@gu.Group.GroupName</td>
-                                <td>@gu.Member.Address</td>
-                                <td class="d-flex">
+                                <td class="align-middle">@gu.Group.GroupName</td>
+                                <td class="align-middle">@gu.Member.Address</td>
+                                <td class="d-flex align-middle">
                                     <a asp-page="Residents" asp-route-userid="@gu.MemberId" asp-route-groupid="@gu.GroupId" asp-page-handler="ApproveResident" class="approve-btn text-decoration-none">
                                         <ion-icon name="checkmark-circle"></ion-icon>
                                         Approve

@@ -81,15 +81,15 @@
                         {
                             int tmp = @Model.Groups.ToList().IndexOf(group) + 1;
                             <tr>
-                                <td>@tmp</td>
-                                <td>
+                                <td class="align-middle">@tmp</td>
+                                <td class="align-middle">
                                     <a asp-page="../Groups/Details" asp-route-id="@group.GroupId" class="text-info text-decoration-none">
                                         @group.GroupName
                                     </a>
                                 </td>
-                                <td>@group.GroupOwner.FirstName @group.GroupOwner.LastName</td>
-                                <td>@group.CreatedDate.ToString("dd/MM/yyyy")</td>
-                                <td>
+                                <td class="align-middle">@group.GroupOwner.FirstName @group.GroupOwner.LastName</td>
+                                <td class="align-middle">@group.CreatedDate.ToString("dd/MM/yyyy")</td>
+                                <td class="align-middle">
                                     @if (@group.PublicStatus == 5)
                                     {
                                         <p class="stat-active">Public</p>
@@ -99,7 +99,7 @@
                                         <p class="stat-pending">Private</p>
                                     }
                                 </td>
-                                <td class="d-flex">
+                                <td class="d-flex align-middle">
                                     <a asp-page="../Groups/Edit" asp-route-id="@group.GroupId" class="approve-btn">
                                         <ion-icon name="create"></ion-icon>
                                         Update

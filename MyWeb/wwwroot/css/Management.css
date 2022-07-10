@@ -7,8 +7,12 @@
         outline: 0 !important;
     }
 
+.g-10 {
+    gap: 10px;
+}
+
 .stat-active {
-    color: #3eea2d;
+    color: #2ecc71;
     font-weight: 700;
     text-transform: uppercase;
 }
@@ -38,16 +42,17 @@
     display: flex;
     align-items: center;
     gap: 5px;
-    color: #fff!important;
+    color: #fff !important;
     font-weight: 700;
     background-color: #0094ff;
     transition: 0.2s;
-    text-decoration: none;
+    text-decoration: none !important;
     cursor: pointer;
 }
 
     .view-detail-btn:hover {
         background-color: #007bffad;
+        text-decoration: none !important;
     }
 
 .approve-btn {
@@ -57,17 +62,38 @@
     display: flex;
     align-items: center;
     gap: 5px;
-    color: #fff!important;
+    color: #fff !important;
     font-weight: 700;
     transition: 0.2s;
     background-color: #0094ff;
     margin-right: 10px;
-    text-decoration: none;
+    text-decoration: none !important;
     cursor: pointer;
 }
 
     .approve-btn:hover {
-        background-color: #007bffad!important;
+        background-color: #007bffad !important;
+        text-decoration: none !important;
+    }
+
+.approve-btn-green {
+    border: none;
+    padding: 8px 6px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: #fff !important;
+    font-weight: 700;
+    transition: 0.2s;
+    background-color: #2ecc71;
+    margin-right: 10px;
+    text-decoration: none !important;
+    cursor: pointer;
+}
+
+    .approve-btn-green:hover {
+        text-decoration: none !important;
     }
 
 .reject-btn {
@@ -77,13 +103,17 @@
     display: flex;
     align-items: center;
     gap: 5px;
-    color: #fff!important;
+    color: #fff !important;
     font-weight: 700;
     transition: 0.2s;
     background-color: #e74c3c;
-    text-decoration: none;
+    text-decoration: none !important;
     cursor: pointer;
 }
+
+    .reject-btn:hover {
+        text-decoration: none !important;
+    }
 
 .add-btn {
     border: none;
@@ -96,9 +126,13 @@
     font-weight: 700;
     transition: 0.2s;
     background-color: #2ecc71;
-    text-decoration: none;
+    text-decoration: none !important;
     cursor: pointer;
 }
+
+    .add-btn:hover {
+        text-decoration: none !important;
+    }
 
 .reason-btn {
     border: none;
@@ -111,9 +145,13 @@
     font-weight: 700;
     transition: 0.2s;
     background-color: #5d5b5b;
-    text-decoration: none;
+    text-decoration: none !important;
     cursor: pointer;
 }
+
+    .reason-btn:hover {
+        text-decoration: none !important;
+    }
 
 .create-group-btn {
     height: fit-content;
@@ -121,19 +159,23 @@
     color: #fff !important;
     font-weight: 600;
     font-size: 16px;
-    text-decoration: none;
+    text-decoration: none !important;
     background-color: #2ecc71;
     border-radius: 5px;
     cursor: pointer;
     transition: 0.2s;
 }
 
-.not-found-item {
-    margin-top: 20px;
-    font-size: 20px;
-    font-weight: 800;
-    color: #191919;
-}
+    .create-group-btn:hover {
+        text-decoration: none !important;
+    }
+
+    .not-found-item {
+        margin-top: 20px;
+        font-size: 20px;
+        font-weight: 800;
+        color: #191919;
+    }
 /* ========== table container ==========*/
 .table-container {
     width: 80%;

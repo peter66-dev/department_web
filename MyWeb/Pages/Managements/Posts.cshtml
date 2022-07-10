@@ -56,16 +56,16 @@
                         {
                             int tmp = @Model.Posts.ToList().IndexOf(post) + 1;
                             <tr>
-                                <td>@tmp</td>
-                                <td>
+                                <td class="align-middle">@tmp</td>
+                                <td class="align-middle">
                                     <a asp-page="./PostDetails" asp-route-id="@post.PostId">
                                         @post.Title
                                     </a>
                                 </td>
-                                <td>@post.GroupPost.GroupName</td>
-                                <td>@post.UserPost.FirstName @post.UserPost.LastName</td>
-                                <td>@post.CreatedDate.ToString("dddd, dd MMMM yyyy")</td>
-                                <td>
+                                <td class="align-middle">@post.GroupPost.GroupName</td>
+                                <td class="align-middle">@post.UserPost.FirstName @post.UserPost.LastName</td>
+                                <td class="align-middle">@post.CreatedDate.ToString("dddd, dd MMMM yyyy")</td>
+                                <td class="align-middle">
                                     <a asp-page="./PostDetails" asp-route-id="@post.PostId" class="view-detail-btn">
                                         <ion-icon name="eye"></ion-icon>
                                         View

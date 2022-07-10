@@ -63,14 +63,14 @@
                     {
                         int tmp = @Model.Posts.ToList().IndexOf(post) + 1;
                         <tr>
-                            <td>@tmp</td>
-                            <td>
+                            <td class="align-middle">@tmp</td>
+                            <td class="align-middle">
                                 @post.Title
                             </td>
-                            <td>@post.GroupPost.GroupName</td>
+                            <td class="align-middle">@post.GroupPost.GroupName</td>
 
 
-                            <td>
+                            <td class="align-middle">
                                 @if (@post.Status == 4)
                                 {
                                     <p class="stat-pending">Pending</p>
@@ -89,7 +89,7 @@
                                 }
 
                             </td>
-                            <td class="d-flex text-center">
+                            <td class="d-flex text-center align-middle">
                                 <a asp-page="../Posts/Details" asp-route-id="@post.PostId" class="approve-btn">
                                     <ion-icon name="eye"></ion-icon>
                                     View

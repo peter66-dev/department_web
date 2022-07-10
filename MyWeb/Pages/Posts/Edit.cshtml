@@ -6,6 +6,7 @@
 
 @{
     ViewData["Title"] = "Edit";
+    Layout = "_Layout_Managements";
 }
 
 <link rel="stylesheet" href="~/css/CRUD.css" />
@@ -30,17 +31,21 @@
                 </div>
                 <div class="top-content">
 
+                    @if (!HttpContext.Session.GetString("ROLE").Equals("ADMIN"))
+                    {
                         <div class="d-flex align-items-center">
                             <span class="group-id-label">What group are you posting to: </span>
                             <div class="group-name-select">
-                                <input asp-for="Post.GroupPost.GroupName" class="form-control" disabled/>
+                                <input asp-for="Post.GroupPost.GroupName" class="form-control" disabled />
                             </div>
                         </div>
-                        <div class="form-group post-tags">
-                            <label class="mb-3">Update your tags</label>
-                            <input asp-for="Post.Tags" class="ip-tags" placeholder="Add Tags: anounce notice..." onclick="handleInput(2)" />
-                            <span asp-validation-for="Post.Tags" class="text-danger"></span>
-                        </div>
+                    }
+
+                    <div class="form-group post-tags">
+                        <label class="mb-3">Update your tags</label>
+                        <input asp-for="Post.Tags" class="ip-tags" placeholder="Add Tags: anounce notice..." onclick="handleInput(2)" />
+                        <span asp-validation-for="Post.Tags" class="text-danger"></span>
+                    </div>
                 </div>
 
 

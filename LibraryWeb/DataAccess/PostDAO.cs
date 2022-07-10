@@ -356,7 +356,7 @@ namespace MyLibrary.DataAccess
                 if (roleName.Equals("ADMIN"))
                 {
                     post.GroupPostId = null;
-                    post.PostTypeId = GetPostTypeId("Annoucement"); // Annoucement
+                    post.PostTypeId = GetPostTypeId("Announcement"); // Announcement
                     post.ApprovedDate = DateTime.Now;
                     post.Status = 7;
                 }

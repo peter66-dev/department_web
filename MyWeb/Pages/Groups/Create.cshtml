@@ -3,6 +3,7 @@
 
 @{
     ViewData["Title"] = "Create";
+    Layout = "_Layout_Managements";
 }
 
 <link rel="stylesheet" href="~/css/CRUD.css" />
@@ -14,7 +15,7 @@
             <form asp-page="./Create" method="post">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-                <div class="form-group post-title mb-2">
+                <div class="form-group post-title mb-4">
                     <input asp-for="Group.GroupName" class="ip-post-title" placeholder="Group name goes here" />
                     <span asp-validation-for="Group.GroupName" class="text-danger"></span>
                     @if (ViewData["GroupNameMessage"] != null)
@@ -22,13 +23,13 @@
                         <span class="text-danger">@ViewData["GroupNameMessage"]</span>
                     }
                 </div>
-                <div class="d-flex align-items-center mb-3">
+                <div class="d-flex align-items-center mb-4">
                     <span class="group-id-label">Pick a manager to lead this group: </span>
                     <div class="group-name-select">
                         <select asp-for="Group.GroupOwnerId" class="form-control" asp-items="ViewBag.GroupOwnerId"></select>
                     </div>
                 </div>
-                <div class="d-flex align-items-center mb-3">
+                <div class="d-flex align-items-center mb-4">
                     <span class="group-id-label">Is this group public to everyone: </span>
                     <div class="group-name-select">
                         <select asp-for="Group.PublicStatus" class="form-control">

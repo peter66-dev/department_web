@@ -76,26 +76,30 @@
                         @foreach (User user in @Model.Users.ToList())
                         {
                             int tmp = @Model.Users.ToList().IndexOf(user) + 1;
-                            <tr>
-                                <td>@tmp</td>
-                                <td>
+                            <tr class="align-middle">
+                                <td class="align-middle">@tmp</td>
+                                <td class="align-middle">
                                     <p>
                                         @user.FirstName @user.LastName
                                     </p>
                                 </td>
-                                <td>@user.Address</td>
-                                <td>
+                                <td class="align-middle">@user.Address</td>
+                                <td class="d-flex align-middle align-items-baseline g-10">
                                     @user.Role.RoleName
                                     @if (@user.Role.RoleName.Equals("RESIDENT"))
                                     {
-                                        <span>Up</span>
+                                        <button class="approve-btn-green">
+                                            <ion-icon name="caret-up-outline"></ion-icon>
+                                        </button>
                                     }
                                     else // MANAGER
                                     {
-                                        <span>Down</span>
+                                        <button class="reject-btn">
+                                            <ion-icon name="caret-down-outline"></ion-icon>
+                                        </button>
                                     }
                                 </td>
-                                <td>
+                                <td class="align-middle">
                                     @if (@user.Status == 1)
                                     {
                                         <p class="stat-active">Active</p>
@@ -105,7 +109,7 @@
                                         <p class="stat-rejected">Inactive</p>
                                     }
                                 </td>
-                                <td class="d-flex">
+                                <td class="d-flex align-middle">
                                     <a asp-page="../Users/Details" asp-route-id="@user.UserId" class="approve-btn">
                                         <ion-icon name="eye"></ion-icon>
                                         View
@@ -115,7 +119,7 @@
                                         <button onclick="banUser('@user.UserId','@user.FirstName @user.LastName')" class="reject-btn">
                                             @*<ion-icon name="log-out"></ion-icon>*@
                                             @*<ion-icon name="close-circle-outline"></ion-icon>*@
-                                            <ion-icon name="person-remove-outline"></ion-icon>
+                                            <ion-icon name="person-remove"></ion-icon>
                                             Ban
                                         </button>
                                     }
@@ -124,7 +128,7 @@
                                         <button onclick="allowUser('@user.UserId','@user.FirstName @user.LastName')" class="add-btn">
                                             @*<ion-icon name="enter"></ion-icon>*@
                                             @*<ion-icon name="chevron-down-circle-outline"></ion-icon>*@
-                                            <ion-icon name="person-add-outline"></ion-icon>
+                                            <ion-icon name="person-add"></ion-icon>
                                             Allow
                                         </button>
                                     }
@@ -141,7 +145,7 @@
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 
 <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
         $('#user-management').DataTable();
     });
 
