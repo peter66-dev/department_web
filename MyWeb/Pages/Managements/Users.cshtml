@@ -185,7 +185,7 @@
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, ban it!'
+            confirmButtonText: 'Yes, up role this user!'
         }).then((result) => {
             if (result.isConfirmed) {
                 window.location = './Users?handler=UpRole&userid=' + id;
@@ -201,7 +201,7 @@
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, ban it!'
+            confirmButtonText: 'Yes, down role this user!'
         }).then((result) => {
             if (result.isConfirmed) {
                 window.location = './Users?handler=DownRole&userid=' + id;
