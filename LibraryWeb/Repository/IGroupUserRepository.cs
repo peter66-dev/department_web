@@ -23,5 +23,13 @@ namespace LibraryWeb.Repository
         bool ApproveResident(Guid userid, Guid groupid);
         bool RejectResident(Guid userid, Guid groupid);
         void DeleteMembersInGroup(Guid groupid);
+        void UpRole(Guid memberid);
+
+
+
+
+
+
+
     }
 }

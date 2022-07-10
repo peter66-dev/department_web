@@ -33,5 +33,8 @@ namespace LibraryWeb.Repository
 
         Task ChangeStatusUser(Guid userid, int status);
 
+        Task UpRole(Guid userid);
+
+        Task<bool> DownRole(Guid userid);
     }
 }

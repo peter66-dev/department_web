@@ -326,5 +326,29 @@ namespace MyLibrary.DataAccess
                 Console.WriteLine("Error at DeleteMemberInGroup: " + ex.Message);
             }
         }
+
+        public async Task UpRoleAsync(Guid memberid)
+        {
+            try
+            {
+                var context = new department_dbContext();
+                IEnumerable<GroupUser> list = await context.GroupUsers.Where(g => g.MemberId == memberid).ToListAsync();
+                foreach (GroupUser gu in list)
+                {
+                    var c = new department_dbContext();
+                    GroupUser g = await c.GroupUsers.FirstOrDefaultAsync(group => group.GroupUserId == gu.GroupUserId);
+                    g.Status = 2;
+                    c.Entry(g).State = EntityState.Modified;
+                    if (c.SaveChanges() > 0)
+                    {
+                        Console.WriteLine("Da up role member!");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error at UpRole: " + ex.Message);
+            }
+        }
     }
 }

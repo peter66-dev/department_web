@@ -46,5 +46,15 @@ namespace LibraryWeb.Repository
 
         public void DeleteMembersInGroup(Guid groupid)
             => GroupUserDAO.Instance.DeleteMembersInGroup(groupid);
+
+        public void UpRole(Guid memberid)
+            => GroupUserDAO.Instance.UpRoleAsync(memberid);
+
+
+
+
+
+
+
     }
 }

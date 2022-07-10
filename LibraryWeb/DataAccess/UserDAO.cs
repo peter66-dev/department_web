@@ -1,5 +1,6 @@
 ﻿using LibraryWeb.DataAccess;
 using LibraryWeb.Model;
+using LibraryWeb.Repository;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -52,7 +53,7 @@ namespace MyLibrary.DataAccess
             {
                 var context = new department_dbContext();
                 list = await context.Users
-                                        .Where(u => u.Role.RoleName.Equals("RESIDENT") 
+                                        .Where(u => u.Role.RoleName.Equals("RESIDENT")
                                             || u.Role.RoleName.Equals("MANAGER"))
                                         .Include(u => u.Role)
                                         .ToListAsync();
@@ -86,7 +87,7 @@ namespace MyLibrary.DataAccess
             }
         }
 
-        
+
 
         public User GetUserById(Guid userId)
         {
@@ -262,5 +263,71 @@ namespace MyLibrary.DataAccess
                 Console.WriteLine("Error at ActivatedUser: " + ex.Message);
             }
         }
+
+        public async Task UpRole(Guid userid)
+        {
+            try
+            {
+                var c = new department_dbContext();
+                User user = await c.Users.FirstOrDefaultAsync(u => u.UserId == userid);
+                user.RoleId = await GetRoleIdAsync("MANAGER");
+                user.Avatar = "manager_avatar.png";
+                await c.SaveChangesAsync();
+
+                IGroupUserRepository repo = new GroupUserRepository();
+                repo.UpRole(user.UserId);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error at UpRole: " + ex.Message);
+            }
+        }
+
+        private async Task<Guid> GetRoleIdAsync(string rolename)
+        {
+            Guid id = Guid.NewGuid();
+            try
+            {
+                var c = new department_dbContext();
+                if (rolename.Equals("RESIDENT") || rolename.Equals("MANAGER") || rolename.Equals("ADMIN"))
+                {
+                    Role r = await c.Roles.SingleOrDefaultAsync(r => r.RoleName.Equals(rolename));
+                    id = r.RoleId;
+                }
+                else
+                {
+                    Console.WriteLine("[SYSTEM MESSAGE]: ERROR AT GetRoleId!");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error at GetRoleId: " + ex.Message);
+            }
+            return id;
+        }
+
+        public async Task<bool> DownRole(Guid userid)
+        {
+            bool check = false;
+            try
+            {
+                var c = new department_dbContext();
+                User user = await c.Users.FirstOrDefaultAsync(u => u.UserId == userid);
+                IGroupRepository repo = new GroupRepository();
+                IEnumerable<Group> groups = await repo.GetGroupsByLeaderId(userid);
+                if (groups.ToList().Count == 0)
+                {
+                    user.RoleId = await GetRoleIdAsync("RESIDENT");
+                    user.Avatar = "resident_avatar.png";
+                    check = await c.SaveChangesAsync() > 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error at DownRole: " + ex.Message);
+            }
+            return check;
+        }
+
     }
 }

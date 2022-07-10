@@ -42,5 +42,12 @@ namespace LibraryWeb.Repository
         public async Task ChangeStatusUser(Guid userid, int status)
             => await UserDAO.Instance.ChangeStatusUser(userid, status);
 
+        public async Task UpRole(Guid userid)
+            => await UserDAO.Instance.UpRole(userid);
+
+        public async Task<bool> DownRole(Guid userid)
+        => await UserDAO.Instance.DownRole(userid);
+
+
     }
 }
