@@ -10,8 +10,8 @@ namespace LibraryWeb.Repository
     {
         public List<User> GetAllUsers() => UserDAO.Instance.GetAllUsers();
 
-        public async Task<IEnumerable<User>> GetAllUsersByAdminAsync()
-            => await UserDAO.Instance.GetAllUsersByAdminAsync();
+        public async Task<IEnumerable<User>> GetAllResidentsAndManagerByAdminAsync()
+            => await UserDAO.Instance.GetAllResidentsAndManagerByAdminAsync();
 
         public User GetUserById(Guid userId) => UserDAO.Instance.GetUserById(userId);
 

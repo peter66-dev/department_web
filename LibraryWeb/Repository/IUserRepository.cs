@@ -11,7 +11,7 @@ namespace LibraryWeb.Repository
 
         List<User> GetAllUsers();
 
-        Task<IEnumerable<User>> GetAllUsersByAdminAsync();
+        Task<IEnumerable<User>> GetAllResidentsAndManagerByAdminAsync();
 
         User GetUserById(Guid userId);
 

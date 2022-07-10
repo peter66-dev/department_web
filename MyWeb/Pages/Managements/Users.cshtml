@@ -84,7 +84,17 @@
                                     </p>
                                 </td>
                                 <td>@user.Address</td>
-                                <td>@user.Role.RoleName</td>
+                                <td>
+                                    @user.Role.RoleName
+                                    @if (@user.Role.RoleName.Equals("RESIDENT"))
+                                    {
+                                        <span>Up</span>
+                                    }
+                                    else // MANAGER
+                                    {
+                                        <span>Down</span>
+                                    }
+                                </td>
                                 <td>
                                     @if (@user.Status == 1)
                                     {

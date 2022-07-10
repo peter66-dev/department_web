@@ -30,7 +30,7 @@ namespace MyWeb.Pages.Managements
             }
             else
             {
-                Users = await userRepo.GetAllUsersByAdminAsync();
+                Users = await userRepo.GetAllResidentsAndManagerByAdminAsync();
                 return Page();
             }
         }
@@ -46,7 +46,7 @@ namespace MyWeb.Pages.Managements
             else
             {
                 await userRepo.ChangeStatusUser(Guid.Parse(userid), 1);
-                Users = await userRepo.GetAllUsersByAdminAsync();
+                Users = await userRepo.GetAllResidentsAndManagerByAdminAsync();
                 HttpContext.Session.SetString("ADMIN_MESSAGE", "Activated user successfully!");
                 return Page();
             }
@@ -63,7 +63,7 @@ namespace MyWeb.Pages.Managements
             else
             {
                 await userRepo.ChangeStatusUser(Guid.Parse(userid), 2);
-                Users = await userRepo.GetAllUsersByAdminAsync();
+                Users = await userRepo.GetAllResidentsAndManagerByAdminAsync();
                 HttpContext.Session.SetString("ADMIN_MESSAGE", "Banned user successfully!");
                 return Page();
             }

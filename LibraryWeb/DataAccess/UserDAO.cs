@@ -45,16 +45,17 @@ namespace MyLibrary.DataAccess
             return list;
         }
 
-        public async Task<IEnumerable<User>> GetAllUsersByAdminAsync()
+        public async Task<IEnumerable<User>> GetAllResidentsAndManagerByAdminAsync()
         {
             List<User> list = new List<User>();
             try
             {
                 var context = new department_dbContext();
                 list = await context.Users
-                    .Where(u => u.Role.RoleName.Equals("RESIDENT"))
-                    .Include(u => u.Role)
-                                .ToListAsync();
+                                        .Where(u => u.Role.RoleName.Equals("RESIDENT") 
+                                            || u.Role.RoleName.Equals("MANAGER"))
+                                        .Include(u => u.Role)
+                                        .ToListAsync();
             }
             catch (Exception ex)
             {
