@@ -10,6 +10,9 @@ namespace LibraryWeb.Repository
     {
         public List<User> GetAllUsers() => UserDAO.Instance.GetAllUsers();
 
+        public async Task<IEnumerable<User>> GetAllUsersByAdminAsync()
+            => await UserDAO.Instance.GetAllUsersByAdminAsync();
+
         public User GetUserById(Guid userId) => UserDAO.Instance.GetUserById(userId);
 
         public void DeleteUserById(Guid userId) => UserDAO.Instance.DeleteUserById(userId);
@@ -35,5 +38,9 @@ namespace LibraryWeb.Repository
 
         public void UpdateUser(Guid id, string fname, string lname, string email, string phone, string address, string password, bool gender)
             => UserDAO.Instance.UpdateUser(id, fname, lname, email, phone, address, password, gender);
+
+        public async Task ChangeStatusUser(Guid userid, int status)
+            => await UserDAO.Instance.ChangeStatusUser(userid, status);
+
     }
 }

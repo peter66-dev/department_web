@@ -41,7 +41,7 @@ namespace LibraryWeb.Model
         [Required(ErrorMessage = "Phone number is required")]
         [Display(Name ="Phone number")]
         [PhoneValidation]
-        public string PhoneNumber { get; set; }
+        public string PhoneNumber { get; set; } // Phải check trùng
 
         [Required(ErrorMessage = "Email is required")]
         [AddressValidation]
@@ -58,7 +58,7 @@ namespace LibraryWeb.Model
         [Required(ErrorMessage = "Confirm is required")]
         public string Avatar { get; set; }
 
-        public int Status { get; set; }
+        public int Status { get; set; } //
 
         public virtual Role Role { get; set; }
 

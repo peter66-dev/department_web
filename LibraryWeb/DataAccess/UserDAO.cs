@@ -29,6 +29,40 @@ namespace MyLibrary.DataAccess
             }
         }
 
+        public List<User> GetAllUsers()
+        {
+            List<User> list = new List<User>();
+            try
+            {
+                var context = new department_dbContext();
+                list = context.Users
+                                .ToList();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error at GetAllUsers: " + ex.Message);
+            }
+            return list;
+        }
+
+        public async Task<IEnumerable<User>> GetAllUsersByAdminAsync()
+        {
+            List<User> list = new List<User>();
+            try
+            {
+                var context = new department_dbContext();
+                list = await context.Users
+                    .Where(u => u.Role.RoleName.Equals("RESIDENT"))
+                    .Include(u => u.Role)
+                                .ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error at GetAllUsersByAdminAsync: " + ex.Message);
+            }
+            return list;
+        }
+
         public void UpdateUser(Guid id, string fname, string lname, string email, string phone, string address, string password, bool gender)
         {
             try
@@ -51,20 +85,7 @@ namespace MyLibrary.DataAccess
             }
         }
 
-        public List<User> GetAllUsers()
-        {
-            List<User> roles = new List<User>();
-            try
-            {
-                var context = new department_dbContext();
-                roles = context.Users.ToList();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Error at GetAllUsers: " + ex.Message);
-            }
-            return roles;
-        }
+        
 
         public User GetUserById(Guid userId)
         {
@@ -78,7 +99,7 @@ namespace MyLibrary.DataAccess
             }
             catch (Exception ex)
             {
-                throw new Exception("Error at GetUserById: " + ex.Message);
+                Console.WriteLine("Error at GetUserById: " + ex.Message);
             }
             return tmp;
         }
@@ -96,7 +117,7 @@ namespace MyLibrary.DataAccess
             }
             catch (Exception ex)
             {
-                throw new Exception("Error at GetUserByIdAsync: " + ex.Message);
+                Console.WriteLine("Error at GetUserByIdAsync: " + ex.Message);
             }
             return tmp;
         }
@@ -111,7 +132,7 @@ namespace MyLibrary.DataAccess
             }
             catch (Exception ex)
             {
-                throw new Exception("Error at CheckLogin: " + ex.Message);
+                Console.WriteLine("Error at CheckLogin: " + ex.Message);
             }
             return tmp;
         }
@@ -127,7 +148,7 @@ namespace MyLibrary.DataAccess
             }
             catch (Exception ex)
             {
-                throw new Exception("Error at CheckRole: " + ex.Message);
+                Console.WriteLine("Error at CheckRole: " + ex.Message);
             }
             return str;
         }
@@ -143,7 +164,7 @@ namespace MyLibrary.DataAccess
             }
             catch (Exception ex)
             {
-                throw new Exception("Error at DeleteUserById: " + ex.Message);
+                Console.WriteLine("Error at DeleteUserById: " + ex.Message);
             }
         }
         public void CreateUser(string firstname, string lastname, string email, string pass, bool gender, string phone, string address)
@@ -173,7 +194,7 @@ namespace MyLibrary.DataAccess
             }
             catch (Exception ex)
             {
-                throw new Exception("Error at CreateUser: " + ex.Message);
+                Console.WriteLine("Error at CreateUser: " + ex.Message);
             }
         }
 
@@ -188,7 +209,7 @@ namespace MyLibrary.DataAccess
             }
             catch (Exception ex)
             {
-                throw new Exception("Error at CheckEmail: " + ex.Message);
+                Console.WriteLine("Error at CheckEmail: " + ex.Message);
             }
             return check;
         }
@@ -204,7 +225,7 @@ namespace MyLibrary.DataAccess
             }
             catch (Exception ex)
             {
-                throw new Exception("Error at CheckEmailUpdate: " + ex.Message);
+                Console.WriteLine("Error at CheckEmailUpdate: " + ex.Message);
             }
             return check;
         }
@@ -220,9 +241,25 @@ namespace MyLibrary.DataAccess
             }
             catch (Exception ex)
             {
-                throw new Exception("Error at CheckPhoneNumberUpdate: " + ex.Message);
+                Console.WriteLine("Error at CheckPhoneNumberUpdate: " + ex.Message);
             }
             return check;
+        }
+
+        public async Task ChangeStatusUser(Guid userid, int status)
+        {
+            try
+            {
+                var c = new department_dbContext();
+                User user = await c.Users.FirstOrDefaultAsync(u => u.UserId == userid);
+                user.Status = status;
+                c.Entry(user).State = EntityState.Modified;
+                await c.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error at ActivatedUser: " + ex.Message);
+            }
         }
     }
 }

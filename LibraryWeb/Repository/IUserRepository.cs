@@ -11,6 +11,8 @@ namespace LibraryWeb.Repository
 
         List<User> GetAllUsers();
 
+        Task<IEnumerable<User>> GetAllUsersByAdminAsync();
+
         User GetUserById(Guid userId);
 
         User CheckLogin(string email, string password);
@@ -28,6 +30,8 @@ namespace LibraryWeb.Repository
         bool CheckPhoneNumberUpdate(string phonenumber, Guid userid);
 
         void UpdateUser(Guid id, string fname, string lname, string email, string phone, string address, string password, bool gender);
+
+        Task ChangeStatusUser(Guid userid, int status);
 
     }
 }
