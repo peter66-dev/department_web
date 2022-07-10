@@ -45,8 +45,8 @@ namespace MyWeb.Pages.Posts
                 if (searchString != null && searchString.Trim().Length > 0) // search by tag + title
                 {
                     searchString = searchString.Trim();
-                    Posts = await context.Posts.Where(p => (p.Tags.Contains(searchString) && (p.GroupPost.PublicStatus == 5 || p.PostType.PostTypeName.Equals("Announcement") || p.Status == 5)
-                                                          || (p.Title.Contains(searchString) && (p.GroupPost.PublicStatus == 5 || p.PostType.PostTypeName.Equals("Announcement") || p.Status == 5))))
+                    Posts = await context.Posts.Where(p => (p.Tags.Contains(searchString) && ((p.GroupPost.PublicStatus == 5 && p.Status == 5 && p.GroupPost.Status == 1) || p.PostType.PostTypeName.Equals("Announcement") )
+                                                          || (p.Title.Contains(searchString) && ((p.GroupPost.PublicStatus == 5 && p.Status == 5 && p.GroupPost.Status == 1) || p.PostType.PostTypeName.Equals("Announcement") ))))
                                                 .OrderBy(p => p.CreatedDate).Reverse()
                                                 .Include(p => p.GroupPost)
                                                 .Include(p => p.PostType)
@@ -59,7 +59,7 @@ namespace MyWeb.Pages.Posts
                 else if (searchTag != null)                               // search by tag
                 {
                     searchTag = searchTag.Trim();
-                    Posts = await context.Posts.Where(p => p.Tags.Contains(searchTag) && (p.GroupPost.PublicStatus == 5 || p.PostType.PostTypeName.Equals("Announcement")) && p.Status == 5)
+                    Posts = await context.Posts.Where(p => p.Tags.Contains(searchTag) && ((p.GroupPost.PublicStatus == 5 && p.Status == 5 && p.GroupPost.Status == 1) || p.PostType.PostTypeName.Equals("Announcement")) )
                                                .OrderBy(p => p.CreatedDate).Reverse()
                                                .Include(p => p.GroupPost)
                                                .Include(p => p.PostType)
@@ -72,7 +72,7 @@ namespace MyWeb.Pages.Posts
 
                 else // OK
                 {
-                    Posts = await context.Posts.Where(p => (p.GroupPost.PublicStatus == 5 && p.Status == 5)
+                    Posts = await context.Posts.Where(p => (p.GroupPost.PublicStatus == 5 && p.Status == 5 && p.GroupPost.Status == 1)
                                                         || p.PostType.PostTypeName.Equals("Announcement"))
                                                 .OrderBy(p => p.CreatedDate).Reverse()
                                                 .Include(p => p.GroupPost)
@@ -126,6 +126,20 @@ namespace MyWeb.Pages.Posts
                     {
                         searchTag = searchTag.Trim();
                         Posts = await postRepo.SearchTagByAdminRole(searchTag);
+                        searchTag = null;
+                    }
+                    else
+                    {
+                        Posts = await context.Posts.Where(p => (p.Status == 5 && p.GroupPost.Status == 1)
+                                                        || p.PostType.PostTypeName.Equals("Announcement"))
+                                                .OrderBy(p => p.CreatedDate).Reverse()
+                                                .Include(p => p.GroupPost)
+                                                .Include(p => p.PostType)
+                                                .Include(p => p.StatusNavigation)
+                                                .Include(p => p.UserPost)
+                                                .ThenInclude(u => u.Role)
+                                                .ToListAsync();
+                        searchString = null;
                         searchTag = null;
                     }
                 }

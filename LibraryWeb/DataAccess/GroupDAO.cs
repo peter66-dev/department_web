@@ -76,7 +76,7 @@ namespace MyLibrary.DataAccess
                 gr.Status = 2;
                 context.SaveChanges();
                 IGroupUserRepository guRepo = new GroupUserRepository();
-                guRepo.DeleteGroupUserById(groupId);
+                guRepo.DeleteMembersInGroup(groupId);
             }
             catch (Exception ex)
             {
@@ -115,7 +115,7 @@ namespace MyLibrary.DataAccess
             try
             {
                 var context = new department_dbContext();
-                list = await context.Groups.Where(g => g.GroupOwnerId == leaderId).ToListAsync();
+                list = await context.Groups.Where(g => g.GroupOwnerId == leaderId && g.Status == 1).ToListAsync();
             }
             catch (Exception ex)
             {

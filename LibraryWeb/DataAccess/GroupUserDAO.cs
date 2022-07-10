@@ -297,17 +297,33 @@ namespace MyLibrary.DataAccess
             {
                 var context = new department_dbContext();
                 List<GroupUser> gu = context.GroupUsers.Where(g => g.GroupId == groupid).ToList();
-                foreach (var item in gu)
+                foreach (GroupUser item in gu)
                 {
-                    var context1 = new department_dbContext();
-                    GroupUser tmp = context1.GroupUsers.FirstOrDefault(g => g.GroupUserId == item.GroupUserId);
-                    tmp.Status = 8;
-                    context1.Entry(tmp).State = EntityState.Modified;
+                    DeleteMemberInGroup(item.MemberId, item.GroupId);
                 }
             }
             catch (Exception ex)
             {
                 Console.WriteLine("Error at DeleteMembersInGroup: " + ex.Message);
+            }
+        }
+
+        private void DeleteMemberInGroup(Guid memberid, Guid groupid)
+        {
+            try
+            {
+                var context = new department_dbContext();
+                GroupUser gu = context.GroupUsers.FirstOrDefault(g => g.MemberId == memberid && g.GroupId == groupid);
+                gu.Status = 8;
+                context.Entry(gu).State = EntityState.Modified;
+                if (context.SaveChanges() > 0)
+                {
+                    Console.WriteLine("Da xoa members!");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error at DeleteMemberInGroup: " + ex.Message);
             }
         }
     }
