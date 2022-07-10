@@ -92,7 +92,7 @@ namespace MyLibrary.DataAccess
             return list;
         }
 
-        public async Task<IEnumerable<Post>> GetPostByUserIdAsync(Guid userid)
+        public async Task<IEnumerable<Post>> AdminSeeAllPostsUser(Guid userid) // có vô
         {
             IEnumerable<Post> list = null;
             try
@@ -103,10 +103,48 @@ namespace MyLibrary.DataAccess
                                     .Include(p => p.PostType)
                                     .Include(p => p.StatusNavigation)
                                     .Include(p => p.UserPost)
-                                    .Where(m => m.UserPostId == userid && (m.Status == 5 || m.Status == 7) && m.GroupPost.Status == 1)
+                                    .Where(m => m.UserPostId == userid && m.Status == 5 && m.GroupPost.Status == 1) // lấy bài đăng đã được duyệt ở group đang hoạt động(public + private)
                                     .OrderBy(p => p.CreatedDate)
                                     .Reverse()
                                     .ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error at AdminSeeAllPostsUser: " + ex.Message);
+            }
+            return list;
+        }
+
+        public async Task<IEnumerable<Post>> GetPostByUserIdAsync(Guid userid, string role)
+        {
+            IEnumerable<Post> list = null;
+            try
+            {
+                var context = new department_dbContext();
+                if (role.Equals("ADMIN"))
+                {
+                    list = await context.Posts
+                                   .Include(p => p.GroupPost)
+                                   .Include(p => p.PostType)
+                                   .Include(p => p.StatusNavigation)
+                                   .Include(p => p.UserPost)
+                                   .Where(m => m.UserPostId == userid && m.Status == 7)
+                                   .OrderBy(p => p.CreatedDate)
+                                   .Reverse()
+                                   .ToListAsync();
+                }
+                else
+                {
+                    list = await context.Posts
+                                   .Include(p => p.GroupPost)
+                                   .Include(p => p.PostType)
+                                   .Include(p => p.StatusNavigation)
+                                   .Include(p => p.UserPost)
+                                   .Where(m => m.UserPostId == userid && (m.Status == 5 && m.GroupPost.Status == 1))
+                                   .OrderBy(p => p.CreatedDate)
+                                   .Reverse()
+                                   .ToListAsync();
+                }
             }
             catch (Exception ex)
             {
@@ -231,7 +269,7 @@ namespace MyLibrary.DataAccess
                 {
                     list = await context.Posts.Where(p => p.UserPostId == userDetailId // Bài của userDetailId
                                                         && p.GroupPost.PublicStatus == 5
-                                                        && p.Status == 5 && p.GroupPost.Status == 1) // group public mà userDetailId đang quản lý
+                                                        && p.Status == 5 && p.GroupPost.Status == 1) // group public mà userDetailId đang join
                                               .Include(p => p.UserPost)
                                               .Include(p => p.GroupPost)
                                               .OrderBy(p => p.CreatedDate).Reverse()

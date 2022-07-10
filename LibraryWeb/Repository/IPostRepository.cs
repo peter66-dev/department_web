@@ -14,7 +14,7 @@ namespace LibraryWeb.Repository
 
         Post GetPostById(Guid postId);
 
-        Task<IEnumerable<Post>> GetPostByUserIdAsync(Guid userid);
+        Task<IEnumerable<Post>> GetPostByUserIdAsync(Guid userid, string role);
 
         int IncreaseLikesTotal(Guid postid);
 
@@ -54,5 +54,7 @@ namespace LibraryWeb.Repository
         IEnumerable<Post> GetPostByUserId(Guid userid);
 
         void DeleteMyPost(Guid postid);
+
+        Task<IEnumerable<Post>> AdminSeeAllPostsUser(Guid userid);
     }
 }

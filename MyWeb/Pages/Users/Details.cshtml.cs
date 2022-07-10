@@ -33,15 +33,25 @@ namespace MyWeb.Pages.Users
 
             User = await userRepo.GetUserByIdAsync(id.Value);
             string CURRENT_USER_ID = HttpContext.Session.GetString("CURRENT_USER_ID");
-            if (CURRENT_USER_ID == null || id.Value != Guid.Parse(CURRENT_USER_ID))
+            string rolename = HttpContext.Session.GetString("ROLE");
+            if (rolename != null && rolename.Equals("ADMIN") && User.Role.RoleName.Equals("ADMIN")) // admin coi admin
+            {
+                Posts = await postRepo.GetPostByUserIdAsync(id.Value, "ADMIN");
+            }else if (rolename != null && rolename.Equals("ADMIN") && !User.Role.RoleName.Equals("ADMIN")) // admin xem profile resident ̃& manager
+            {
+                Posts = await postRepo.AdminSeeAllPostsUser(id.Value);
+            }
+            else if (CURRENT_USER_ID == null || id.Value != Guid.Parse(CURRENT_USER_ID)) // chưa login vào profile người khác
             {
                 Posts = await postRepo.GetPostsInUserDetailsWithoutLogin(id.Value);
             }
             else if (id.Value == Guid.Parse(CURRENT_USER_ID)) // vào xem profile chính mình
             {
-                Posts = await postRepo.GetPostByUserIdAsync(id.Value);
+                Posts = await postRepo.GetPostByUserIdAsync(id.Value, rolename);
             }
             return Page();
+
+             // hiện tại admin chưa coi được private của manager + resident
         }
     }
 }

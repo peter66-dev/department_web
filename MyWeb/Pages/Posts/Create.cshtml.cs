@@ -74,7 +74,7 @@ namespace MyWeb.Pages.Posts
             if (!ModelState.IsValid)
             {
                 Console.WriteLine("Post information is not valid!");
-                ViewData["GroupPostId"] = new SelectList(await groupUserRepo.GetGroupsByUserId(Guid.Parse(userid)),
+                ViewData["GroupPostId"] = new SelectList(await groupRepo.GetGroupsByLeaderId(Guid.Parse(userid)),
                                                             "GroupId",
                                                             "GroupName");
                 return Page();

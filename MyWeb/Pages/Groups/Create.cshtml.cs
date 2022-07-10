@@ -20,7 +20,7 @@ namespace MyWeb.Pages.Groups
 
         [BindProperty]
         public Group Group { get; set; }
-        public CreateModel(LibraryWeb.DataAccess.department_dbContext context)
+        public CreateModel(department_dbContext context)
         {
             _context = context;
             groupRepo = new GroupRepository();
