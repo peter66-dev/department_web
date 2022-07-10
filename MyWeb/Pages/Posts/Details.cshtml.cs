@@ -195,5 +195,19 @@ namespace MyWeb.Pages.Posts
 
 
         }
+
+        public IActionResult OnGetDeletePost(string id)
+        {
+            string role = HttpContext.Session.GetString("ROLE");
+            if (role == null)
+            {
+                return RedirectToPage("../Login");
+            }
+            else
+            {
+                postRepo.DeleteMyPost(Guid.Parse(id));
+                return RedirectToPage("../Posts/Index");
+            }
+        }
     }
 }

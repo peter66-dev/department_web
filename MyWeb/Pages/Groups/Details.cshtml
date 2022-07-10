@@ -121,7 +121,7 @@
                         </div>
                     }
                 }
-                else if ((@Model.IsJoined == 0 || @Model.IsJoined == 2) && @Model.Role.Equals("RESIDENT")) // not join
+                else if ((@Model.IsJoined == 0 || @Model.IsJoined == 2 || @Model.IsJoined == 8) && @Model.Role.Equals("RESIDENT")) // not join
                 {
                     <div class="group-info status-click">
                         <a asp-page="./Details" asp-route-groupId="@Model.Group.GroupId" asp-page-handler="JoinGroupAction" class="join-btn text-center text-decoration-none">Join group</a>

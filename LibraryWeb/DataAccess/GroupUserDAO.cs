@@ -290,5 +290,25 @@ namespace MyLibrary.DataAccess
             }
             return check;
         }
+
+        public void DeleteMembersInGroup(Guid groupid)
+        {
+            try
+            {
+                var context = new department_dbContext();
+                List<GroupUser> gu = context.GroupUsers.Where(g => g.GroupId == groupid).ToList();
+                foreach (var item in gu)
+                {
+                    var context1 = new department_dbContext();
+                    GroupUser tmp = context1.GroupUsers.FirstOrDefault(g => g.GroupUserId == item.GroupUserId);
+                    tmp.Status = 8;
+                    context1.Entry(tmp).State = EntityState.Modified;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error at DeleteMembersInGroup: " + ex.Message);
+            }
+        }
     }
 }

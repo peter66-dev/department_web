@@ -11,29 +11,32 @@
 <link rel="stylesheet" href="~/css/PostDetail.css" />
 
 <div class="container-fluid my-detail-container">
-    <div class="react-container ">
-        <div class="react-item" id="btnLike">
-            @if (Model.IsLiked)
-            {
-                <button class="like-btn liked">
-                    <ion-icon class="icon like-icon" name="heart-outline" style="display:none"></ion-icon>
-                    <img class="heart-icon" src="~/img/heart.png" style="display:block" />
-                </button>
-            }
-            else
-            {
-                <button class="like-btn">
-                    <ion-icon class="icon like-icon" name="heart-outline" style="display:block"></ion-icon>
-                    <img class="heart-icon" src="~/img/heart.png" style="display:none" />
-                </button>
-            }
-            <p class="like-amount">@Model.Post.LikesTotal</p>
+    @if (@Model.Post.Status == 5 || @Model.Post.Status == 7)
+    {
+        <div class="react-container ">
+            <div class="react-item" id="btnLike">
+                @if (Model.IsLiked)
+                {
+                    <button class="like-btn liked">
+                        <ion-icon class="icon like-icon" name="heart-outline" style="display:none"></ion-icon>
+                        <img class="heart-icon" src="~/img/heart.png" style="display:block" />
+                    </button>
+                }
+                else
+                {
+                    <button class="like-btn">
+                        <ion-icon class="icon like-icon" name="heart-outline" style="display:block"></ion-icon>
+                        <img class="heart-icon" src="~/img/heart.png" style="display:none" />
+                    </button>
+                }
+                <p class="like-amount">@Model.Post.LikesTotal</p>
+            </div>
+            <div class="react-item">
+                <ion-icon class="icon mb-3" name="eye-outline"></ion-icon>
+                <p class="view-amount">@Model.Post.Views</p>
+            </div>
         </div>
-        <div class="react-item">
-            <ion-icon class="icon mb-3" name="eye-outline"></ion-icon>
-            <p class="view-amount">@Model.Post.Views</p>
-        </div>
-    </div>
+    }
     <div class="main-detail-container">
         @{
             string CURRENT_USER_ID = HttpContext.Session.GetString("CURRENT_USER_ID");
@@ -84,121 +87,125 @@
             <div class="post-content">
                 @Html.Raw(HttpUtility.HtmlDecode(@Model.Post.PostContent))
             </div>
-            <hr />
-            <div class="discussion">
-                <div class="discussion-top">
-                    <p>Comments <span id="commentsTotal" class="discuss-amount">(@Model.Post.CommentsTotal)</span></p>
-                </div>
-                <div class="discussion-bottom">
-                    @if (@Model.CurrentUser != null)
-                    {
-                        <img class="user-avatar" src="~/img/@Model.CurrentUser.Avatar" />
-                    }
-                    else
-                    {
-                        <img class="user-avatar" src="~/img/resident_avatar.png" />
-                    }
-                    <div class="your-cmt">
-                        <textarea id="commentContent" placeholder="Add comment..."
-                                  class="comment-textarea"
-                                  onfocus="handleFocus()"
-                                  oninput="handleInput()"></textarea>
-                        <div class="comment-btn-group">
-                            <button id="btnCommentRoot" class="submit-btn" disabled>
-                                Submit
-                            </button>
+            @if (@Model.Post.Status == 5 || @Model.Post.Status == 7)
+            {
+                <hr />
+                <div class="discussion">
+                    <div class="discussion-top">
+                        <p>Comments <span id="commentsTotal" class="discuss-amount">(@Model.Post.CommentsTotal)</span></p>
+                    </div>
+                    <div class="discussion-bottom">
+                        @if (@Model.CurrentUser != null)
+                        {
+                            <img class="user-avatar" src="~/img/@Model.CurrentUser.Avatar" />
+                        }
+                        else
+                        {
+                            <img class="user-avatar" src="~/img/resident_avatar.png" />
+                        }
+                        <div class="your-cmt">
+                            <textarea id="commentContent" placeholder="Add comment..."
+                                      class="comment-textarea"
+                                      onfocus="handleFocus()"
+                                      oninput="handleInput()"></textarea>
+                            <div class="comment-btn-group">
+                                <button id="btnCommentRoot" class="submit-btn" disabled>
+                                    Submit
+                                </button>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="comments">
+                    <div class="comments">
 
-                    <span id="commentsForeach"></span> @*make new comment*@
+                        <span id="commentsForeach"></span> @*make new comment*@
 
-                    @foreach (Comment cmt in @Model.Post.Comments.OrderBy(c => c.CreatedDate).Reverse())
-                    {
-                        <div class="comment-root">
-                            <div class="content">
-                                <img class="user-avatar" src="~/img/@cmt.UserComment.Avatar" />
-                                <div style="width: 100%">
-                                    <div class="comment">
-                                        <div class="d-flex align-items-center">
-                                            <div class="user">
-                                                <a asp-area="" asp-page="../Users/Details" asp-route-id="@cmt.UserCommentId" class="cmt-user text-decoration-none">
-                                                    @cmt.UserComment.FirstName @cmt.UserComment.LastName
-                                                </a>
-                                            </div>
-                                            <p class="cmt-time ml-2 ">@cmt.CreatedDate.ToString("dd MMMM yyyy h:mm tt")</p>
-                                        </div>
-
-                                        <div style="word-break: break-word">
-                                            @cmt.CommentContent
-                                        </div>
-                                    </div>
-                                    <div class="rep-btn">
-                                        @{
-                                            var repBtnIdInit = "repBtnIdInit" + cmt.CommentId;
-                                            <button id="@repBtnIdInit" class="repBtn" onclick="handleRep('@cmt.CommentId.ToString()', '@repBtnIdInit')">
-                                                <ion-icon name="chatbubbles-outline"></ion-icon>
-                                                Reply
-                                            </button>
-                                        }
-                                        <div id="@cmt.CommentId.ToString()" class="rep-form" style="display:none">
-                                            @{
-                                                var textAreaId = "txt" + cmt.CommentId;
-                                                var repBtnId = "repBtn" + cmt.CommentId;
-                                                <textarea placeholder="Reply..."
-                                                      id="@textAreaId"
-                                                      class="rep-comment-textarea"
-                                                      oninput="handleInput('@textAreaId', '@repBtnId')"></textarea>
-
-                                                <div class="rep-comment-btn-group">
-                                                    <button onclick="submitReplyCmt('@repBtnId.ToString()', '@textAreaId.ToString()')" id="@repBtnId" class="submit-rep-btn" disabled>
-                                                        Submit
-                                                    </button>
+                        @foreach (Comment cmt in @Model.Post.Comments.OrderBy(c => c.CreatedDate).Reverse())
+                        {
+                            <div class="comment-root">
+                                <div class="content">
+                                    <img class="user-avatar" src="~/img/@cmt.UserComment.Avatar" />
+                                    <div style="width: 100%">
+                                        <div class="comment">
+                                            <div class="d-flex align-items-center">
+                                                <div class="user">
+                                                    <a asp-area="" asp-page="../Users/Details" asp-route-id="@cmt.UserCommentId" class="cmt-user text-decoration-none">
+                                                        @cmt.UserComment.FirstName @cmt.UserComment.LastName
+                                                    </a>
                                                 </div>
-                                            }
+                                                <p class="cmt-time ml-2 ">@cmt.CreatedDate.ToString("dd MMMM yyyy h:mm tt")</p>
+                                            </div>
+
+                                            <div style="word-break: break-word">
+                                                @cmt.CommentContent
+                                            </div>
                                         </div>
-                                    </div>
+                                        <div class="rep-btn">
+                                            @{
+                                                var repBtnIdInit = "repBtnIdInit" + cmt.CommentId;
+                                                <button id="@repBtnIdInit" class="repBtn" onclick="handleRep('@cmt.CommentId.ToString()', '@repBtnIdInit')">
+                                                    <ion-icon name="chatbubbles-outline"></ion-icon>
+                                                    Reply
+                                                </button>
+                                            }
+                                            <div id="@cmt.CommentId.ToString()" class="rep-form" style="display:none">
+                                                @{
+                                                    var textAreaId = "txt" + cmt.CommentId;
+                                                    var repBtnId = "repBtn" + cmt.CommentId;
+                                                    <textarea placeholder="Reply..."
+                                                              id="@textAreaId"
+                                                              class="rep-comment-textarea"
+                                                              oninput="handleInput('@textAreaId', '@repBtnId')"></textarea>
 
-                                    @{
-                                        var boundaryCommentReply = "boundary" + cmt.CommentId;
-                                        <span id="@boundaryCommentReply"></span> @*make new comment reply*@
-                                    }
+                                                    <div class="rep-comment-btn-group">
+                                                        <button onclick="submitReplyCmt('@repBtnId.ToString()', '@textAreaId.ToString()')" id="@repBtnId" class="submit-rep-btn" disabled>
+                                                            Submit
+                                                        </button>
+                                                    </div>
+                                                }
+                                            </div>
+                                        </div>
 
-                                    @if (cmt.CommentReplies.Count > 0)
-                                    {
-                                        @foreach (CommentReply cr in cmt.CommentReplies.OrderBy(cr => cr.CreatedDate).Reverse())
+                                        @{
+                                            var boundaryCommentReply = "boundary" + cmt.CommentId;
+                                            <span id="@boundaryCommentReply"></span> @*make new comment reply*@
+                                        }
+
+                                        @if (cmt.CommentReplies.Count > 0)
                                         {
-                                            <div class="comment-rep">
-                                                <div class="content">
-                                                    <img class="user-avatar" src="~/img/@cr.UserReply.Avatar" />
-                                                    <div style="width: 100%">
-                                                        <div class="comment">
-                                                            <div class="d-flex align-items-center">
-                                                                <div class="user">
-                                                                    <a asp-area="" asp-page="../Users/Details" asp-route-id="@cr.UserReplyId" class="cmt-user text-decoration-none">
-                                                                        @cr.UserReply.FirstName @cr.UserReply.LastName
-                                                                    </a>
+                                            @foreach (CommentReply cr in cmt.CommentReplies.OrderBy(cr => cr.CreatedDate).Reverse())
+                                            {
+                                                <div class="comment-rep">
+                                                    <div class="content">
+                                                        <img class="user-avatar" src="~/img/@cr.UserReply.Avatar" />
+                                                        <div style="width: 100%">
+                                                            <div class="comment">
+                                                                <div class="d-flex align-items-center">
+                                                                    <div class="user">
+                                                                        <a asp-area="" asp-page="../Users/Details" asp-route-id="@cr.UserReplyId" class="cmt-user text-decoration-none">
+                                                                            @cr.UserReply.FirstName @cr.UserReply.LastName
+                                                                        </a>
+                                                                    </div>
+                                                                    <p class="cmt-time ml-2 ">@cr.CreatedDate.ToString("dd MMMM yyyy h:mm tt")</p>
                                                                 </div>
-                                                                <p class="cmt-time ml-2 ">@cr.CreatedDate.ToString("dd MMMM yyyy h:mm tt")</p>
-                                                            </div>
 
-                                                            <div style="word-break: break-word">
-                                                                @cr.CommentReplyContent
+                                                                <div style="word-break: break-word">
+                                                                    @cr.CommentReplyContent
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            }
                                         }
-                                    }
 
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    }
+                        }
+                    </div>
                 </div>
-            </div>
+            }
+
         </div>
     </div>
     <div class="owner-info-container">
@@ -251,7 +258,7 @@
             confirmButtonText: 'Yes, i want!'
         }).then((result) => {
             if (result.isConfirmed) {
-                window.location = "./Delete?handler=DeletePost&id=@Model.Post.PostId";
+                window.location = "./Details?handler=DeletePost&id=@Model.Post.PostId";
             }
         });
     }

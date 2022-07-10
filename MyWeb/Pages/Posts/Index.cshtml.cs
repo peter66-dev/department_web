@@ -92,7 +92,7 @@ namespace MyWeb.Pages.Posts
                 { // Lấy ra những group mà nó đang làm chủ
                     var groupContXext = new department_dbContext();
                     Groups = await groupContXext.Groups
-                                                    .Where(g => g.GroupOwnerId.ToString() == (current_user_id))
+                                                    .Where(g => g.GroupOwnerId.ToString() == (current_user_id) && g.Status == 1)
                                                     .ToListAsync();
                 }
                 else if (role.Equals("RESIDENT"))

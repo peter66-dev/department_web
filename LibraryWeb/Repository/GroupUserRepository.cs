@@ -43,5 +43,8 @@ namespace LibraryWeb.Repository
 
         public bool RejectResident(Guid userid, Guid groupid)
             => GroupUserDAO.Instance.RejectResident(userid, groupid);
+
+        public void DeleteMembersInGroup(Guid groupid)
+            => GroupUserDAO.Instance.DeleteMembersInGroup(groupid);
     }
 }

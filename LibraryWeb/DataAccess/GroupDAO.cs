@@ -1,5 +1,6 @@
 ﻿using LibraryWeb.DataAccess;
 using LibraryWeb.Model;
+using LibraryWeb.Repository;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -73,8 +74,9 @@ namespace MyLibrary.DataAccess
                 var context = new department_dbContext();
                 Group gr = await context.Groups.FirstOrDefaultAsync(g => g.GroupId == groupId);
                 gr.Status = 2;
-
                 context.SaveChanges();
+                IGroupUserRepository guRepo = new GroupUserRepository();
+                guRepo.DeleteGroupUserById(groupId);
             }
             catch (Exception ex)
             {
