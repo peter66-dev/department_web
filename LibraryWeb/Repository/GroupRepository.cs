@@ -32,7 +32,7 @@ namespace LibraryWeb.Repository
         public bool CheckGroupNameExistedForUpdate(Guid groupid, string groupName)
             => GroupDAO.Instance.CheckGroupNameExistedForUpdate(groupid, groupName);
 
-        public void UpdateGroup(Guid groupid, string groupName, int publicStatus, string description)
-            => GroupDAO.Instance.UpdateGroup(groupid, groupName, publicStatus, description);
+        public void UpdateGroup(Guid groupid, Guid leaderid, string groupName, int publicStatus, string description)
+            => GroupDAO.Instance.UpdateGroup(groupid,leaderid, groupName, publicStatus, description);
     }
 }

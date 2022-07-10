@@ -37,7 +37,6 @@ namespace MyWeb.Pages.Managements
 
         public async Task<IActionResult> OnGetAllowUserAsync(string userid)
         {
-            //HttpContext.Session.Remove("ADMIN_MESSAGE");
             string role = HttpContext.Session.GetString("ROLE");
             if (role == null || !role.Equals("ADMIN"))
             {
@@ -54,7 +53,6 @@ namespace MyWeb.Pages.Managements
 
         public async Task<IActionResult> OnGetBanUserAsync(string userid)
         {
-            //HttpContext.Session.Remove("ADMIN_MESSAGE");
             string role = HttpContext.Session.GetString("ROLE");
             if (role == null || !role.Equals("ADMIN"))
             {
@@ -87,6 +85,8 @@ namespace MyWeb.Pages.Managements
 
         public async Task<IActionResult> OnGetDownRoleAsync(string userid)
         {
+            HttpContext.Session.Remove("ADMIN_MESSAGE");
+            HttpContext.Session.Remove("ADMIN_FAILED_MESSAGE");
             string role = HttpContext.Session.GetString("ROLE");
             if (role == null || !role.Equals("ADMIN"))
             {
@@ -101,7 +101,7 @@ namespace MyWeb.Pages.Managements
                 }
                 else
                 {
-                    HttpContext.Session.SetString("ADMIN_MESSAGE", "Down role manager failed! Because this manager is currently managing several groups now.");
+                    HttpContext.Session.SetString("ADMIN_FAILED_MESSAGE", "Down role manager failed! Because this manager is currently managing several groups now.");
                 }
 
                 Users = await userRepo.GetAllResidentsAndManagerByAdminAsync();

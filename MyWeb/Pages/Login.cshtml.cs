@@ -19,6 +19,17 @@ namespace MyWeb.Pages
             userRepo = new UserRepository();
         }
 
+        public IActionResult OnGet()
+        {
+            string role = HttpContext.Session.GetString("ROLE");
+            if (role!= null)
+            {
+                return RedirectToPage("./Posts/Index");
+            }
+
+            return Page();
+        }
+
         public IActionResult OnPost()
         {
             User tmp = userRepo.CheckLogin(UserLogin.Email, UserLogin.Password);

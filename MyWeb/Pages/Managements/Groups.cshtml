@@ -34,13 +34,13 @@
             <p class="font-weight-bold mb-2">Menu</p>
             <ul class="mb-3">
                 <a asp-page="./Groups">
-                <li class="d-flex align-items-center">
+                <li id="group_manage" class="d-flex align-items-center">
                     <div class="group-manage-icon icon"></div>
                     Group Managament
                 </li>
                 </a>
                 <a asp-page="./Users">
-                <li class="d-flex align-items-center">
+                <li id="user_manage" class="d-flex align-items-center">
                     <div class="user-manage-icon icon"></div>
                     User Managament
                 </li>
@@ -182,5 +182,13 @@
                 window.location = './Groups?handler=DeleteGroup&id=' + id;
             }
         });
+    }
+    const grouptManage = document.querySelector('#group_manage');
+    const userManage = document.querySelector('#user_manage');
+    if (window.location.pathname == "/managements/groups") {
+        grouptManage.classList.add('li-active');
+        if (userManage.classList.contains('li-active')) {
+            userManage.classList.remove('li-active');
+        }
     }
 </script>

@@ -77,7 +77,8 @@ namespace MyWeb.Pages.Groups
             }
             else
             {
-                groupRepo.UpdateGroup(Group.GroupId, Group.GroupName.Trim(), Group.PublicStatus, Group.GroupDescription.Trim());
+                Console.WriteLine("Group owner id: " + Group.GroupOwnerId);
+                groupRepo.UpdateGroup(Group.GroupId, Group.GroupOwnerId, Group.GroupName.Trim(), Group.PublicStatus, Group.GroupDescription.Trim());
                 return RedirectToPage("../Managements/Groups");
             }
 

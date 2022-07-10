@@ -218,13 +218,14 @@ namespace MyLibrary.DataAccess
             return status;
         }
 
-        public void UpdateGroup(Guid groupid, string groupName, int publicStatus, string description)
+        public void UpdateGroup(Guid groupid, Guid leaderid, string groupName, int publicStatus, string description)
         {
             try
             {
                 var context = new department_dbContext();
                 Group g = context.Groups.FirstOrDefault(gr => gr.GroupId == groupid);
                 g.GroupName = groupName;
+                g.GroupOwnerId = leaderid;
                 g.PublicStatus = publicStatus;
                 g.GroupDescription = description;
                 context.Entry(g).State = EntityState.Modified;

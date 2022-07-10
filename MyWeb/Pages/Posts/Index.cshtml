@@ -24,7 +24,7 @@
             </a>
 
             @if (Accessor.HttpContext.Session.GetString("ROLE") != null
-        && Accessor.HttpContext.Session.GetString("ROLE").Equals("ADMIN"))
+            && Accessor.HttpContext.Session.GetString("ROLE").Equals("ADMIN"))
             {
                 <a asp-page="Create">
                 <li class="d-flex align-items-center">
@@ -41,8 +41,8 @@
             }
 
             @if (Accessor.HttpContext.Session.GetString("ROLE") != null
-        && (Accessor.HttpContext.Session.GetString("ROLE").Equals("MANAGER") ||
-        Accessor.HttpContext.Session.GetString("ROLE").Equals("RESIDENT")))
+            && (Accessor.HttpContext.Session.GetString("ROLE").Equals("MANAGER") ||
+            Accessor.HttpContext.Session.GetString("ROLE").Equals("RESIDENT")))
             {
                 <a asp-page="Create">
                 <li class="d-flex align-items-center">
@@ -62,7 +62,7 @@
             }
 
             @if (Accessor.HttpContext.Session.GetString("ROLE") != null
-        && (Accessor.HttpContext.Session.GetString("ROLE").Equals("MANAGER")))
+            && (Accessor.HttpContext.Session.GetString("ROLE").Equals("MANAGER")))
             {
                 <a asp-area="" asp-page="../Managements/Posts">
                 <li class="d-flex align-items-center">
@@ -74,7 +74,7 @@
         </ul>
 
         @if (Accessor.HttpContext.Session.GetString("ROLE") != null
-       && Accessor.HttpContext.Session.GetString("ROLE").Equals("MANAGER"))
+        && Accessor.HttpContext.Session.GetString("ROLE").Equals("MANAGER"))
         {
             <p class="font-weight-bold mb-2 mt-2">Groups</p>
             @if (@Model.Groups.Count > 0)
@@ -85,7 +85,7 @@
                         <a asp-area="" asp-page="../Groups/Details" asp-route-id="@group.GroupId">
                         <li class="d-flex align-items-center">
                             <div class="group-icon icon"></div>
-                            @group.GroupName
+                                @group.GroupName
                         </li>
                         </a>
                     </ul>
@@ -103,7 +103,7 @@
                         <a asp-area="" asp-page="../Groups/Details" asp-route-id="@group.GroupId">
                         <li class="d-flex align-items-center">
                             <div class="group-icon icon"></div>
-                            @group.Group.GroupName
+                                @group.Group.GroupName
                         </li>
                         </a>
                     </ul>
@@ -142,13 +142,13 @@
                         <div class="flex-textt">
                             <p class="date">@p.CreatedDate.ToString("dddd, dd MMMM yyyy h:mm tt")</p>
                             @if ((@p.GroupPost == null && @p.Status == 7)
-                          || @p.GroupPost.PublicStatus == 5)
+                           || @p.GroupPost.PublicStatus == 5)
                             {
                                 <img src="~/img/earth.png" />
                             }
                             else
                             {
-                                <img src="~/img/lock.png" />
+                                <img src="~/img/group.png" />
                             }
                         </div>
                     </div>
@@ -207,8 +207,8 @@
             }
         </div>
         @if (HttpContext.Session.GetString("ROLE") != null &&
-       HttpContext.Session.GetString("ROLE").Equals("RESIDENT")
-       && @Model.OtherGroups.ToList().Count > 0)
+        HttpContext.Session.GetString("ROLE").Equals("RESIDENT")
+        && @Model.OtherGroups.ToList().Count > 0)
         {
             <div class="d-flex justify-content-between">
                 <p class="font-weight-bold mb-2 mt-4">Discover new groups</p>
@@ -218,7 +218,7 @@
                 {
                     <div class="dis-group">
                         <a asp-page="../Groups/Details" asp-route-id="@group.GroupId"
-                           class="dis-title text-decoration-none text-dark">
+                   class="dis-title text-decoration-none text-dark">
                             @group.GroupName
                         </a>
                         @if (@group.PublicStatus == 5)

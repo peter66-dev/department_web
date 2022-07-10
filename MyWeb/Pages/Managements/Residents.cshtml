@@ -31,13 +31,13 @@
             <p class="font-weight-bold mb-2">Menu</p>
             <ul class="mb-3">
                 <a asp-page="./Posts">
-                <li class="d-flex align-items-center">
+                <li id="pending_post" class="d-flex align-items-center">
                     <div class="pending-post-icon icon"></div>
                     Pending Post
                 </li>
                 </a>
                 <a asp-page="./Residents">
-                <li class="d-flex align-items-center">
+                <li id="pending_resident" class="d-flex align-items-center">
                     <div class="pending-resident-icon icon"></div>
                     Pending Resident
                 </li>
@@ -100,7 +100,15 @@
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 
 <script>
-    $(document).ready(function () {
+    $(document).ready(function() {
         $('#resident-management').DataTable();
     });
+    const pendingPostManage = document.querySelector('#pending_post');
+    const pendingResManage = document.querySelector('#pending_resident');
+    if (window.location.pathname == "/managements/residents") {
+        pendingResManage.classList.add('li-active');
+        if (pendingPostManage.classList.contains('li-active')) {
+            pendingPostManage.classList.remove('li-active');
+        }
+    }
 </script>

@@ -20,6 +20,6 @@ namespace LibraryWeb.Repository
         bool CheckGroupNameExisted(string groupName);
         bool CheckGroupNameExistedForUpdate(Guid groupid, string groupName);
 
-        void UpdateGroup(Guid groupid, string groupName, int publicStatus, string description);
+        void UpdateGroup(Guid groupid, Guid leaderid, string groupName, int publicStatus, string description);
     }
 }
