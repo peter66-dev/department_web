@@ -20,7 +20,9 @@
     <header>
         <nav class="navbar navbar-expand-md navbar-toggleable-md navbar-light bg-white border-bottom box-shadow mb-3 fixed-top">
             <div class="container-fluid my-container">
-                <a class="navbar-brand font-weight-bold" asp-area="" asp-page="../Posts/Index">FDepartment</a>
+                <a class="navbar-brand font-weight-bold" asp-area="" asp-page="../Posts/Index">
+                    <img style="width: 100px" src="~/img/main_logo.png" />
+                </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -29,7 +31,7 @@
                 @* search form *@
                 <div class="navbar-collapse collapse d-md-inline-flex justify-content-between">
                     <div class="navbar-nav my-search-input">
-                        <form asp-area="Posts" asp-page="Index" method="get" class="d-flex">
+                        <form asp-area="Posts" asp-page="../Posts/Index" method="get" class="d-flex">
                             <input type="text" name="SearchString" placeholder="Search..." />
                             <button>
                                 <ion-icon name="search-outline" class="search-icon" />
@@ -43,16 +45,28 @@
                         if (Accessor.HttpContext.Session.GetString("ROLE") != null)
                         {
                             <li class="nav-item mr-2 d-flex align-items-center">
-                                <p class="nav-link text-dark">
-                                    Welcome @Accessor.HttpContext.Session.GetString("ROLE").ToLower(),
-                                    <a asp-area="" asp-page="../Users/Details" asp-route-id="@Accessor.HttpContext.Session.GetString("CURRENT_USER_ID")"
-                                            class="text-info text-decoration-none">
-                                        @Accessor.HttpContext.Session.GetString("CURRENT_USER_FULLNAME")
-                                    </a>
+                                <p class="nav-link text-dark position-relative">
+                                    <img class="avatar" style="width: 35px; height: 35px; cursor: pointer" onclick="handleClick()" src="~/img/@Accessor.HttpContext.Session.GetString("CURRENT_USER_AVATAR")" />
+                                    <div class="dropdown-ava-menu">
+                                        <div class="dropdown-items-menu">
+                                            <a asp-area="" asp-page="../Users/Details" asp-route-id="@Accessor.HttpContext.Session.GetString("CURRENT_USER_ID")"
+                                               class="text-decoration-none dropdown-item flex-column">
+                                                <span class="user-name">@Accessor.HttpContext.Session.GetString("CURRENT_USER_FULLNAME")</span>
+                                                <span class="user-role">@@@Accessor.HttpContext.Session.GetString("ROLE").ToLower()</span>
+                                            </a>
+                                            <div class="divider"></div>
+                                            <a class="text-decoration-none dropdown-item">
+                                                Create News
+                                            </a>
+                                            <a class="text-decoration-none dropdown-item">
+                                                Settings
+                                            </a>
+                                            <div class="divider"></div>
+                                            <a class="text-decoration-none dropdown-item" asp-area="" asp-page-handler="Logout" asp-page="/Login">Log out</a>
+                                        </div>
+                                    </div>
+
                                 </p>
-                            </li>
-                            <li class="nav-item mr-2 btn-logout">
-                                <a class="nav-link " asp-area="" asp-page-handler="Logout" asp-page="/Login">Log out</a>
                             </li>
                         }
                         else
@@ -86,6 +100,21 @@
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap4.min.js"></script>
+
+    <script>
+
+        const avatar = document.querySelector('.avatar');
+        const dropdownAva = document.querySelector('.dropdown-ava-menu');
+        //function handle open avatar menu
+        function handleClick() {
+            dropdownAva.style.display = 'block';
+        }
+        document.addEventListener('click', function handleClickOutsideMenu(event) {
+            if (dropdownAva != null && avatar != null && !dropdownAva.contains(event.target) && !avatar.contains(event.target)) {
+                dropdownAva.style.display = 'none';
+            }
+        });
+    </script>
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>

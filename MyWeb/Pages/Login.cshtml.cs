@@ -43,6 +43,7 @@ namespace MyWeb.Pages
                 string role = userRepo.CheckRole(tmp);
                 HttpContext.Session.SetString("CURRENT_USER_ID", tmp.UserId.ToString());
                 HttpContext.Session.SetString("CURRENT_USER_FULLNAME", $"{tmp.FirstName} {tmp.LastName}");
+                HttpContext.Session.SetString("CURRENT_USER_AVATAR", tmp.Avatar);
                 if (role.Equals("ADMIN"))
                 {
                     HttpContext.Session.SetString("ROLE", "ADMIN");
@@ -68,6 +69,7 @@ namespace MyWeb.Pages
             Console.WriteLine("Da logout!");
             HttpContext.Session.Remove("CURRENT_USER_ID");
             HttpContext.Session.Remove("CURRENT_USER_FULLNAME");
+            HttpContext.Session.Remove("CURRENT_USER_AVATAR");
             HttpContext.Session.Remove("ROLE");
             HttpContext.Session.Remove("PENDING_RESIDENT_MESSAGE");
             HttpContext.Session.Clear();
