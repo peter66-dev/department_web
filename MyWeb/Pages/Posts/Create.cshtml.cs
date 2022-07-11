@@ -56,7 +56,7 @@ namespace MyWeb.Pages.Posts
             }
             else
             {
-                Console.WriteLine("[SYSTEM MESSAGE]: CHECK AGAIN LOGIC IN OnGetAsync-CREATE POST METHOD!");
+                Console.WriteLine("[SYSTEM MESSAGE]: THIS ACCOUNT IS ADMIN ROLE!");
             }
             return Page();
         }
@@ -92,7 +92,7 @@ namespace MyWeb.Pages.Posts
                 }
                 else
                 {
-                    Console.WriteLine("[SYSTEM MESSAGE]: CHECK AGAIN LOGIC IN OnGetAsync-CREATE POST METHOD!");
+                    Console.WriteLine("[SYSTEM MESSAGE]: THIS ACCOUNT IS ADMIN ROLE!");
                 }
                 return Page();
             }
@@ -110,8 +110,6 @@ namespace MyWeb.Pages.Posts
                 }
                 return RedirectToPage("./Index");
             }
-
-
         }
     }
 }

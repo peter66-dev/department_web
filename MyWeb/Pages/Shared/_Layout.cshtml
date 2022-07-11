@@ -56,10 +56,19 @@
                                                 <span class="user-role">@@@Accessor.HttpContext.Session.GetString("ROLE").ToLower()</span>
                                             </a>
                                             <div class="divider"></div>
-                                            <a class="text-decoration-none dropdown-item">
-                                                Create News
-                                            </a>
-                                            <a class="text-decoration-none dropdown-item">
+                                            @if (@Accessor.HttpContext.Session.GetString("ROLE").Equals("ADMIN"))
+                                            {
+                                                <a asp-area="" asp-page="../Posts/Create" class="text-decoration-none dropdown-item">
+                                                    Create Announcement
+                                                </a>
+                                            }
+                                            else
+                                            {
+                                                <a asp-area="" asp-page="../Posts/Create" class="text-decoration-none dropdown-item">
+                                                    Create News
+                                                </a>
+                                            }
+                                            <a asp-area="" asp-page="../Users/Edit" asp-route-id="@Accessor.HttpContext.Session.GetString("CURRENT_USER_ID")" class="text-decoration-none dropdown-item">
                                                 Settings
                                             </a>
                                             <div class="divider"></div>

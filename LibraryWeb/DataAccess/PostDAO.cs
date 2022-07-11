@@ -474,7 +474,7 @@ namespace MyLibrary.DataAccess
             }
             catch (Exception ex)
             {
-                throw new Exception("Error at CreatePost: " + ex.Message);
+                throw new Exception("Error at IncreaseViews: " + ex.Message);
             }
         }
 
