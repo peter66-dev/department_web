@@ -141,8 +141,7 @@
                         </div>
                         <div class="flex-textt">
                             <p class="date">@p.CreatedDate.ToString("dddd, dd MMMM yyyy h:mm tt")</p>
-                            @if ((@p.GroupPost == null && @p.Status == 7)
-                           || @p.GroupPost.PublicStatus == 5)
+                            @if ((@p.GroupPost == null && @p.Status == 7) || (p.GroupPost != null && @p.GroupPost.PublicStatus == 5))
                             {
                                 <img src="~/img/earth.png" />
                             }

@@ -182,7 +182,7 @@ namespace MyLibrary.DataAccess
                 GroupUserRepository repo = new GroupUserRepository();
                 GroupRepository groupRepo = new GroupRepository();
                 list = context.Posts.Where(p => (((p.GroupPost.PublicStatus == 5 && p.Status == 5 && p.GroupPost.Status == 1)
-                                                    || p.PostType.PostTypeName.Equals("Announcement"))))
+                                                    || (p.PostType.PostTypeName.Equals("Announcement") && p.Status == 7))))
                                                 .OrderBy(p => p.CreatedDate).Reverse()
                                                 .Include(p => p.GroupPost)
                                                 .Include(p => p.PostType)
@@ -543,8 +543,8 @@ namespace MyLibrary.DataAccess
 
                 IEnumerable<Group> groups = await repo.GetGroupsByUserId(userid);
                 IEnumerable<Group> groups1 = await groupRepo.GetGroupsByLeaderId(userid);
-                list = context.Posts.Where(p => (p.Tags.Contains(searchString) && ((p.GroupPost.PublicStatus == 5 && p.Status == 5 && p.GroupPost.Status == 1) || p.PostType.PostTypeName.Equals("Announcement"))
-                                                          || (p.Title.Contains(searchString) && ((p.GroupPost.PublicStatus == 5 && p.Status == 5 && p.GroupPost.Status == 1) || p.PostType.PostTypeName.Equals("Announcement")))))
+                list = context.Posts.Where(p => (p.Tags.Contains(searchString) && ((p.GroupPost.PublicStatus == 5 && p.Status == 5 && p.GroupPost.Status == 1) || (p.PostType.PostTypeName.Equals("Announcement") && p.Status == 7))
+                                                          || (p.Title.Contains(searchString) && ((p.GroupPost.PublicStatus == 5 && p.Status == 5 && p.GroupPost.Status == 1) || (p.PostType.PostTypeName.Equals("Announcement") && p.Status == 7)))))
                                                 .OrderBy(p => p.CreatedDate).Reverse()
                                                 .Include(p => p.GroupPost)
                                                 .Include(p => p.PostType)
@@ -598,7 +598,7 @@ namespace MyLibrary.DataAccess
                 GroupUserRepository repo = new GroupUserRepository();
                 GroupRepository groupRepo = new GroupRepository();
                 list = context.Posts.Where(p => (p.Tags.Contains(searchTags) && (((p.GroupPost.PublicStatus == 5 && p.Status == 5 && p.GroupPost.Status == 1) // 1
-                                                            || p.PostType.PostTypeName.Equals("Announcement")))))
+                                                            || (p.PostType.PostTypeName.Equals("Announcement") && p.Status == 7)))))
                                                 .OrderBy(p => p.CreatedDate).Reverse()
                                                 .Include(p => p.GroupPost)
                                                 .Include(p => p.PostType)

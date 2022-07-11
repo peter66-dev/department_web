@@ -43,9 +43,7 @@ namespace MyWeb.Pages.Posts
                 {
                     IsAllowCreated = false;
                 }
-                ViewData["GroupPostId"] = new SelectList(await groupUserRepo.GetGroupsByUserId(Guid.Parse(userid)),
-                                                            "GroupId",
-                                                            "GroupName");
+                ViewData["GroupPostId"] = new SelectList(list, "GroupId", "GroupName");
             }
             else if (role.Equals("MANAGER"))
             {
@@ -54,9 +52,7 @@ namespace MyWeb.Pages.Posts
                 {
                     IsAllowCreated = false;
                 }
-                ViewData["GroupPostId"] = new SelectList(await groupRepo.GetGroupsByLeaderId(Guid.Parse(userid)),
-                                                            "GroupId",
-                                                            "GroupName");
+                ViewData["GroupPostId"] = new SelectList(list, "GroupId", "GroupName");
             }
             else
             {
@@ -74,9 +70,30 @@ namespace MyWeb.Pages.Posts
             if (!ModelState.IsValid)
             {
                 Console.WriteLine("Post information is not valid!");
-                ViewData["GroupPostId"] = new SelectList(await groupRepo.GetGroupsByLeaderId(Guid.Parse(userid)),
-                                                            "GroupId",
-                                                            "GroupName");
+                string role = HttpContext.Session.GetString("ROLE");
+
+                if (role.Equals("RESIDENT"))
+                {
+                    IEnumerable<Group> list = await groupUserRepo.GetGroupsByUserId(Guid.Parse(userid));
+                    if (list.ToList().Count == 0)
+                    {
+                        IsAllowCreated = false;
+                    }
+                    ViewData["GroupPostId"] = new SelectList(list, "GroupId", "GroupName");
+                }
+                else if (role.Equals("MANAGER"))
+                {
+                    IEnumerable<Group> list = await groupRepo.GetGroupsByLeaderId(Guid.Parse(userid));
+                    if (list.ToList().Count == 0)
+                    {
+                        IsAllowCreated = false;
+                    }
+                    ViewData["GroupPostId"] = new SelectList(list, "GroupId", "GroupName");
+                }
+                else
+                {
+                    Console.WriteLine("[SYSTEM MESSAGE]: CHECK AGAIN LOGIC IN OnGetAsync-CREATE POST METHOD!");
+                }
                 return Page();
             }
             else
