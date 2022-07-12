@@ -423,7 +423,7 @@ namespace MyLibrary.DataAccess
                 post.CommentsTotal = 0;
                 post.Views = 0;
                 post.Tags = tags.Trim();
-                post.PostContent = content;
+                post.PostContent = content.Trim();
                 post.CreatedDate = DateTime.Now;
                 post.LastModified = null;
                 post.ApprovedDate = null;
@@ -740,7 +740,7 @@ namespace MyLibrary.DataAccess
                 Post post = await context.Posts.FirstOrDefaultAsync(p => p.PostId == postid);
                 post.Title = title;
                 post.Tags = tags;
-                post.PostContent = content;
+                post.PostContent = content.Trim();
                 post.LastModified = DateTime.Now;
                 context.Entry(post).State = EntityState.Modified;
                 check = context.SaveChanges() > 0;
