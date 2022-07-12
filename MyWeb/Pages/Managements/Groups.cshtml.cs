@@ -41,7 +41,6 @@ namespace MyWeb.Pages.Managements
             }
             else
             {
-                Console.WriteLine("Group id deleted:" + id);
                 await groupRepo.DeleteGroupByIdAsync(Guid.Parse(id));
                 HttpContext.Session.SetString("DELETE_GROUP_MESSAGE", "Deleted successfully!");
                 Groups = await groupRepo.GetGroupsAsync();

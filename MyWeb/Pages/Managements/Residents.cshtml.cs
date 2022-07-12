@@ -49,7 +49,6 @@ namespace MyWeb.Pages.Managements
 
         public IActionResult OnGetRejectResident(string userid, string groupid)
         {
-            Console.WriteLine("Toi la OnGetRejectResident");
             if (guRepo.RejectResident(Guid.Parse(userid), Guid.Parse(groupid)))
             {
                 Console.WriteLine("Reject resident successfully!");

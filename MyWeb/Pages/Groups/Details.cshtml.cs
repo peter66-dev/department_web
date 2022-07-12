@@ -111,7 +111,6 @@ namespace MyWeb.Pages.Groups
 
         public async Task<IActionResult> OnGetCancelGroupActionAsync(string groupId) // default: đã login
         {
-            Console.WriteLine("Tui la OnGetCancelGroupAction");
             string CURRENT_USER_ID = HttpContext.Session.GetString("CURRENT_USER_ID");
 
             bool check = groupUserRepo.LetUserLeaveGroup(Guid.Parse(CURRENT_USER_ID), Guid.Parse(groupId));

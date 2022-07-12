@@ -78,7 +78,7 @@ namespace MyWeb.Pages.Managements
             {
                 await userRepo.UpRole(Guid.Parse(userid));
                 Users = await userRepo.GetAllResidentsAndManagerByAdminAsync();
-                HttpContext.Session.SetString("ADMIN_MESSAGE", "Up role resident successfully!");
+                HttpContext.Session.SetString("ADMIN_MESSAGE", "Promote to manager role successfully!");
                 return Page();
             }
         }
@@ -97,11 +97,11 @@ namespace MyWeb.Pages.Managements
                 bool check = await userRepo.DownRole(Guid.Parse(userid));
                 if (check)
                 {
-                    HttpContext.Session.SetString("ADMIN_MESSAGE", "Down role manager successfully!");
+                    HttpContext.Session.SetString("ADMIN_MESSAGE", "Demote to resident role successfully!");
                 }
                 else
                 {
-                    HttpContext.Session.SetString("ADMIN_FAILED_MESSAGE", "Down role manager failed! Because this manager is currently managing several groups now.");
+                    HttpContext.Session.SetString("ADMIN_FAILED_MESSAGE", "Demote to manager failed! Because this manager is currently managing several groups now.");
                 }
 
                 Users = await userRepo.GetAllResidentsAndManagerByAdminAsync();

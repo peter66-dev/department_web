@@ -40,11 +40,9 @@ namespace MyWeb.Pages.Groups
 
         public IActionResult OnPost()
         {
-            Console.WriteLine("Toi la OnPostAsync create group!");
             if (!ModelState.IsValid)
             {
                 ViewData["GroupOwnerId"] = new SelectList(_context.Users.Where(u => u.Role.RoleName.Equals("MANAGER")), "UserId", "Email");
-                Console.WriteLine("Data is not valid!");
                 var message = string.Join(" \n ", ModelState.Values
                                 .SelectMany(v => v.Errors)
                                 .Select(e => e.ErrorMessage));

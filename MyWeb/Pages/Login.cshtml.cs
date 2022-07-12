@@ -67,6 +67,12 @@ namespace MyWeb.Pages
         public IActionResult OnGetLogout()
         {
             Console.WriteLine("Da logout!");
+            HttpContext.Session.Remove("DELETE_GROUP_MESSAGE");
+            HttpContext.Session.Remove("DELETE_NEWS_MESSAGE");
+            HttpContext.Session.Remove("ADMIN_MESSAGE");
+            HttpContext.Session.Remove("ADMIN_FAILED_MESSAGE");
+
+
             HttpContext.Session.Remove("CURRENT_USER_ID");
             HttpContext.Session.Remove("CURRENT_USER_FULLNAME");
             HttpContext.Session.Remove("CURRENT_USER_AVATAR");

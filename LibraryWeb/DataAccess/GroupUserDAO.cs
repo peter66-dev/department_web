@@ -316,10 +316,7 @@ namespace MyLibrary.DataAccess
                 GroupUser gu = context.GroupUsers.FirstOrDefault(g => g.MemberId == memberid && g.GroupId == groupid);
                 gu.Status = 8;
                 context.Entry(gu).State = EntityState.Modified;
-                if (context.SaveChanges() > 0)
-                {
-                    Console.WriteLine("Da xoa members!");
-                }
+                context.SaveChanges();
             }
             catch (Exception ex)
             {
@@ -339,10 +336,7 @@ namespace MyLibrary.DataAccess
                     GroupUser g = await c.GroupUsers.FirstOrDefaultAsync(group => group.GroupUserId == gu.GroupUserId);
                     g.Status = 2;
                     c.Entry(g).State = EntityState.Modified;
-                    if (c.SaveChanges() > 0)
-                    {
-                        Console.WriteLine("Da up role member!");
-                    }
+                    c.SaveChanges();
                 }
             }
             catch (Exception ex)

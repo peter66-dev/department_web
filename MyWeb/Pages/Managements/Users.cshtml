@@ -22,7 +22,7 @@
             icon: 'success',
             title: '@HttpContext.Session.GetString("ADMIN_MESSAGE")',
             showConfirmButton: false,
-            timer: 1200
+            timer: 1500
         });
     </script>
 }
@@ -34,7 +34,7 @@ else if (HttpContext.Session.GetString("ADMIN_FAILED_MESSAGE") != null)
             icon: 'error',
             title: '@HttpContext.Session.GetString("ADMIN_FAILED_MESSAGE")',
             showConfirmButton: false,
-            timer: 2000
+            timer: 2500
         });
     </script>
 }
@@ -201,12 +201,12 @@ else if (HttpContext.Session.GetString("ADMIN_FAILED_MESSAGE") != null)
     function upRole(id, name) {
         Swal.fire({
             title: 'Confirm message',
-            text: 'Do you really want to up role resident to manager: ' + name,
+            text: 'Do you really want to promote this user from resident to manager: ' + name,
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, up role this user!'
+            confirmButtonText: 'Yes, promote this user!'
         }).then((result) => {
             if (result.isConfirmed) {
                 window.location = './Users?handler=UpRole&userid=' + id;
@@ -217,12 +217,12 @@ else if (HttpContext.Session.GetString("ADMIN_FAILED_MESSAGE") != null)
     function downRole(id, name) {
         Swal.fire({
             title: 'Confirm message',
-            text: 'Do you really want to down role manager to resident: ' + name,
+            text: 'Do you really want to demote this user from manager to resident: ' + name,
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, down role this user!'
+            confirmButtonText: 'Yes, demote this user!'
         }).then((result) => {
             if (result.isConfirmed) {
                 window.location = './Users?handler=DownRole&userid=' + id;
