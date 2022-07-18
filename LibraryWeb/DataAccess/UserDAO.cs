@@ -130,7 +130,7 @@ namespace MyLibrary.DataAccess
             try
             {
                 var context = new department_dbContext();
-                tmp = context.Users.FirstOrDefault(u => u.Email.Equals(email) && u.Password.Equals(password) && u.Status == 1);
+                tmp = context.Users.FirstOrDefault(u => u.Email.Equals(email) && u.Password.Equals(password) && (u.Status == 1 || u.Status == 2));
             }
             catch (Exception ex)
             {

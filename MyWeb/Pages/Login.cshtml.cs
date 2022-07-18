@@ -22,7 +22,7 @@ namespace MyWeb.Pages
         public IActionResult OnGet()
         {
             string role = HttpContext.Session.GetString("ROLE");
-            if (role!= null)
+            if (role != null)
             {
                 return RedirectToPage("./Posts/Index");
             }
@@ -36,6 +36,11 @@ namespace MyWeb.Pages
             if (tmp == null)
             {
                 ViewData["LoginMessage"] = "Email and password is not valid!";
+                return Page();
+            }
+            else if (tmp != null && tmp.Status == 2)
+            {
+                ViewData["LoginMessage"] = "Your account is banned by admin!";
                 return Page();
             }
             else
